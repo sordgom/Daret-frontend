@@ -14,11 +14,13 @@ import { Team } from "./Team";
 import { Footer } from "./Footer";
 import { Projects } from "./Projects";
 import { Work } from "./Work";
+import Sidebar from "./SideBar";
 
 export const Home = () => {
     return(
         <div className="main">
             <NavBar/>
+            <Sidebar />
             <Banner/>
             <Footer/>
         </div>
