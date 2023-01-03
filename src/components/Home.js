@@ -13,7 +13,7 @@ import { Profile } from "./Profile";
 import { Team } from "./Team";
 import { Footer } from "./Footer";
 import { Projects } from "./Projects";
-import { Work } from "./Work";
+import { Work } from "./Login";
 import Sidebar from "./SideBar";
 
 export const Home = () => {

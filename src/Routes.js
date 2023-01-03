@@ -8,8 +8,10 @@ import { Profile } from "./components/Profile";
 import { Team } from "./components/Team";
 import { Footer } from "./components/Footer";
 import { Projects } from "./components/Projects";
-import { Work } from "./components/Work";
+import { Login } from "./components/Login";
 import { Home } from "./components/Home";
+import { Daret } from "./components/Daret";
+import { Campaign } from "./components/Campaign";
 
 const ProjectRoutes = () => {
   return (
@@ -17,9 +19,10 @@ const ProjectRoutes = () => {
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />
-        <Route exact path="/projects" element={<Projects />} />
-        <Route exact path="/profile" element={<Profile />} />
-        <Route exact path="/work" element={<Work />} />      
+        <Route exact path="/daret" element={<Daret />} />
+        <Route exact path="/campaign" element={<Campaign />} />
+        <Route exact path="/portfolio" element={<Profile />} />
+        <Route exact path="/login" element={<Login />} />      
       </Routes>
     </Router>
   );

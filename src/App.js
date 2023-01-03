@@ -13,7 +13,7 @@ import { Profile } from "./components/Profile";
 import { Team } from "./components/Team";
 import { Footer } from "./components/Footer";
 import { Projects } from "./components/Projects";
-import { Work } from "./components/Work";
+import { Work } from "./components/Login";
 import { Home } from "./components/Home";
 
 function App() {

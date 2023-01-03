@@ -6,14 +6,17 @@ import navIcon1 from '../assets/img/twitter.svg';
 import navIcon2 from '../assets/img/github.svg';
 import navIcon3 from '../assets/img/discord.svg';
 import navIcon4 from '../assets/img/youtube.svg';
+import loginIcon from '../assets/img/login.svg';
 import { HashLink } from 'react-router-hash-link';
 import { Profile } from '../components/Profile';
-import headerImg from "../assets/img/header-img.svg";
+import headerImg from "../assets/img/celestia.png";
 import {
   BrowserRouter as Router,
   Routes,
   Route
 } from "react-router-dom";
+
+//TODO: Add a scroll listener to the navbar to change the background color when scrolled
 
 export const NavBar = () => {
 
@@ -50,16 +53,13 @@ export const NavBar = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <Nav.Link href="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
-              <Nav.Link href="work" className={activeLink === 'work' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('work')}>Work & achievements</Nav.Link>
-              <Nav.Link href="projects" className={activeLink === 'project' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('project')}>Projects</Nav.Link>
-              <Nav.Link href="profile" className={activeLink === 'profile' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('profile')}>About me</Nav.Link>
+              <Nav.Link href="daret" className={activeLink === 'daret' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('daret')}>Darets</Nav.Link>
+              <Nav.Link href="campaign" className={activeLink === 'campaign' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('campaign')}>Campaigns</Nav.Link>
+              <Nav.Link href="portfolio" className={activeLink === 'portfolio' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('portfolio')}>Portfolio</Nav.Link>
             </Nav>
             <span className="navbar-text">
               <div className="social-icon">
-                <a href="https://discord.com/users/400084054852239361" target="_blank"><img src={navIcon3} alt="Discord" /></a>
-                <a href="https://github.com/sordgom/portfolio"target="_blank"><img src={navIcon2} alt="Github" /></a>
-                <a href="https://twitter.com/sordgom" target="_blank"><img src={navIcon1} alt="Twitter" /></a>
-                <a href="https://youtube.com" target="_blank"><img src={navIcon4} alt="Youtube" /></a>
+                <a href="login" target="_blank"><img src={loginIcon} alt="Login" /></a>
               </div>
             </span>
           </Navbar.Collapse>

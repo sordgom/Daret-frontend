@@ -20,9 +20,9 @@ export const Profile = () => {
   const date = `${current.getDate()}-${current.getMonth()+1}-${current.getFullYear()}`;
   
   return (
-    <div className="main--profile">
+    <div className="main--campaign">
       <NavBar/>
-      <section className="profile" id="profile">
+      <section className="campaign" id="campaign">
         <Container>
         <Row>
             <Col size={12}>

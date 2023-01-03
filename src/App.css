@@ -120,7 +120,8 @@ span.navbar-text {
 .social-icon a {
     width: 42px;
     height: 42px;
-    background: rgba(217, 217, 217, 0.1);
+    /* background: rgba(217, 217, 217, 0.1); */
+    background: white;
     display: inline-flex;
     border-radius: 50%;
     margin-right: 6px;
@@ -372,20 +373,20 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   z-index: -4;
 }
 
-/************ Projects Css ************/
-.project {
+/************ campaigns Css ************/
+.campaign {
   padding: 80px 0;
   position: relative;
   background-image: url('./assets/img/banner-bg.png');
   background-repeat: no-repeat;
 }
-.project h2 {
+.campaign h2 {
 	font-size: 65px;
 	font-weight: 700;
   text-align: center;
   padding: 100px 0;
 }
-.project p {
+.campaign p {
   color: #B8B8B8;
   font-size: 18px;
   letter-spacing: 0.8px;
@@ -394,17 +395,17 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   text-align: center;
   width: 56%;
 }
-.project .nav.nav-pills {
+.campaign .nav.nav-pills {
   width: 72%;
   margin: 0 auto;
   border-radius: 50px;
   background-color: rgb(255 255 255 / 10%);
   overflow: hidden;
 }
-.project .nav.nav-pills .nav-item {
+.campaign .nav.nav-pills .nav-item {
   width: 33.33333%;
 }
-.project .nav.nav-pills .nav-link {
+.campaign .nav.nav-pills .nav-link {
   background-color: transparent;
   border-radius: 0;
   padding: 17px 0;
@@ -418,7 +419,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   text-align: center;
   z-index: 0;
 }
-.project .nav.nav-pills .nav-link::before {
+.campaign .nav.nav-pills .nav-link::before {
     content: "";
     position: absolute;
     width: 0;
@@ -429,21 +430,21 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
     z-index: -1;
     transition: 0.3s ease-in-out;
 }
-.project .nav.nav-pills .nav-link.active::before {
+.campaign .nav.nav-pills .nav-link.active::before {
     width: 100% !important;
 }
-.project .nav.nav-pills .nav-link.active {
+.campaign .nav.nav-pills .nav-link.active {
     border: 1px solid rgba(255, 255, 255, 1);
 }
-.nav-link#projects-tabs-tab-first {
+.nav-link#campaigns-tabs-tab-first {
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 55px 0px 0px 55px;
 }
-.nav-link#projects-tabs-tab-second {
+.nav-link#campaigns-tabs-tab-second {
   border-top: 1px solid rgba(255, 255, 255, 0.5);
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
-.nav-link#projects-tabs-tab-third {
+.nav-link#campaigns-tabs-tab-third {
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 0 55px 55px 0;
 }
@@ -510,20 +511,20 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   right: 0;
   z-index: -4;
 }
-/************ Work Css ************/
-.work {
+/************ daret Css ************/
+.daret {
   padding: 80px 0;
   position: relative;
   background-image: url('./assets/img/banner-bg.png');
   background-repeat: no-repeat;
 }
-.work h2 {
+.daret h2 {
 	font-size: 65px;
 	font-weight: 700;
   text-align: center;
   padding: 100px 0;
 }
-.work p {
+.daret p {
   color: #B8B8B8;
   font-size: 18px;
   letter-spacing: 0.8px;
@@ -532,21 +533,30 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   text-align: center;
   width: 56%;
 }
+.daret button {
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 60px;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+}
 
-/************ Profile Css ************/
-.profile {
+/************ portfolio Css ************/
+.portfolio {
   padding: 80px 0;
   position: relative;
   background-image: url('./assets/img/banner-bg.png');
   background-repeat: no-repeat;
 }
-.profile h2 {
+.portfolio h2 {
 	font-size: 45px;
 	font-weight: 700;
   text-align: center;
   padding: 50px 0;
 }
-.profile p {
+.portfolio p {
   color: #B8B8B8;
   font-size: 20px;
   letter-spacing: 0.8px;
@@ -555,7 +565,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   text-align: center;
   width: 80%;
 }
-.profile img {
+.portfolio img {
   position: relative;
   margin-top: 120px;
   object-fit:cover;
