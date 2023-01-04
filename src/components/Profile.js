@@ -21,7 +21,6 @@ export const Profile = () => {
   
   return (
     <div className="main--campaign">
-      <NavBar/>
       <section className="campaign" id="campaign">
         <Container>
         <Row>
@@ -49,7 +48,6 @@ The prospect of expanding my work experience and taking on new challenges excite
           </Row>
         </Container>
       </section>
-      <Footer />
     </div>
   )
 }

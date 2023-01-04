@@ -37,7 +37,6 @@ export const Campaign = () => {
 
   return (
     <div className="main--daret">
-        <NavBar/>
         <section className="daret" id="daret">
         <Container>
             <Row>
@@ -76,7 +75,6 @@ export const Campaign = () => {
         </Container>
         <img className="background-image-right" src={colorSharp2}></img>
         </section>
-        <Footer/>
     </div>
     )
 }
