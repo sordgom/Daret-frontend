@@ -109,6 +109,7 @@ nav.navbar .navbar-nav a.nav-link.navbar-link:hover,
 nav.navbar .navbar-nav a.nav-link.navbar-link.active {
     opacity: 1;
 }
+
 span.navbar-text {
     display: flex;
     align-items: center;
@@ -260,6 +261,20 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 #page-content-wrapper {
   min-width: 0;
   width: 100%;
+}
+
+.sidebar .nav-link{
+  font-weight: 400;
+  color: #fff !important;
+  letter-spacing: 0.8px;
+  padding: 10 25px;
+  font-size: 18px;
+  opacity: 0.75;
+  margin-top: 10px;
+}
+.sidebar  a.nav-link.navbar-link:hover,
+.sidebar  a.nav-link.navbar-link.active {
+    opacity: 1;
 }
 
 /************ Banner Css ************/

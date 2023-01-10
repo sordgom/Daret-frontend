@@ -30,6 +30,16 @@ const team = [
     description: "Core Team",
     imgUrl: projImg4,
   },   
+  {
+    title: "FazNode",
+    description: "Core Team",
+    imgUrl: projImg3,
+  },
+  {
+    title: "Travis",
+    description: "Core Team",
+    imgUrl: projImg5
+  },  
 ];
 
 export const Daret = () => {
@@ -71,6 +81,7 @@ export const Daret = () => {
                                   <DaretCard 
                                     key={key}
                                     {...val}
+                                    imgUrl = {team[key%5].imgUrl}
                                   />
                                 )
                             })
