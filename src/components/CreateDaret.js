@@ -72,7 +72,7 @@ export const CreateDaret = () => {
     // Deploy the contract to the Ethereum network
     async function deploy() {
         try {
-            let contract = await factory.deploy(recurrence, amount, list, "0x0AD4F5143c1e3Bd2749F246548547B7711d82382");
+            let contract = await factory.deploy(recurrence, amount, list, "0x97F3C67e1c77243EA8b11cd270DDc20a2FA45Cab");
             postData('http://localhost:8080/daret', 
             {address: contract.address})
             //I can add later owner: walletAddress, amount: amount, recurrence: recurrence, list: list

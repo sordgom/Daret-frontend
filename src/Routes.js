@@ -13,7 +13,9 @@ import { Home } from "./components/Home";
 import { Daret } from "./components/Daret";
 import { Campaign } from "./components/Campaign";
 import { CreateDaret } from "./components/CreateDaret";
-import {Sidebar} from "./components/SideBar";
+import { DaretPage } from "./components/DaretPage";
+import { Sidebar } from "./components/SideBar";
+
 const ProjectRoutes = () => {
   return (
     <Router>
@@ -27,6 +29,7 @@ const ProjectRoutes = () => {
         <Route exact path="/portfolio" element={<Profile />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/create-daret" element={<CreateDaret />} />      
+        <Route exact path="/daretpage/:address" element={<DaretPage />} />      
       </Routes>
       <Footer />
     </Router>

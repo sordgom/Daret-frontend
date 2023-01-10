@@ -386,6 +386,12 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   text-align: center;
   padding: 100px 0;
 }
+.campaign h3 {
+	font-size: 45px;
+	font-weight: 600;
+  text-align: center;
+  margin-top: 10px;
+}
 .campaign p {
   color: #B8B8B8;
   font-size: 18px;
@@ -395,12 +401,17 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   text-align: center;
   width: 56%;
 }
-.campaign .nav.nav-pills {
-  width: 72%;
+.campaign button {
+  width: 32%;
   margin: 0 auto;
+  padding: 3%;
+  margin-bottom: 10px;
   border-radius: 50px;
   background-color: rgb(255 255 255 / 10%);
   overflow: hidden;
+  position: relative;
+  transition: 0.3s ease-in-out;
+  display: block;
 }
 .campaign .nav.nav-pills .nav-item {
   width: 33.33333%;

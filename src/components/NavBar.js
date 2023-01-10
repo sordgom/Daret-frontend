@@ -13,7 +13,8 @@ import headerImg from "../assets/img/celestia.png";
 import {
   BrowserRouter as Router,
   Routes,
-  Route
+  Route,
+  Link
 } from "react-router-dom";
 
 //TODO: Add a scroll listener to the navbar to change the background color when scrolled
@@ -52,10 +53,10 @@ export const NavBar = () => {
           </Navbar.Toggle>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
-              <Nav.Link href="daret" className={activeLink === 'daret' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('daret')}>Darets</Nav.Link>
-              <Nav.Link href="campaign" className={activeLink === 'campaign' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('campaign')}>Campaigns</Nav.Link>
-              <Nav.Link href="portfolio" className={activeLink === 'portfolio' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('portfolio')}>Portfolio</Nav.Link>
+              <Nav.Link as={Link} to="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
+              <Nav.Link as={Link} to="/daret" className={activeLink === 'daret' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('daret')}>Darets</Nav.Link>
+              <Nav.Link as={Link} to="campaign" className={activeLink === 'campaign' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('campaign')}>Campaigns</Nav.Link>
+              <Nav.Link as={Link} to="portfolio" className={activeLink === 'portfolio' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('portfolio')}>Portfolio</Nav.Link>
             </Nav>
             <span className="navbar-text">
               <div className="social-icon">
