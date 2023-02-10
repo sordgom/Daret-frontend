@@ -1,6 +1,6 @@
-import React from 'react';
+import React, {useState, useEffect, useContext} from "react";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
-import { TeamCard } from "./TeamCard";
+import { CampaignCard } from "./CampaignCard";
 import projImg1 from "../assets/img/nodex.png";
 import projImg2 from "../assets/img/faz.png";
 import projImg3 from "../assets/img/team9.png";
@@ -12,28 +12,46 @@ import TrackVisibility from 'react-on-screen';
 import {NavBar} from "./NavBar";
 import {Footer} from "./Footer";
 
+const team = [
+  {
+    title: "NodeX",
+    description: "Founder",
+    imgUrl: projImg1,
+
+  },
+  {
+    title: "FazNode",
+    description: "Core Team",
+    imgUrl: projImg2,
+  },
+  {
+    title: "Travis",
+    description: "Core Team",
+    imgUrl: projImg4,
+  },   
+  {
+    title: "FazNode",
+    description: "Core Team",
+    imgUrl: projImg3,
+  },
+  {
+    title: "Travis",
+    description: "Core Team",
+    imgUrl: projImg5
+  },  
+];
+
 export const Campaign = () => {
+  const [data, setData] = useState([]);
 
-  const team = [
-    {
-      title: "NodeX",
-      description: "Founder",
-      imgUrl: projImg1,
-
-    },
-    {
-      title: "FazNode",
-      description: "Core Team",
-      imgUrl: projImg2,
-    },
-    {
-      title: "Travis",
-      description: "Core Team",
-      imgUrl: projImg4,
-    },   
-    
-    
-  ];
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch('http://localhost:8080/daret');
+      const data = await response.json();
+      setData(data.data);
+    }
+    fetchData();
+  }, []);
 
   return (
     <div className="main--daret">
@@ -54,13 +72,14 @@ export const Campaign = () => {
                     className={isVisible ? "animate__animated animate__slideInUp" : ""}>
                         <Tab.Pane eventKey="first">
                         <Row>
-                            {
-                            team.map((team, index) => {
+                        {
+                            data.map((val, key) => {
                                 return (
-                                <TeamCard
-                                    key={index}
-                                    {...team}
-                                    />
+                                  <CampaignCard 
+                                    key={key}
+                                    {...val}
+                                    imgUrl = {team[key%5].imgUrl}
+                                  />
                                 )
                             })
                             }

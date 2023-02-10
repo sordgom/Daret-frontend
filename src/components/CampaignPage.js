@@ -13,7 +13,7 @@ import {NavBar} from "./NavBar";
 import {Footer} from "./Footer";
 
 
-export const DaretPage = () => {
+export const CampaignPage = () => {
   let { address } = useParams();
   const web3 = new Web3(process.env.REACT_APP_PROVIDER_URL)
 
@@ -99,7 +99,7 @@ export const DaretPage = () => {
         <Row>
             <Col size={12}>
                 <div className="">
-                    <h3>Daret</h3>
+                    <h3>Campaign</h3>
                     <p className="text--primary">{address}</p>
                     <Button onClick={reward}>
                         Reward

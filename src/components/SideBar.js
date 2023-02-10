@@ -17,14 +17,7 @@ export const Sidebar = props => {
                 <Nav.Item>
                     <Nav.Link href="/create-campaign">Create a campaign</Nav.Link>
                 </Nav.Item>
-                <Nav.Item>
-                    <span className="navbar-text">
-                        <div className="social-icon">
-                            <a href="logout" target="_blank"><img src={loginIcon} alt="Logout" /></a>
-                        </div>
-                        
-                    </span>
-                </Nav.Item>
+              
 
                 {/* <Nav.Item>
                     <Nav.Link eventKey="disabled" disabled>

@@ -14,7 +14,9 @@ import { Daret } from "./components/Daret";
 import { Campaign } from "./components/Campaign";
 import { CreateDaret } from "./components/CreateDaret";
 import { DaretPage } from "./components/DaretPage";
+import { CampaignPage } from "./components/CampaignPage";
 import { Sidebar } from "./components/SideBar";
+import { CreateCampaign } from "components/CreateCampaign";
 
 const ProjectRoutes = () => {
   return (
@@ -29,7 +31,9 @@ const ProjectRoutes = () => {
         <Route exact path="/portfolio" element={<Profile />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/create-daret" element={<CreateDaret />} />      
-        <Route exact path="/daretpage/:address" element={<DaretPage />} />      
+        <Route exact path="/create-campaign" element={<CreateCampaign />} />      
+        <Route exact path="/daretpage/:address" element={<DaretPage />} />     
+        <Route exact path="/campaignpage/:address" element={<CampaignPage />} />      
       </Routes>
       <Footer />
     </Router>
