@@ -69,6 +69,7 @@ export const Login = () => {
       await magic.connect.disconnect().catch((e) => {
           console.log(e);
       });
+      localStorage.removeItem('user');
       setUser(null);
   };
 
