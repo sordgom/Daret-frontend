@@ -42,7 +42,10 @@ export const Login = () => {
   const login = async () => {
       web3.eth.getAccounts().then((accounts) => {
           setAccount(accounts ?. [0]);
-      }).catch((error) => {
+      }).then(() => {
+        navigate("/");
+      })
+      .catch((error) => {
           console.log(error);
       });
   };
@@ -73,38 +76,19 @@ export const Login = () => {
 
 
   return (
-    <div className='main--daret'>
+    <div className='main--login'>
       <NavBar/>
-      <section className="daret" id="daret">
+      <section className="login" id="login">
         <div>
           <h2 className="h2">Magic Connect</h2>
-              {
-                //figure out account.loading
-              (!account || account?.loading) && (
-                  <button onClick={login}
-                      className="button-row">
-                      Sign In
-                  </button>
-              )
-          }
-              {
-              (account && !account?.loading) && (
-                  <>
-                      <button onClick={showWallet}>
-                          Show Wallet
-                      </button>
-                      <button onClick={sendTransaction}>
-                          Send Transaction
-                      </button>
-                      <button onClick={signMessage}>
-                          Sign Message
-                      </button>
-                      <button onClick={disconnect}>
-                          Disconnect
-                      </button>
-                  </>
-              )
-          } </div>
+              
+              
+            <button onClick={login}>
+                Sign In
+            </button>
+    
+          
+        </div>
         <img className="background-image-right" src={colorSharp2}></img>
       </section>
       <Footer/>
