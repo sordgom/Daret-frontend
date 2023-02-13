@@ -179,7 +179,6 @@ export const CreateDaret = () => {
             </Col>
             </Row>
         </Container>
-        <img className="background-image-right" src={colorSharp2}></img>
         </section>
         </div>
 )

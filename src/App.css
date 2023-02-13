@@ -89,6 +89,7 @@ nav.navbar {
   top: 0;
   z-index: 9999;
   transition:  0.32s ease-in-out;
+  height: 150px;
 }
 nav.navbar.scrolled {
   padding: 0px 0;
@@ -280,12 +281,15 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 /************ Banner Css ************/
 .banner {
   margin-top: 0;
-  margin-left: 150px;
   padding: 260px 0 100px 0;
-  background-image: url('./assets/img/banner-bg.png');
+  background-image: url('./assets/img/background.png');
   background-position: top center;
   background-size: cover;
   background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100vh;
 }
 .banner .tagline {
   font-weight: 700;
@@ -392,8 +396,11 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 .campaign {
   padding: 80px 0;
   position: relative;
-  background-image: url('./assets/img/banner-bg.png');
+  background-image: url('./assets/img/background.png');
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+  height: 100vh;
 }
 .campaign h2 {
 	font-size: 65px;
@@ -541,9 +548,11 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 .daret {
   padding: 80px 0;
   position: relative;
-  background-image: url('./assets/img/banner-bg.png');
+  background-image: url('./assets/img/background.png');
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
-}
+  height: 100vh;}
 .daret h2 {
 	font-size: 65px;
 	font-weight: 700;
@@ -572,9 +581,11 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 .login {
   padding: 80px 0;
   position: relative;
-  background-image: url('./assets/img/banner-bg.png');
+  background-image: url('./assets/img/background.png');
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
-}
+  height: 100vh;}
 .login h2 {
 	font-size: 65px;
 	font-weight: 700;
@@ -603,11 +614,21 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 .portfolio {
   padding: 80px 0;
   position: relative;
-  background-image: url('./assets/img/banner-bg.png');
+  background-image: url('./assets/img/background.png');
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
+  height: 100vh;
 }
+
 .portfolio h2 {
 	font-size: 45px;
+	font-weight: 700;
+  text-align: center;
+  padding: 50px 0;
+}
+.portfolio h3 {
+	font-size: 35px;
 	font-weight: 700;
   text-align: center;
   padding: 50px 0;
@@ -623,11 +644,32 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 }
 .portfolio img {
   position: relative;
-  margin-top: 120px;
+  margin-top: 100px;
+  margin-bottom: 27px;
+  margin-left: 200px;
   object-fit:cover;
   overflow: hidden;
-  margin-bottom: 27px;
+  width: 80%;
+  height: 80%;
 }
+
+.portfolio table {
+  margin-top: 120px;
+  margin-left: 60px;
+}
+.portfolio th,
+.portfolio tbody,
+.portfolio td {
+  border-collapse: collapse;
+  color: #B8B8B8;
+  padding: 8px;
+  font-size: 20px;
+  letter-spacing: 0.8px;
+  text-align: center;
+  width: 50%;
+  
+}
+
 /************ Contact Css ************/
 .contact {
   position: absolute;
@@ -702,7 +744,7 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
 
 /************ Footer Css ************/
 .footer {
-  padding: 300px 0 0px 0;
+  padding: 10px 0 0px 0;
   
 }
 

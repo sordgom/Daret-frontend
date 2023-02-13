@@ -18,7 +18,7 @@ const web3 = new Web3(magic.rpcProvider);
 
 export const Login = () => {
 
-  const [account, setAccount] = useContext(UserContext);
+  const [user, setUser] = useContext(UserContext);
 
   let navigate = useNavigate();
 
@@ -40,9 +40,12 @@ export const Login = () => {
   };
 
   const login = async () => {
+    let user;
       web3.eth.getAccounts().then((accounts) => {
-          setAccount(accounts ?. [0]);
+        user= accounts ?. [0];
+        setUser(user);
       }).then(() => {
+        localStorage.setItem('user', JSON.stringify(user));
         navigate("/");
       })
       .catch((error) => {
@@ -66,13 +69,13 @@ export const Login = () => {
       await magic.connect.disconnect().catch((e) => {
           console.log(e);
       });
-      setAccount(null);
+      setUser(null);
   };
 
   // Redirect to / if the user is logged in
   useEffect(() => {
-    console.log(account)
-  }, [account]);
+    console.log(user)
+  }, [user]);
 
 
   return (
@@ -81,15 +84,29 @@ export const Login = () => {
       <section className="login" id="login">
         <div>
           <h2 className="h2">Magic Connect</h2>
-              
-              
-            <button onClick={login}>
+          {!user && (
+          <button onClick={login}>
                 Sign In
             </button>
-    
-          
+          )}
+          {user && (
+          <>
+           
+            <button onClick={sendTransaction}>
+                Send Transaction
+            </button>
+            <button onClick={signMessage}>
+                Sign Message
+            </button>
+            <button onClick={showWallet}>
+                Show Wallet
+            </button>
+            <button onClick={disconnect}>
+                Sign Out
+            </button>
+            </>
+          )}
         </div>
-        <img className="background-image-right" src={colorSharp2}></img>
       </section>
       <Footer/>
     </div>

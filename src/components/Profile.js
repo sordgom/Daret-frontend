@@ -7,6 +7,11 @@ import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import {NavBar} from "./NavBar";
 import {Footer} from "./Footer";
+import projImg1 from "../assets/img/nodex.png";
+import projImg2 from "../assets/img/faz.png";
+import projImg3 from "../assets/img/team9.png";
+import projImg4 from "../assets/img/team7.png";
+import projImg5 from "../assets/img/team6.png";
 
 export const Profile = () => {
   const [loopNum, setLoopNum] = useState(0);
@@ -20,20 +25,29 @@ export const Profile = () => {
   const date = `${current.getDate()}-${current.getMonth()+1}-${current.getFullYear()}`;
   
   return (
-    <div className="main--campaign">
-      <section className="campaign" id="campaign">
+    <div className="main--portfolio">
+      <section className="portfolio" id="portfolio">
         <Container>
         <Row>
             <Col size={12}>
               <TrackVisibility>
                 <div className="">
-                  <h2>Who am I?</h2>
-                  <p>
-                  My name is Aymane Igmiden. I am a Moroccan student studying computer systems in my third year.
-I first became interested in blockchain and was able to learn certain essential skills, like Solidity, Javascript, Blockchain technology, React JS, and RESTful APIs.
-In addition to this arsenal, my university courses covered the majority of the fundamental competencies, including object oriented programming, data structures, system architecture, data science and web programming.
-The prospect of expanding my work experience and taking on new challenges excites me. I forward hearing from you.
-                  </p>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th>Id</th>
+                        <th>Wallet Address</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Sord</td>
+                        <td>0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                
+                  
                 </div>
               </TrackVisibility>
             </Col>
@@ -41,7 +55,7 @@ The prospect of expanding my work experience and taking on new challenges excite
               <TrackVisibility>
                 {({ isVisible }) =>
                   <div className="">
-                    <img src={headerImg} alt="Header Img"/>
+                    <img src={projImg2} alt="Header Img"/>
                   </div>}
               </TrackVisibility>
             </Col>
