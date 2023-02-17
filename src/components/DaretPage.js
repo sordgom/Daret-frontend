@@ -17,10 +17,9 @@ export const DaretPage = () => {
   let { address } = useParams();
   const web3 = new Web3(process.env.REACT_APP_PROVIDER_URL)
 
-  const [wallet, setWallet] = useState('');
-  const [walletAddress, setWalletAddress] = useState();
-  const [recurrence, setRecurrence] = useState(30);
-  const [amount, setAmount] = useState(10);
+  const [walletAddress, setWalletAddress] = useState('');
+  const [round, setRound] = useState(null);
+  
   let provider = typeof window !== "undefined" && window.ethereum;
 
   // Provider
@@ -34,40 +33,55 @@ export const DaretPage = () => {
 
   useEffect(() => {
         getProperties();
+        connectMeta();
     }, []); 
 
     const getProperties = async () => {
         try {
-            let a = await contract.amount();
-            setAmount(a.toNumber());
-            let r = await contract.recurrence();
-            setRecurrence(r.toNumber());
-            let w = await contract.wallets(0);
-            setWallet(w);
+            let a = await contract.rounds(1);
+            setRound(a);
         } catch (error) {
             console.error(error);
         }
     };
 
-    const pay = async () => {
+    const start = async () => {
       try {
-        await contract.pay();
+        await contract.startRound().then((res) => {
+          console.log(res);
+        });
       } catch ({error}) {
         console.log(error?.reason);
       }
     };
 
-    const reward  = async () => {
+    const join  = async () => {
       try {
-        await contract.reward();
+        await contract.joinRound();
       } catch ({error}) {
         console.log(error?.reason);
       }
     };
 
-    const endDaret  = async () => {
+    const contribute  = async () => {
       try {
-        await contract.endDaret();
+        await contract.addContribution();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const complete  = async () => {
+      try {
+        await contract.completeRound();
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const close  = async () => {
+      try {
+        await contract.closeContract();
       } catch (error) {
         console.log(error);
       }
@@ -88,9 +102,7 @@ export const DaretPage = () => {
       }
   };
 
-  useEffect(() => {
-    connectMeta();
-    }, []);
+ 
 
   return (
     <div className="main--campaign">
@@ -101,16 +113,21 @@ export const DaretPage = () => {
                 <div className="">
                     <h3>Daret</h3>
                     <p className="text--primary">{address}</p>
-                    <Button onClick={reward}>
-                        Reward
+                    <Button onClick={start}>
+                        Start Round
                     </Button>
-                    <Button onClick={pay}>
-                        Pay
+                    <Button onClick={join}>
+                        Join Round
                     </Button>
-                    <Button onClick={endDaret}>
-                      End Daret
+                    <Button onClick={contribute}>
+                        Contribute
                     </Button>
-                   
+                    <Button onClick={close}>
+                        Close Round
+                    </Button>
+                    <Button onClick={complete}>
+                        Complete Round
+                    </Button>
                 </div>
             </Col>
           </Row>

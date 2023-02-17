@@ -43,8 +43,10 @@ export const CreateDaret = () => {
     const [list, setList] = useState(initialList);
     const [wallet, setWallet] = useState('');
     const [walletAddress, setWalletAddress] = useState();
-    const [recurrence, setRecurrence] = useState(30);
-    const [amount, setAmount] = useState(10);
+    const [maxRounds, setMaxRounds] = useState(10);
+    const [maxMembers, setMaxMembers] = useState(10);
+    const [feePercentage, setFeePercentage] = useState(1);
+    const [admin, setAdmin] = useState('0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14');
     let provider = typeof window !== "undefined" && window.ethereum;
 
     // Provider
@@ -72,10 +74,10 @@ export const CreateDaret = () => {
     // Deploy the contract to the Ethereum network
     async function deploy() {
         try {
-            let contract = await factory.deploy(recurrence, amount, list, "0x97F3C67e1c77243EA8b11cd270DDc20a2FA45Cab");
+            let contract = await factory.deploy(maxRounds, maxMembers, feePercentage,  admin);
             postData('http://localhost:8080/daret', 
             {address: contract.address})
-            //I can add later owner: walletAddress, amount: amount, recurrence: recurrence, list: list
+            //I can add later owner: walletAddress, amount: amount, maxRounds: maxRounds, list: list
             .then((data) => {
                 console.log(data); // JSON data parsed by `data.json()` call
                 navigate('/');
@@ -132,47 +134,52 @@ export const CreateDaret = () => {
                     <form className="login-form" onSubmit={handleSubmit}>
                         <h2>Create Daret</h2>
                         <div className="form-group">
-                            <label htmlFor="email">Recurrence</label>
+                            <label htmlFor="email">Rounds</label>
                             <input
-                            type="recurrence"
-                            id="recurrence"
-                            name="recurrence"
-                            value={recurrence}
-                            onChange={(e) => setRecurrence(e.target.value)}
+                            type="maxRounds"
+                            id="maxRounds"
+                            name="maxRounds"
+                            value={maxRounds}
+                            onChange={(e) => setMaxRounds(e.target.value)}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="amount">Amount</label>
+                            <label htmlFor="maxMembers">Members</label>
                             <input
-                            type="amount"
-                            id="amount"
-                            name="amount"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
+                            type="maxMembers"
+                            id="maxMembers"
+                            name="maxMembers"
+                            value={maxMembers}
+                            onChange={(e) => setMaxMembers(e.target.value)}
                             />
                         </div>
+
                         <div className="form-group">
-                            <label htmlFor="Wallet">Wallet Address</label>
+                            <label htmlFor="feePercentage">Fee Percentage</label>
                             <input
-                            type="Wallet"
-                            id="Wallet"
-                            name="Wallet"
-                            value={wallet}    
-                            onChange={handleChange}/>
+                            type="feePercentage"
+                            id="feePercentage"
+                            name="feePercentage"
+                            value={feePercentage}    
+                            onChange={(e) => setFeePercentage(e.target.value)}
+                            />
                         </div>
-                        <button type="button" className="button"
-                                onClick={handleAdd}>Add Wallet
-                        </button>
+
+                        <div className="form-group">
+                            <label htmlFor="admin">Admin Account</label>
+                            <input
+                            type="admin"
+                            id="admin"
+                            name="admin"
+                            value={admin}    
+                            onChange={(e) => setAdmin(e.target.value)}
+                            />
+                        </div>
+                     
                         <button type="submit">Submit
                         </button>
                     </form>
-                    <p>Address List</p>
-                    <ul> {
-                        list.map((item, index) => (
-                            <li key={index}>
-                                {item}</li>
-                        ))
-                    } </ul>
+                  
                 </center>
                 </div>}
                 </TrackVisibility>

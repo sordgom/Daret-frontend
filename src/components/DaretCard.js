@@ -7,7 +7,7 @@ export const DaretCard = ({ id, address, imgUrl }) => {
       <div className="proj-imgbx">
         <img src={imgUrl} />
         <div className="proj-txtx">
-          <Nav.Link href={`/daretpage/${address}`}>{address}</Nav.Link>
+          <Nav.Link href={`/daretpage/${address}`}>{id}</Nav.Link>
         </div>
       </div>
      
