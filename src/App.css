@@ -427,9 +427,9 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   width: 56%;
 }
 .campaign button {
-  width: 32%;
+  width: 29%;
   margin: 0 auto;
-  padding: 3%;
+  padding: 1.7%;
   margin-bottom: 10px;
   border-radius: 50px;
   background-color: rgb(255 255 255 / 10%);
