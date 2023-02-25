@@ -14,74 +14,45 @@ import projImg5 from "../assets/img/team6.png";
 import colorSharp2 from "../assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import {magic} from '../lib/magicConnect';
 
 const initialList = ['0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14'];
-const team = [
-    {
-      title: "NodeX",
-      description: "Founder",
-      imgUrl: projImg1,
 
-    },
-    {
-      title: "FazNode",
-      description: "Core Team",
-      imgUrl: projImg2,
-    },
-    {
-      title: "Travis",
-      description: "Core Team",
-      imgUrl: projImg4,
-    },   
-    
-    
-  ];
 export const CreateDaret = () => {
     let navigate = useNavigate();
-    const web3 = new Web3(process.env.REACT_APP_PROVIDER_URL)
+    const web3 = new Web3(magic.rpcProvider);
 
+    const [user, setUser] = useContext(UserContext);
     const [list, setList] = useState(initialList);
     const [wallet, setWallet] = useState('');
-    const [walletAddress, setWalletAddress] = useState();
     const [maxRounds, setMaxRounds] = useState(10);
     const [maxMembers, setMaxMembers] = useState(10);
     const [feePercentage, setFeePercentage] = useState(1);
     const [admin, setAdmin] = useState('0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14');
-    let provider = typeof window !== "undefined" && window.ethereum;
 
-    // Provider
-    const alchemyProvider = new ethers.providers.AlchemyProvider("goerli", process.env.REACT_APP_API_KEY);
-    // Signer
-    const signer = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY, alchemyProvider);
     // Contract
-    const factory = new ethers.ContractFactory(DARET_CONTRACT_ABI, DARET_CONTRACT_BYTECODE, signer);
-
-    const connectMeta = async () => {
-        try {
-            if (! provider) 
-                return alert("Please Install MetaMask");
-            
-            const accounts = await provider.request({method: "eth_requestAccounts"});
-
-            if (accounts.length) {
-                setWalletAddress(accounts[0]);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    const factory = new web3.eth.Contract(  DARET_CONTRACT_ABI, { from: user });
 
     // Deploy the contract to the Ethereum network
     async function deploy() {
-        try {
-            let contract = await factory.deploy(maxRounds, maxMembers, feePercentage,  admin);
-            postData('http://localhost:8080/daret', 
-            {address: contract.address})
-            //I can add later owner: walletAddress, amount: amount, maxRounds: maxRounds, list: list
-            .then((data) => {
-                console.log(data); // JSON data parsed by `data.json()` call
-                navigate('/');
-              });
+        try {  
+            await factory.deploy({
+                data: DARET_CONTRACT_BYTECODE,
+                arguments: [maxRounds, maxMembers, feePercentage,  admin]
+            })
+            .send({
+                from: user
+            })
+            .then(function(newContractInstance){
+                console.log(newContractInstance.options.address) // instance with the new contract address
+                postData('http://localhost:8080/daret', 
+                {address: newContractInstance.options.address})
+                //I can add later owner: walletAddress, amount: amount, maxRounds: maxRounds, list: list
+                .then((data) => {
+                    console.log(data); // JSON data parsed by `data.json()` call
+                    navigate('/');
+                  });
+            });
         } catch (err) {
             console.log(err)
         }
@@ -100,26 +71,10 @@ export const CreateDaret = () => {
         return response.json(); // parses JSON response into native JavaScript objects
     }
 
-    function handleChange(event) {
-        setWallet(event.target.value);
-    }
-
-    function handleAdd() {
-        if(wallet.length==0){
-            return
-        }
-        const newList = list.concat(wallet);
-        setList(newList);
-    }
-
     function handleSubmit(e) {
         e.preventDefault();
         deploy();
     }
-
-    useEffect(() => {
-        connectMeta()
-    }, []);  
 
     return (
         <div className="main--daret">

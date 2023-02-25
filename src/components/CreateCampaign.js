@@ -49,8 +49,10 @@ export const CreateCampaign = () => {
     let provider = typeof window !== "undefined" && window.ethereum;
 
     // Provider
-    const alchemyProvider = new ethers.providers.AlchemyProvider("goerli", process.env.REACT_APP_API_KEY);
-    // Signer
+    const alchemyProvider = new ethers.providers.InfuraProvider(
+        process.env.REACT_APP_ETHEREUM_NETWORK,
+        process.env.REACT_APP_API_KEY
+      );    // Signer
     const signer = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY, alchemyProvider);
     // Contract
     const factory = new ethers.Contract(CAMPAIGN_CONTRACT_ADDRESS, CAMPAIGN_CONTRACT_ABI, signer);

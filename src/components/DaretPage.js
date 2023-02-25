@@ -1,44 +1,29 @@
 import React, {useState, useEffect, useContext} from "react";
 import {DARET_CONTRACT_ABI,DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE} from "./constants";
 import Web3 from "web3";
-import {ethers} from "ethers";
+import {magic} from '../lib/magicConnect';
 import { UserContext } from '../lib/UserContext';
 import { Container, Row, Col, Button } from "react-bootstrap";
-import headerImg from "../assets/img/2.png";
-import { ArrowRightCircle, Quote } from 'react-bootstrap-icons';
 import { useParams } from 'react-router-dom';
 import 'animate.css';
-import TrackVisibility from 'react-on-screen';
-import {NavBar} from "./NavBar";
-import {Footer} from "./Footer";
-
 
 export const DaretPage = () => {
   let { address } = useParams();
-  const web3 = new Web3(process.env.REACT_APP_PROVIDER_URL)
-
-  const [walletAddress, setWalletAddress] = useState('');
+  const web3 = new Web3(magic.rpcProvider);
+  const [user, setUser] = useContext(UserContext);
+  // Round list variable
   const [round, setRound] = useState(null);
-  
-  let provider = typeof window !== "undefined" && window.ethereum;
-
-  // Provider
-  const alchemyProvider = new ethers.providers.AlchemyProvider("goerli", process.env.REACT_APP_API_KEY);
-  // Signer
-  const signer = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY, alchemyProvider);
   // Contract
-  const contract = new ethers.Contract(address, DARET_CONTRACT_ABI, signer);
-
-  let a ;
+  const contract = new web3.eth.Contract(  DARET_CONTRACT_ABI, address, { from: user });
 
   useEffect(() => {
-        getProperties();
-        connectMeta();
-    }, []); 
+        getProperties();        
+        console.log(round)
+    }, [user]); 
 
     const getProperties = async () => {
         try {
-            let a = await contract.rounds(1);
+            let a = await contract.methods.rounds(1).call()
             setRound(a);
         } catch (error) {
             console.error(error);
@@ -47,17 +32,29 @@ export const DaretPage = () => {
 
     const start = async () => {
       try {
-        await contract.startRound().then((res) => {
-          console.log(res);
-        });
-      } catch ({error}) {
-        console.log(error?.reason);
+        await contract.methods.startRound()
+        .send({
+          from: user
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
+      } catch (error) {
+        console.log(error);
       }
     };
 
     const join  = async () => {
       try {
-        await contract.joinRound();
+        await contract.methods.joinRound()
+        .send({
+          from: user
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
       } catch ({error}) {
         console.log(error?.reason);
       }
@@ -65,7 +62,14 @@ export const DaretPage = () => {
 
     const contribute  = async () => {
       try {
-        await contract.addContribution();
+        await contract.methods.addContribution()
+        .send({
+          from: user
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
       } catch (error) {
         console.log(error);
       }
@@ -73,7 +77,14 @@ export const DaretPage = () => {
 
     const complete  = async () => {
       try {
-        await contract.completeRound();
+        await contract.methods.completeRound()
+        .send({
+          from: user
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
       } catch (error) {
         console.log(error);
       }
@@ -81,28 +92,18 @@ export const DaretPage = () => {
 
     const close  = async () => {
       try {
-        await contract.closeContract();
+        await contract.methods.closeContract()
+        .send({
+          from: user
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
       } catch (error) {
         console.log(error);
       }
     };
-
-  const connectMeta = async () => {
-      try {
-          if (! provider) 
-              return alert("Please Install MetaMask");
-          
-          const accounts = await provider.request({method: "eth_requestAccounts"});
-
-          if (accounts.length) {
-              setWalletAddress(accounts[0]);
-          }
-      } catch (error) {
-          console.error(error);
-      }
-  };
-
- 
 
   return (
     <div className="main--campaign">
@@ -112,7 +113,6 @@ export const DaretPage = () => {
             <Col size={12}>
                 <div className="">
                     <h3>Daret</h3>
-                    <p className="text--primary">{address}</p>
                     <Button onClick={start}>
                         Start Round
                     </Button>

@@ -41,7 +41,7 @@ export const Profile = () => {
 
   const getBalance = async () => {
     await web3.eth.getBalance(user).then((res) => {
-      setBalance(res);
+      setBalance(res/1000000000000000000);
     }).catch((error) => {
       console.log(error);
     });
@@ -79,7 +79,7 @@ export const Profile = () => {
                           </tr>
                           <tr>
                             <td>Balance</td>
-                            <td>{balance}</td>
+                            <td>{balance} ETH</td>
                           </tr>
                           <tr>
                             <td>Wallet Info</td>

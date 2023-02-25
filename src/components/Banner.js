@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import headerImg from "../assets/img/header-img.svg";
+import headerImg from "../assets/img/money.png";
 import { ArrowRightCircle, Quote } from 'react-bootstrap-icons';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
@@ -59,11 +59,10 @@ export const Banner = () => {
             <TrackVisibility>
               {({ isVisible }) =>
               <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-                <span className="tagline">{date}</span>
-                <h1>{`Welcome to Daret! ⚡`} </h1>
+                <br></br>
+                <span className='tagline'>{`Welcome to Daret! ⚡`} </span>
                   <h4>Join us to save money</h4>
                   <br></br>
-                  {/* <i><q>Welcome to whatever this is, I hope you can find something that catches your attention.</q></i> */}
               </div>}
             </TrackVisibility>
           </Col>

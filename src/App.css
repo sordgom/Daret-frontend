@@ -295,9 +295,9 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   font-weight: 700;
   letter-spacing: 0.8px;
   padding: 8px 10px;
-  background: linear-gradient(90.21deg, rgba(170, 54, 124, 0.5) -5.91%, rgba(74, 47, 189, 0.5) 111.58%);
+  background: linear-gradient(90.21deg, rgba(35, 107, 141, 0.5) +45%, rgb(255, 1, 1) 111.58%);
   border: 1px solid rgba(255, 255, 255, 0.5);
-  font-size: 20px;
+  font-size: 50px;
   margin-bottom: 16px;
   display: inline-block;
 }
@@ -335,7 +335,10 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   margin-left: 25px;
 }
 .banner img {
-  animation: updown 3s linear infinite;
+  animation: updown 3s linear infinite; 
+  width: 50%;
+  height: 50%;
+  margin-left: 90px;
 }
 @keyframes updown {
     0% {

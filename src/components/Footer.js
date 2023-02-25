@@ -31,7 +31,6 @@ export const Footer = () => {
                 <a href="https://twitter.com/sordgom" target="_blank"><img src={navIcon1} alt="Twitter" /></a>
                 <a href="https://youtube.com" target="_blank"><img src={navIcon4} alt="Youtube" /></a>
             </div>
-            <p>Credits to WannaCry</p>
           </Col>
         </Row>
       </Container>

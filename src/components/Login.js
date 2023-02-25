@@ -1,26 +1,16 @@
 import React, {useState, useEffect, useContext} from "react";
-import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
-import { ProjectCard } from "./ProjectCard";
-import metabuild from "../assets/img/metabuild.png";
-import nearImg from "../assets/img/near.jpg";
-import hmcImg from "../assets/img/homecrowd.png"
-import colorSharp2 from "../assets/img/color-sharp2.png";
 import 'animate.css';
-import TrackVisibility from 'react-on-screen';
 import {NavBar} from "./NavBar";
-import {Footer} from "./Footer";
 import {UserContext} from '../lib/UserContext';
 import {useNavigate} from "react-router-dom";
 import Web3 from "web3";
 import {magic} from "../lib/magicConnect";
 
-const web3 = new Web3(magic.rpcProvider);
 
 export const Login = () => {
-
   const [user, setUser] = useContext(UserContext);
-
   let navigate = useNavigate();
+  const web3 = new Web3(magic.rpcProvider);
 
   const sendTransaction = async () => {
       const publicAddress = (await web3.eth.getAccounts())[0];
@@ -109,7 +99,6 @@ export const Login = () => {
           )}
         </div>
       </section>
-      <Footer/>
     </div>
   )
 }
