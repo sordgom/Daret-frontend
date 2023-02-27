@@ -29,6 +29,7 @@ export const DaretPage = () => {
         try {
             let a = await contract.methods.rounds(1).call();
             setRound(a);
+            console.log(a)
         } catch (error) {
             console.error(error);
         }
@@ -177,6 +178,57 @@ export const DaretPage = () => {
                           Contribute
                       </Button>
                     </Row>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Property</th>
+                          <th>Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Admin Fee</td>
+                          <td>{round?.adminFee}</td>
+                        </tr>
+                        <tr>
+                          <td>Contribution</td>
+                          <td>{round?.contribution}</td>
+                        </tr>
+                        <tr>
+                          <td>End Time</td>
+                          <td>{round?.endTime}</td>
+                        </tr>
+                        <tr>
+                          <td>Grace Period End Time</td>
+                          <td>{round?.gracePeriodEndTime}</td>
+                        </tr>
+                        <tr>
+                          <td>Paid Out</td>
+                          <td>{round?.paidOut ? 'Yes' : 'No'}</td>
+                        </tr>
+                        <tr>
+                          <td>Payout</td>
+                          <td>{round?.payout}</td>
+                        </tr>
+                        <tr>
+                          <td>Round Number</td>
+                          <td>{round?.roundNumber}</td>
+                        </tr>
+                        <tr>
+                          <td>Start Time</td>
+                          <td>{round?.startTime}</td>
+                        </tr>
+                        <tr>
+                          <td>Winner</td>
+                          <td>{round?.winner}</td>
+                        </tr>
+                        <tr>
+                          <td>Winner Fee</td>
+                          <td>{round?.winnerFee}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
                 </div>
             </Col>
           </Row>

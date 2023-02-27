@@ -34,7 +34,7 @@ const ProjectRoutes = () => {
         <Route exact path="/create-daret" element={<CreateDaret />} />      
         <Route exact path="/create-campaign" element={<CreateCampaign />} />      
         <Route exact path="/daretpage/:address" element={<DaretPage />} />     
-        <Route exact path="/campaignpage/:address" element={<CampaignPage />} />      
+        <Route exact path="/campaignpage/:id" element={<CampaignPage />} />      
       </Routes>
       <Footer />
     </Router>

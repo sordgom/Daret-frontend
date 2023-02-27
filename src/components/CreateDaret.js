@@ -31,12 +31,12 @@ export const CreateDaret = () => {
     const [admin, setAdmin] = useState('0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14');
 
     // Contract
-    const factory = new web3.eth.Contract(  DARET_CONTRACT_ABI, { from: user });
+    const contract = new web3.eth.Contract(  DARET_CONTRACT_ABI, { from: user });
 
     // Deploy the contract to the Ethereum network
     async function deploy() {
         try {  
-            await factory.deploy({
+            await contract.deploy({
                 data: DARET_CONTRACT_BYTECODE,
                 arguments: [maxRounds, maxMembers, feePercentage,  admin]
             })
