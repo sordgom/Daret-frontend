@@ -5,7 +5,6 @@ import {ethers} from "ethers";
 import {UserContext} from '../../lib/UserContext';
 import {useNavigate} from "react-router-dom";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
-import { TeamCard } from "../TeamCard";
 import projImg1 from "../../assets/img/nodex.png";
 import projImg2 from "../../assets/img/faz.png";
 import projImg3 from "../../assets/img/team9.png";
