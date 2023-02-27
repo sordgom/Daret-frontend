@@ -19,9 +19,6 @@ export const Sidebar = props => {
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
                 activeKey="/home"
-                onSelect={
-                    selectedKey => alert(`selected ${selectedKey}`)
-                }
             >
                 <div className="sidebar-sticky"></div>
                 <Nav.Item>

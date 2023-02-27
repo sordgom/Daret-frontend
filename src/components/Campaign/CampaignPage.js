@@ -1,11 +1,11 @@
 import React, {useState, useEffect, useContext} from "react";
-import {CAMPAIGN_CONTRACT_ABI, CAMPAIGN_CONTRACT_ADDRESS, CAMPAIGN_CONTRACT_BYTECODE} from "./constants";
+import {CAMPAIGN_CONTRACT_ABI, CAMPAIGN_CONTRACT_ADDRESS, CAMPAIGN_CONTRACT_BYTECODE} from "../constants";
 import Web3 from "web3";
-import {UserContext} from '../lib/UserContext';
+import {UserContext} from '../../lib/UserContext';
 import {Container, Row, Col, Button} from "react-bootstrap";
 import {useParams} from 'react-router-dom';
 import 'animate.css';
-import {magic} from '../lib/magicConnect';
+import {magic} from '../../lib/magicConnect';
 
 
 export const CampaignPage = () => {

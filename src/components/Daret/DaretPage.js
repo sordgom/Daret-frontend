@@ -1,8 +1,8 @@
 import React, {useState, useEffect, useContext} from "react";
-import {DARET_CONTRACT_ABI,DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE} from "./constants";
+import {DARET_CONTRACT_ABI,DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE} from "../constants";
 import Web3 from "web3";
-import {magic} from '../lib/magicConnect';
-import { UserContext } from '../lib/UserContext';
+import {magic} from '../../lib/magicConnect';
+import { UserContext } from '../../lib/UserContext';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams, useNavigate } from 'react-router-dom';
 import 'animate.css';

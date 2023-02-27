@@ -1,20 +1,20 @@
 import React, {useState, useEffect, useContext} from "react";
-import {DARET_CONTRACT_ABI,DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE} from "./constants";
+import {DARET_CONTRACT_ABI,DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE} from "../constants";
 import Web3 from "web3";
 import {ethers} from "ethers";
-import {UserContext} from '../lib/UserContext';
+import {UserContext} from '../../lib/UserContext';
 import {useNavigate} from "react-router-dom";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
-import { TeamCard } from "./TeamCard";
-import projImg1 from "../assets/img/nodex.png";
-import projImg2 from "../assets/img/faz.png";
-import projImg3 from "../assets/img/team9.png";
-import projImg4 from "../assets/img/team7.png";
-import projImg5 from "../assets/img/team6.png";
-import colorSharp2 from "../assets/img/color-sharp2.png";
+import { TeamCard } from "../TeamCard";
+import projImg1 from "../../assets/img/nodex.png";
+import projImg2 from "../../assets/img/faz.png";
+import projImg3 from "../../assets/img/team9.png";
+import projImg4 from "../../assets/img/team7.png";
+import projImg5 from "../../assets/img/team6.png";
+import colorSharp2 from "../../assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
-import {magic} from '../lib/magicConnect';
+import {magic} from '../../lib/magicConnect';
 
 const initialList = ['0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14'];
 

@@ -6,13 +6,13 @@ import { Profile } from "./components/Profile";
 import { Footer } from "./components/Footer";
 import { Login } from "./components/Login";
 import { Home } from "./components/Home";
-import { Daret } from "./components/Daret";
-import { Campaign } from "./components/Campaign";
-import { CreateDaret } from "./components/CreateDaret";
-import { DaretPage } from "./components/DaretPage";
+import { Daret } from "./components/Daret/Daret";
+import { Campaign } from "./components/Campaign/Campaign";
+import { CreateDaret } from "./components/Daret/CreateDaret";
+import { DaretPage } from "./components/Daret/DaretPage";
 import { Sidebar } from "./components/SideBar";
-import { CreateCampaign } from "components/CreateCampaign";
-import { CampaignPage } from "./components/CampaignPage";
+import { CreateCampaign } from "components/Campaign/CreateCampaign";
+import { CampaignPage } from "./components/Campaign/CampaignPage";
 
 
 const ProjectRoutes = () => {
