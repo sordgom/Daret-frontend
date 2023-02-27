@@ -29,12 +29,12 @@ const ProjectRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route exact path="/daret" element={<Daret />} />
         <Route exact path="/campaign" element={<Campaign />} />
-        <Route exact path="/portfolio" element={<Profile />} />
+        <Route exact path="/profile" element={<Profile />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/create-daret" element={<CreateDaret />} />      
         <Route exact path="/create-campaign" element={<CreateCampaign />} />      
         <Route exact path="/daretpage/:address" element={<DaretPage />} />     
-        <Route exact path="/campaignpage/:address" element={<CampaignPage />} />      
+        <Route exact path="/campaignpage/:id" element={<CampaignPage />} />      
       </Routes>
       <Footer />
     </Router>

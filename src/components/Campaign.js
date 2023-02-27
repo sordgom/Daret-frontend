@@ -46,7 +46,7 @@ export const Campaign = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:8080/daret');
+      const response = await fetch('http://localhost:8080/campaign');
       const data = await response.json();
       setData(data.data);
     }
@@ -92,7 +92,6 @@ export const Campaign = () => {
             </Col>
             </Row>
         </Container>
-        <img className="background-image-right" src={colorSharp2}></img>
         </section>
     </div>
     )

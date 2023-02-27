@@ -14,6 +14,7 @@ import projImg5 from "../assets/img/team6.png";
 import colorSharp2 from "../assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import {magic} from '../lib/magicConnect';
 
 const initialList = ['0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14'];
 const team = [
@@ -38,49 +39,36 @@ const team = [
   ];
 export const CreateCampaign = () => {
     let navigate = useNavigate();
-    const web3 = new Web3(process.env.REACT_APP_PROVIDER_URL)
+    const web3 = new Web3(magic.rpcProvider);
+   
+    const [user, setUser] = useContext(UserContext);
+    const [goal, setGoal] = useState(1000);
+    const [duration, setDuration] = useState(1);
+    
+    //contract
+    const contract = new web3.eth.Contract(  CAMPAIGN_CONTRACT_ABI,  CAMPAIGN_CONTRACT_ADDRESS, { from: user });
 
-    const [list, setList] = useState(initialList);
-    const [wallet, setWallet] = useState('');
-    const [walletAddress, setWalletAddress] = useState();
-    const [goal, setGoal] = useState(1);
-    const [startAt, setStart] = useState(1);
-    const [endAt, setEnd] =useState(1);
-    let provider = typeof window !== "undefined" && window.ethereum;
-
-    // Provider
-    const alchemyProvider = new ethers.providers.AlchemyProvider("goerli", process.env.REACT_APP_API_KEY);
-    // Signer
-    const signer = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY, alchemyProvider);
-    // Contract
-    const factory = new ethers.Contract(CAMPAIGN_CONTRACT_ADDRESS, CAMPAIGN_CONTRACT_ABI, signer);
-
-    const connectMeta = async () => {
-        try {
-            if (! provider) 
-                return alert("Please Install MetaMask");
-            
-            const accounts = await provider.request({method: "eth_requestAccounts"});
-
-            if (accounts.length) {
-                setWalletAddress(accounts[0]);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    useEffect(() => {
+    }, []);
 
      // Deploy the contract to the Ethereum network
      async function deploy() {
         try {
-            let contract = await factory.launch(goal, startAt, endAt);
-            postData('http://localhost:8080/campaign', 
-            {address: contract.address})
-            //I can add later owner: walletAddress, amount: amount, recurrence: recurrence, list: list
-            .then((data) => {
-                console.log(data); // JSON data parsed by `data.json()` call
-                navigate('/');
-              });
+            await contract.methods.launch(goal,  duration)
+            .send({
+              from: user
+            })
+            .on('receipt', function(receipt){
+                // receipt example
+                let id = receipt?.events?.Launch?.returnValues?.id;
+                console.log(id);
+                postData('http://localhost:8080/campaign', 
+                    {campaignId: id})
+                    .then((data) => {
+                        console.log(data); // JSON data parsed by `data.json()` call
+                        navigate('/');
+                    });
+            });
         } catch (err) {
             console.log(err)
         }
@@ -99,26 +87,10 @@ export const CreateCampaign = () => {
         return response.json(); // parses JSON response into native JavaScript objects
     }
 
-    function handleChange(event) {
-        setWallet(event.target.value);
-    }
-
-    function handleAdd() {
-        if(wallet.length==0){
-            return
-        }
-        const newList = list.concat(wallet);
-        setList(newList);
-    }
-
     function handleSubmit(e) {
         e.preventDefault();
         deploy();
-    }
-
-    useEffect(() => {
-        connectMeta()
-    }, []);  
+    } 
 
     return (
         <div className="main--daret">
@@ -143,23 +115,14 @@ export const CreateCampaign = () => {
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="email">Start At</label>
+                            <label htmlFor="email">Duration</label>
                             <input
-                            type="startAt"
-                            id="startAt"
-                            name="startAt"
-                            value={startAt}
-                            onChange={(e) => setStart(e.target.value)}
+                            type="duration"
+                            id="duration"
+                            name="duration"
+                            value={duration}
+                            onChange={(e) => setDuration(e.target.value)}
                             />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">End At</label>
-                            <input
-                            type="endAt"
-                            id="endAt"
-                            name="endAt"
-                            value={endAt}    
-                            onChange={(e) => setEnd(e.target.value)}/>
                         </div>
                         <button type="submit">Submit
                         </button>
@@ -171,7 +134,6 @@ export const CreateCampaign = () => {
             </Col>
             </Row>
         </Container>
-        <img className="background-image-right" src={colorSharp2}></img>
         </section>
         </div>
 )

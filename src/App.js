@@ -18,15 +18,19 @@ import { Home } from "./components/Home";
 
 function App() {
   const [user, setUser] = useState();
- // If isLoggedIn is true, set the UserContext with user data
-  // Otherwise, set it to {user: null}
+ 
   useEffect(() => {
-    setUser({ loading: true });
-    magic.user.isLoggedIn().then(isLoggedIn => {
-      return isLoggedIn ? magic.user.getMetadata().then(userData => setUser(userData)) : setUser({ user: null });
-    });
+    const storedData = localStorage.getItem('user');
+    if (storedData) {
+      setUser(JSON.parse(storedData));
+    }
+   
   }, []);
-  
+
+  //  useEffect(() => {
+  //   localStorage.setItem('user', JSON.stringify(user));
+  // }, [user]);
+
   return (
     <div className="App">
        <UserContext.Provider value={[user, setUser]}>

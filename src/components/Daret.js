@@ -95,7 +95,6 @@ export const Daret = () => {
             </Col>
             </Row>
         </Container>
-        <img className="background-image-right" src={colorSharp2}></img>
         </section>
     </div>
     )

@@ -1,96 +1,153 @@
 import React, {useState, useEffect, useContext} from "react";
 import {DARET_CONTRACT_ABI,DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE} from "./constants";
 import Web3 from "web3";
-import {ethers} from "ethers";
+import {magic} from '../lib/magicConnect';
 import { UserContext } from '../lib/UserContext';
 import { Container, Row, Col, Button } from "react-bootstrap";
-import headerImg from "../assets/img/2.png";
-import { ArrowRightCircle, Quote } from 'react-bootstrap-icons';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import 'animate.css';
-import TrackVisibility from 'react-on-screen';
-import {NavBar} from "./NavBar";
-import {Footer} from "./Footer";
-
 
 export const DaretPage = () => {
   let { address } = useParams();
-  const web3 = new Web3(process.env.REACT_APP_PROVIDER_URL)
+  let navigate = useNavigate();
 
-  const [wallet, setWallet] = useState('');
-  const [walletAddress, setWalletAddress] = useState();
-  const [recurrence, setRecurrence] = useState(30);
-  const [amount, setAmount] = useState(10);
-  let provider = typeof window !== "undefined" && window.ethereum;
-
-  // Provider
-  const alchemyProvider = new ethers.providers.AlchemyProvider("goerli", process.env.REACT_APP_API_KEY);
-  // Signer
-  const signer = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY, alchemyProvider);
+  const web3 = new Web3(magic.rpcProvider);
+  const [user, setUser] = useContext(UserContext);
+  // Round list variable
+  const [round, setRound] = useState(null);
+  const [owner, setOwner] = useState(null);
   // Contract
-  const contract = new ethers.Contract(address, DARET_CONTRACT_ABI, signer);
-
-  let a ;
+  const contract = new web3.eth.Contract(  DARET_CONTRACT_ABI, address, { from: user });
 
   useEffect(() => {
-        getProperties();
-    }, []); 
+        getProperties();    
+        getOwner();   
+        removeFromDb(); 
+    }, [user]); 
 
     const getProperties = async () => {
         try {
-            let a = await contract.amount();
-            setAmount(a.toNumber());
-            let r = await contract.recurrence();
-            setRecurrence(r.toNumber());
-            let w = await contract.wallets(0);
-            setWallet(w);
+            let a = await contract.methods.rounds(1).call();
+            setRound(a);
+            console.log(a)
         } catch (error) {
             console.error(error);
         }
     };
 
-    const pay = async () => {
+    const getOwner = async () => {
       try {
-        await contract.pay();
-      } catch ({error}) {
-        console.log(error?.reason);
+          let a = await contract.methods.owner().call();
+          setOwner(a);
+      } catch (error) {
+          console.error(error);
       }
     };
 
-    const reward  = async () => {
+    const removeFromDb = async () => {
       try {
-        await contract.reward();
-      } catch ({error}) {
-        console.log(error?.reason);
+          let a = await contract.methods.state().call();
+          if(a==3)
+          {
+            fetch('http://localhost:8080/daret/'+address, {
+              method: 'DELETE',
+            })
+            .then(response => response.json())
+            .then(data => {
+              console.log('Success:', data);
+              navigate('/daret');
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+          }
+        } catch (error) {
+          console.error(error);
       }
     };
 
-    const endDaret  = async () => {
+    const start = async () => {
       try {
-        await contract.endDaret();
+        await contract.methods.startRound()
+        .send({
+          from: user
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
       } catch (error) {
         console.log(error);
       }
     };
 
-  const connectMeta = async () => {
+    //Must meet the min contribution of 1000000 wei
+    const join  = async () => {
       try {
-          if (! provider) 
-              return alert("Please Install MetaMask");
-          
-          const accounts = await provider.request({method: "eth_requestAccounts"});
-
-          if (accounts.length) {
-              setWalletAddress(accounts[0]);
-          }
-      } catch (error) {
-          console.error(error);
+        await contract.methods.joinRound()
+        .send({
+          from: user,
+          value: 1000000
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
+      } catch ({error}) {
+        console.log(error?.reason);
       }
-  };
+    };
 
-  useEffect(() => {
-    connectMeta();
-    }, []);
+    //Must meet the min contribution of 1000000 wei && already joined
+    const contribute  = async () => {
+      try {
+        await contract.methods.addContribution()
+        .send({
+          from: user,
+          value: 1000000
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    //Check requirements:
+    //1. Round must be closed
+    //2. total contributions must be greater than payout...
+    
+    const complete  = async () => {
+      try {
+        await contract.methods.completeRound(user)
+        .send({
+          from: user
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    const close  = async () => {
+      try {
+        await contract.methods.closeContract()
+        .send({
+          from: user
+        })
+        .on('receipt', function(receipt){
+            // receipt example
+            console.log(receipt);
+        })
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
   return (
     <div className="main--campaign">
@@ -100,17 +157,78 @@ export const DaretPage = () => {
             <Col size={12}>
                 <div className="">
                     <h3>Daret</h3>
-                    <p className="text--primary">{address}</p>
-                    <Button onClick={reward}>
-                        Reward
-                    </Button>
-                    <Button onClick={pay}>
-                        Pay
-                    </Button>
-                    <Button onClick={endDaret}>
-                      End Daret
-                    </Button>
-                   
+                      {owner == user && 
+                      <Row>
+                        <Button onClick={start}>
+                            Start Round
+                        </Button>
+                        <Button onClick={complete}>
+                            Complete Round
+                        </Button>
+                        <Button onClick={close}>
+                            Close Round
+                        </Button>
+                      </Row>
+                        }
+                    <Row>
+                      <Button onClick={join}>
+                          Join Round
+                      </Button>
+                      <Button onClick={contribute}>
+                          Contribute
+                      </Button>
+                    </Row>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th>Property</th>
+                          <th>Value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Admin Fee</td>
+                          <td>{round?.adminFee}</td>
+                        </tr>
+                        <tr>
+                          <td>Contribution</td>
+                          <td>{round?.contribution}</td>
+                        </tr>
+                        <tr>
+                          <td>End Time</td>
+                          <td>{round?.endTime}</td>
+                        </tr>
+                        <tr>
+                          <td>Grace Period End Time</td>
+                          <td>{round?.gracePeriodEndTime}</td>
+                        </tr>
+                        <tr>
+                          <td>Paid Out</td>
+                          <td>{round?.paidOut ? 'Yes' : 'No'}</td>
+                        </tr>
+                        <tr>
+                          <td>Payout</td>
+                          <td>{round?.payout}</td>
+                        </tr>
+                        <tr>
+                          <td>Round Number</td>
+                          <td>{round?.roundNumber}</td>
+                        </tr>
+                        <tr>
+                          <td>Start Time</td>
+                          <td>{round?.startTime}</td>
+                        </tr>
+                        <tr>
+                          <td>Winner</td>
+                          <td>{round?.winner}</td>
+                        </tr>
+                        <tr>
+                          <td>Winner Fee</td>
+                          <td>{round?.winnerFee}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+
                 </div>
             </Col>
           </Row>

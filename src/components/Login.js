@@ -1,26 +1,16 @@
 import React, {useState, useEffect, useContext} from "react";
-import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
-import { ProjectCard } from "./ProjectCard";
-import metabuild from "../assets/img/metabuild.png";
-import nearImg from "../assets/img/near.jpg";
-import hmcImg from "../assets/img/homecrowd.png"
-import colorSharp2 from "../assets/img/color-sharp2.png";
 import 'animate.css';
-import TrackVisibility from 'react-on-screen';
 import {NavBar} from "./NavBar";
-import {Footer} from "./Footer";
 import {UserContext} from '../lib/UserContext';
 import {useNavigate} from "react-router-dom";
 import Web3 from "web3";
 import {magic} from "../lib/magicConnect";
 
-const web3 = new Web3(magic.rpcProvider);
 
 export const Login = () => {
-
-  const [account, setAccount] = useContext(UserContext);
-
+  const [user, setUser] = useContext(UserContext);
   let navigate = useNavigate();
+  const web3 = new Web3(magic.rpcProvider);
 
   const sendTransaction = async () => {
       const publicAddress = (await web3.eth.getAccounts())[0];
@@ -40,9 +30,12 @@ export const Login = () => {
   };
 
   const login = async () => {
+    let user;
       web3.eth.getAccounts().then((accounts) => {
-          setAccount(accounts ?. [0]);
+        user= accounts ?. [0];
+        setUser(user);
       }).then(() => {
+        localStorage.setItem('user', JSON.stringify(user));
         navigate("/");
       })
       .catch((error) => {
@@ -66,13 +59,14 @@ export const Login = () => {
       await magic.connect.disconnect().catch((e) => {
           console.log(e);
       });
-      setAccount(null);
+      localStorage.removeItem('user');
+      setUser(null);
   };
 
   // Redirect to / if the user is logged in
   useEffect(() => {
-    console.log(account)
-  }, [account]);
+    console.log(user)
+  }, [user]);
 
 
   return (
@@ -81,17 +75,30 @@ export const Login = () => {
       <section className="login" id="login">
         <div>
           <h2 className="h2">Magic Connect</h2>
-              
-              
-            <button onClick={login}>
+          {!user && (
+          <button onClick={login}>
                 Sign In
             </button>
-    
-          
+          )}
+          {user && (
+          <>
+           
+            <button onClick={sendTransaction}>
+                Send Transaction
+            </button>
+            <button onClick={signMessage}>
+                Sign Message
+            </button>
+            <button onClick={showWallet}>
+                Show Wallet
+            </button>
+            <button onClick={disconnect}>
+                Sign Out
+            </button>
+            </>
+          )}
         </div>
-        <img className="background-image-right" src={colorSharp2}></img>
       </section>
-      <Footer/>
     </div>
   )
 }

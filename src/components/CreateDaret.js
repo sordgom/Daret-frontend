@@ -14,72 +14,45 @@ import projImg5 from "../assets/img/team6.png";
 import colorSharp2 from "../assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import {magic} from '../lib/magicConnect';
 
 const initialList = ['0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14'];
-const team = [
-    {
-      title: "NodeX",
-      description: "Founder",
-      imgUrl: projImg1,
 
-    },
-    {
-      title: "FazNode",
-      description: "Core Team",
-      imgUrl: projImg2,
-    },
-    {
-      title: "Travis",
-      description: "Core Team",
-      imgUrl: projImg4,
-    },   
-    
-    
-  ];
 export const CreateDaret = () => {
     let navigate = useNavigate();
-    const web3 = new Web3(process.env.REACT_APP_PROVIDER_URL)
+    const web3 = new Web3(magic.rpcProvider);
 
+    const [user, setUser] = useContext(UserContext);
     const [list, setList] = useState(initialList);
     const [wallet, setWallet] = useState('');
-    const [walletAddress, setWalletAddress] = useState();
-    const [recurrence, setRecurrence] = useState(30);
-    const [amount, setAmount] = useState(10);
-    let provider = typeof window !== "undefined" && window.ethereum;
+    const [maxRounds, setMaxRounds] = useState(10);
+    const [maxMembers, setMaxMembers] = useState(10);
+    const [feePercentage, setFeePercentage] = useState(1);
+    const [admin, setAdmin] = useState('0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14');
 
-    // Provider
-    const alchemyProvider = new ethers.providers.AlchemyProvider("goerli", process.env.REACT_APP_API_KEY);
-    // Signer
-    const signer = new ethers.Wallet(process.env.REACT_APP_PRIVATE_KEY, alchemyProvider);
     // Contract
-    const factory = new ethers.ContractFactory(DARET_CONTRACT_ABI, DARET_CONTRACT_BYTECODE, signer);
-
-    const connectMeta = async () => {
-        try {
-            if (! provider) 
-                return alert("Please Install MetaMask");
-            
-            const accounts = await provider.request({method: "eth_requestAccounts"});
-
-            if (accounts.length) {
-                setWalletAddress(accounts[0]);
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
+    const contract = new web3.eth.Contract(  DARET_CONTRACT_ABI, { from: user });
 
     // Deploy the contract to the Ethereum network
     async function deploy() {
-        try {
-            let contract = await factory.deploy(recurrence, amount, list, "0x97F3C67e1c77243EA8b11cd270DDc20a2FA45Cab");
-            postData('http://localhost:8080/daret', 
-            {address: contract.address})
-            //I can add later owner: walletAddress, amount: amount, recurrence: recurrence, list: list
-            .then((data) => {
-                console.log(data); // JSON data parsed by `data.json()` call
-                navigate('/');
-              });
+        try {  
+            await contract.deploy({
+                data: DARET_CONTRACT_BYTECODE,
+                arguments: [maxRounds, maxMembers, feePercentage,  admin]
+            })
+            .send({
+                from: user
+            })
+            .then(function(newContractInstance){
+                console.log(newContractInstance.options.address) // instance with the new contract address
+                postData('http://localhost:8080/daret', 
+                {address: newContractInstance.options.address})
+                //I can add later owner: walletAddress, amount: amount, maxRounds: maxRounds, list: list
+                .then((data) => {
+                    console.log(data); // JSON data parsed by `data.json()` call
+                    navigate('/');
+                  });
+            });
         } catch (err) {
             console.log(err)
         }
@@ -98,26 +71,10 @@ export const CreateDaret = () => {
         return response.json(); // parses JSON response into native JavaScript objects
     }
 
-    function handleChange(event) {
-        setWallet(event.target.value);
-    }
-
-    function handleAdd() {
-        if(wallet.length==0){
-            return
-        }
-        const newList = list.concat(wallet);
-        setList(newList);
-    }
-
     function handleSubmit(e) {
         e.preventDefault();
         deploy();
     }
-
-    useEffect(() => {
-        connectMeta()
-    }, []);  
 
     return (
         <div className="main--daret">
@@ -132,54 +89,58 @@ export const CreateDaret = () => {
                     <form className="login-form" onSubmit={handleSubmit}>
                         <h2>Create Daret</h2>
                         <div className="form-group">
-                            <label htmlFor="email">Recurrence</label>
+                            <label htmlFor="email">Rounds</label>
                             <input
-                            type="recurrence"
-                            id="recurrence"
-                            name="recurrence"
-                            value={recurrence}
-                            onChange={(e) => setRecurrence(e.target.value)}
+                            type="maxRounds"
+                            id="maxRounds"
+                            name="maxRounds"
+                            value={maxRounds}
+                            onChange={(e) => setMaxRounds(e.target.value)}
                             />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="amount">Amount</label>
+                            <label htmlFor="maxMembers">Members</label>
                             <input
-                            type="amount"
-                            id="amount"
-                            name="amount"
-                            value={amount}
-                            onChange={(e) => setAmount(e.target.value)}
+                            type="maxMembers"
+                            id="maxMembers"
+                            name="maxMembers"
+                            value={maxMembers}
+                            onChange={(e) => setMaxMembers(e.target.value)}
                             />
                         </div>
+
                         <div className="form-group">
-                            <label htmlFor="Wallet">Wallet Address</label>
+                            <label htmlFor="feePercentage">Fee Percentage</label>
                             <input
-                            type="Wallet"
-                            id="Wallet"
-                            name="Wallet"
-                            value={wallet}    
-                            onChange={handleChange}/>
+                            type="feePercentage"
+                            id="feePercentage"
+                            name="feePercentage"
+                            value={feePercentage}    
+                            onChange={(e) => setFeePercentage(e.target.value)}
+                            />
                         </div>
-                        <button type="button" className="button"
-                                onClick={handleAdd}>Add Wallet
-                        </button>
+
+                        <div className="form-group">
+                            <label htmlFor="admin">Admin Account</label>
+                            <input
+                            type="admin"
+                            id="admin"
+                            name="admin"
+                            value={admin}    
+                            onChange={(e) => setAdmin(e.target.value)}
+                            />
+                        </div>
+                     
                         <button type="submit">Submit
                         </button>
                     </form>
-                    <p>Address List</p>
-                    <ul> {
-                        list.map((item, index) => (
-                            <li key={index}>
-                                {item}</li>
-                        ))
-                    } </ul>
+                  
                 </center>
                 </div>}
                 </TrackVisibility>
             </Col>
             </Row>
         </Container>
-        <img className="background-image-right" src={colorSharp2}></img>
         </section>
         </div>
 )

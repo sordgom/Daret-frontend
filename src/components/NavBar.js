@@ -8,7 +8,7 @@ import navIcon4 from '../assets/img/youtube.svg';
 import loginIcon from '../assets/img/login.svg';
 import { HashLink } from 'react-router-hash-link';
 import { Profile } from '../components/Profile';
-import headerImg from "../assets/img/celestia.png";
+import headerImg from "../assets/img/daret-logo.png";
 import {
   BrowserRouter as Router,
   Routes,
@@ -26,7 +26,6 @@ export const NavBar = () => {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    console.log(account)
     const onScroll = () => {
       if (window.scrollY > 50) {
         setScrolled(true);
@@ -58,7 +57,7 @@ export const NavBar = () => {
               <Nav.Link as={Link} to="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
               <Nav.Link as={Link} to="/daret" className={activeLink === 'daret' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('daret')}>Darets</Nav.Link>
               <Nav.Link as={Link} to="/campaign" className={activeLink === 'campaign' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('campaign')}>Campaigns</Nav.Link>
-              <Nav.Link as={Link} to="/portfolio" className={activeLink === 'portfolio' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('portfolio')}>Portfolio</Nav.Link>
+              <Nav.Link as={Link} to="/profile" className={activeLink === 'portfolio' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('portfolio')}>Profile</Nav.Link>
             </Nav>
             <span className="navbar-text">
               <div className="social-icon">
