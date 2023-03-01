@@ -1,29 +1,20 @@
 import React, {useState, useEffect, useContext} from "react";
 import {DARET_CONTRACT_ABI,DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE} from "../constants";
 import Web3 from "web3";
-import {ethers} from "ethers";
 import {UserContext} from '../../lib/UserContext';
 import {useNavigate} from "react-router-dom";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
-import projImg1 from "../../assets/img/nodex.png";
-import projImg2 from "../../assets/img/faz.png";
-import projImg3 from "../../assets/img/team9.png";
-import projImg4 from "../../assets/img/team7.png";
-import projImg5 from "../../assets/img/team6.png";
-import colorSharp2 from "../../assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import {magic} from '../../lib/magicConnect';
-
-const initialList = ['0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14'];
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 export const CreateDaret = () => {
     let navigate = useNavigate();
     const web3 = new Web3(magic.rpcProvider);
 
     const [user, setUser] = useContext(UserContext);
-    const [list, setList] = useState(initialList);
-    const [wallet, setWallet] = useState('');
     const [maxRounds, setMaxRounds] = useState(10);
     const [maxMembers, setMaxMembers] = useState(10);
     const [feePercentage, setFeePercentage] = useState(1);
@@ -85,54 +76,68 @@ export const CreateDaret = () => {
                 {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
                     <center>
-                    <form className="login-form" onSubmit={handleSubmit}>
-                        <h2>Create Daret</h2>
-                        <div className="form-group">
-                            <label htmlFor="email">Rounds</label>
-                            <input
-                            type="maxRounds"
-                            id="maxRounds"
-                            name="maxRounds"
-                            value={maxRounds}
-                            onChange={(e) => setMaxRounds(e.target.value)}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="maxMembers">Members</label>
-                            <input
-                            type="maxMembers"
-                            id="maxMembers"
-                            name="maxMembers"
-                            value={maxMembers}
-                            onChange={(e) => setMaxMembers(e.target.value)}
-                            />
-                        </div>
+                        <Form className="login-form" onSubmit={handleSubmit}>
+                            <h2>Create Daret</h2>
+                            <Form.Group className="form-group" >
+                                <Form.Label>Number of rounds</Form.Label>
+                                <Form.Control 
+                                    type="maxRounds"
+                                    id="maxRounds"
+                                    name="maxRounds"
+                                    value={maxRounds} 
+                                    onChange={(e) => setMaxRounds(e.target.value)}
+                                    />
+                                <Form.Text className="text-muted">
+                                    Please enter the number of rounds.
+                                </Form.Text>
+                            </Form.Group>
 
-                        <div className="form-group">
-                            <label htmlFor="feePercentage">Fee Percentage</label>
-                            <input
-                            type="feePercentage"
-                            id="feePercentage"
-                            name="feePercentage"
-                            value={feePercentage}    
-                            onChange={(e) => setFeePercentage(e.target.value)}
-                            />
-                        </div>
+                            <Form.Group className="form-group" >
+                                <Form.Label>Number of Members</Form.Label>
+                                <Form.Control 
+                                    type="maxMembers"
+                                    id="maxMembers"
+                                    name="maxMembers"
+                                    value={maxMembers}
+                                    onChange={(e) => setMaxMembers(e.target.value)}
+                                />
+                                <Form.Text className="text-muted">
+                                    Please enter the number of members involved in the round.
+                                </Form.Text>
+                            </Form.Group>
 
-                        <div className="form-group">
-                            <label htmlFor="admin">Admin Account</label>
-                            <input
-                            type="admin"
-                            id="admin"
-                            name="admin"
-                            value={admin}    
-                            onChange={(e) => setAdmin(e.target.value)}
-                            />
-                        </div>
-                     
-                        <button type="submit">Submit
-                        </button>
-                    </form>
+                            <Form.Group className="form-group">
+                                <Form.Label>Fee Percentage</Form.Label>
+                                <Form.Control 
+                                    type="feePercentage"
+                                    id="feePercentage"
+                                    name="feePercentage"
+                                    value={feePercentage}    
+                                    onChange={(e) => setFeePercentage(e.target.value)}
+                                />
+                                <Form.Text className="text-muted">
+                                    Please enter the fee percentage.
+                                </Form.Text>
+                            </Form.Group>
+
+                            <Form.Group className="form-group">
+                                <Form.Label>Fee Percentage</Form.Label>
+                                <Form.Control 
+                                     type="admin"
+                                     id="admin"
+                                     name="admin"
+                                     value={admin}    
+                                     onChange={(e) => setAdmin(e.target.value)}
+                                />
+                                <Form.Text className="text-muted">
+                                    Please enter the Admin account.
+                                </Form.Text>
+                            </Form.Group>
+
+                            <Button variant="light" type="submit">
+                                Submit
+                            </Button>
+                        </Form>
                   
                 </center>
                 </div>}

@@ -1,54 +1,24 @@
 import React, {useState, useEffect, useContext} from "react";
 import {CAMPAIGN_CONTRACT_ABI, CAMPAIGN_CONTRACT_ADDRESS, CAMPAIGN_CONTRACT_BYTECODE} from "../constants";
 import Web3 from "web3";
-import {ethers} from "ethers";
 import {UserContext} from '../../lib/UserContext';
 import {useNavigate} from "react-router-dom";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
-import projImg1 from "../../assets/img/nodex.png";
-import projImg2 from "../../assets/img/faz.png";
-import projImg3 from "../../assets/img/team9.png";
-import projImg4 from "../../assets/img/team7.png";
-import projImg5 from "../../assets/img/team6.png";
-import colorSharp2 from "../../assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import {magic} from '../../lib/magicConnect';
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
-const initialList = ['0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14'];
-const team = [
-    {
-      title: "NodeX",
-      description: "Founder",
-      imgUrl: projImg1,
-
-    },
-    {
-      title: "FazNode",
-      description: "Core Team",
-      imgUrl: projImg2,
-    },
-    {
-      title: "Travis",
-      description: "Core Team",
-      imgUrl: projImg4,
-    },   
-    
-    
-  ];
 export const CreateCampaign = () => {
     let navigate = useNavigate();
     const web3 = new Web3(magic.rpcProvider);
-   
     const [user, setUser] = useContext(UserContext);
     const [goal, setGoal] = useState(1000);
     const [duration, setDuration] = useState(1);
     
     //contract
     const contract = new web3.eth.Contract(  CAMPAIGN_CONTRACT_ABI,  CAMPAIGN_CONTRACT_ADDRESS, { from: user });
-
-    useEffect(() => {
-    }, []);
 
      // Deploy the contract to the Ethereum network
      async function deploy() {
@@ -101,9 +71,41 @@ export const CreateCampaign = () => {
                 {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
                     <center>
-                    <form className="login-form" onSubmit={handleSubmit}>
-                        <h2>Create Campaign</h2>
-                        <div className="form-group">
+                    <Form className="login-form" onSubmit={handleSubmit}>
+                            <h2>Create Campaign</h2>
+                            <Form.Group className="form-group" >
+                                <Form.Label>Duration</Form.Label>
+                                <Form.Control 
+                                     type="goal"
+                                     id="goal"
+                                     name="goal"
+                                     value={goal}
+                                     onChange={(e) => setGoal(e.target.value)}
+                                    />
+                                <Form.Text className="text-muted">
+                                    Please enter the duration of the campaign.
+                                </Form.Text>
+                            </Form.Group>
+
+                            <Form.Group className="form-group" >
+                                <Form.Label>Goal</Form.Label>
+                                <Form.Control 
+                                  type="duration"
+                                  id="duration"
+                                  name="duration"
+                                  value={duration}
+                                  onChange={(e) => setDuration(e.target.value)}
+                                />
+                                <Form.Text className="text-muted">
+                                    Please enter the goal.
+                                </Form.Text>
+                            </Form.Group>
+
+                            <Button variant="light" type="submit">
+                                Submit
+                            </Button>
+                        </Form>
+                        {/* <div className="form-group">
                             <label htmlFor="email">Goal</label>
                             <input
                             type="goal"
@@ -122,10 +124,8 @@ export const CreateCampaign = () => {
                             value={duration}
                             onChange={(e) => setDuration(e.target.value)}
                             />
-                        </div>
-                        <button type="submit">Submit
-                        </button>
-                    </form>
+                        </div> */}
+                        
                    
                 </center>
                 </div>}

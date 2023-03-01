@@ -578,11 +578,17 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   width: 56%;
 }
 .daret button {
-  color: #fff;
+  color: black;
   font-weight: 700;
   font-size: 20px;
   margin-top: 60px;
   letter-spacing: 0.8px;  
+}
+.daret .form-group {
+  /* define your styles here */
+  width: 40%;
+  border-radius: 5px;
+  
 }
 
 
@@ -767,3 +773,4 @@ nav.navbar .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
   letter-spacing: 0.5px;
   margin-top: 20px;
 }
+
