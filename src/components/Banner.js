@@ -61,7 +61,7 @@ export const Banner = () => {
               <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
                 <br></br>
                 <span className='tagline'>{`Welcome to Daret! ⚡`} </span>
-                  <h4>Join us to save money</h4>
+                  <h4>Community-powered financing for everyone</h4>
                   <br></br>
               </div>}
             </TrackVisibility>

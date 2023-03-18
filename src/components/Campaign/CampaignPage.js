@@ -96,21 +96,21 @@ export const CampaignPage = () => {
                                 <h3>Campaign</h3>
                                 <p className="text--primary">
                                     {id}</p>
-                                <Button onClick={pledge}>
+                                <button onClick={pledge}>
                                     Pledge
-                                </Button>
-                                <Button onClick={unpledge}>
+                                </button>
+                                <button onClick={unpledge}>
                                     Unpledge
-                                </Button>
-                                <Button onClick={refund}>
+                                </button>
+                                <button onClick={refund}>
                                     Refund
-                                </Button>
-                                <Button onClick={claim}>
+                                </button>
+                                <button onClick={claim}>
                                     Claim
-                                </Button>
-                                <Button onClick={cancel}>
+                                </button>
+                                <button onClick={cancel}>
                                     Cancel
-                                </Button>
+                                </button>
                                 <table>
                                     <thead>
                                         <tr>

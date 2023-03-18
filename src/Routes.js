@@ -10,7 +10,6 @@ import { Daret } from "./components/Daret/Daret";
 import { Campaign } from "./components/Campaign/Campaign";
 import { CreateDaret } from "./components/Daret/CreateDaret";
 import { DaretPage } from "./components/Daret/DaretPage";
-import { Sidebar } from "./components/SideBar";
 import { CreateCampaign } from "components/Campaign/CreateCampaign";
 import { CampaignPage } from "./components/Campaign/CampaignPage";
 
@@ -19,7 +18,6 @@ const ProjectRoutes = () => {
   return (
     <Router>
       <NavBar />
-      <Sidebar />
       <Routes>
         <Route path="*" element={<NotFound />} />
         <Route path="/" element={<Home />} />

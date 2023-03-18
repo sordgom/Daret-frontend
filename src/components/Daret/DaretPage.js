@@ -150,8 +150,8 @@ export const DaretPage = () => {
     };
 
   return (
-    <div className="main--campaign">
-      <section className="campaign" id="campaign">
+    <div className="main--daret">
+      <section className="daret" id="daret">
         <Container>
         <Row>
             <Col size={12}>
@@ -159,24 +159,24 @@ export const DaretPage = () => {
                     <h3>Daret</h3>
                       {owner == user && 
                       <Row>
-                        <Button onClick={start}>
+                        <button onClick={start}>
                             Start Round
-                        </Button>
-                        <Button onClick={complete}>
+                        </button>
+                        <button onClick={complete}>
                             Complete Round
-                        </Button>
-                        <Button onClick={close}>
+                        </button>
+                        <button onClick={close}>
                             Close Round
-                        </Button>
+                        </button>
                       </Row>
                         }
                     <Row>
-                      <Button onClick={join}>
+                      <button onClick={join}>
                           Join Round
-                      </Button>
-                      <Button onClick={contribute}>
+                      </button>
+                      <button onClick={contribute}>
                           Contribute
-                      </Button>
+                      </button>
                     </Row>
                     <table>
                       <thead>
