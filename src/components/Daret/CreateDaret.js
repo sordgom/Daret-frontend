@@ -134,9 +134,9 @@ export const CreateDaret = () => {
                                 </Form.Text>
                             </Form.Group>
 
-                            <Button variant="light" type="submit">
+                            <button  type="submit">
                                 Submit
-                            </Button>
+                            </button>
                         </Form>
                   
                 </center>

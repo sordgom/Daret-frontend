@@ -101,32 +101,10 @@ export const CreateCampaign = () => {
                                 </Form.Text>
                             </Form.Group>
 
-                            <Button variant="light" type="submit">
+                            <button variant="light" type="submit">
                                 Submit
-                            </Button>
-                        </Form>
-                        {/* <div className="form-group">
-                            <label htmlFor="email">Goal</label>
-                            <input
-                            type="goal"
-                            id="goal"
-                            name="goal"
-                            value={goal}
-                            onChange={(e) => setGoal(e.target.value)}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="email">Duration</label>
-                            <input
-                            type="duration"
-                            id="duration"
-                            name="duration"
-                            value={duration}
-                            onChange={(e) => setDuration(e.target.value)}
-                            />
-                        </div> */}
-                        
-                   
+                            </button>
+                        </Form>                     
                 </center>
                 </div>}
                 </TrackVisibility>

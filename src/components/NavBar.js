@@ -19,6 +19,8 @@ import {
 import Web3 from "web3";
 import {UserContext} from '../lib/UserContext';
 import {magic} from "../lib/magicConnect";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const NavBar = () => {
   const [activeLink, setActiveLink] = useState('home');
@@ -53,6 +55,16 @@ export const NavBar = () => {
         setUser(user);
     }).then(() => {
         localStorage.setItem('user', JSON.stringify(user));
+        toast.success('Login successful', {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+          });
         navigate("/");
     }).catch((error) => {
         console.log(error);
@@ -61,7 +73,17 @@ export const NavBar = () => {
 
   const showWallet = async () => {
     await magic.connect.showWallet().catch((e) => {
-        console.log(e);
+      console.log(e);
+      toast.error("Not Logged in or your wallet isn't magic wallet", {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
     });
   };
 
@@ -71,6 +93,16 @@ export const NavBar = () => {
     });
     localStorage.removeItem('user');
     setUser(null);
+    toast.success('Logout successful', {
+      position: "top-center",
+      autoClose: 4000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+      });
     navigate("/");
 };
 
@@ -103,12 +135,16 @@ export const NavBar = () => {
               </NavDropdown> 
               <NavDropdown title="Login" id="login-dropdown">
                 <NavDropdown.Item onClick={login}>Sign in</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/profile">View profile</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={showWallet}>Show wallet</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={disconnect}>Sign out</NavDropdown.Item>
+                {user && 
+                  <div>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item as={Link} to="/profile">View profile</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={showWallet}>Show wallet</NavDropdown.Item>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={disconnect}>Sign out</NavDropdown.Item>
+                  </div>
+                }
               </NavDropdown>  
             </Nav>
           </Navbar.Collapse>

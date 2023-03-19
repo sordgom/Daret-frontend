@@ -3,6 +3,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Routes from "./Routes"; 
 import { UserContext } from './lib/UserContext';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   const [user, setUser] = useState();
@@ -21,6 +22,7 @@ function App() {
 
   return (
     <div className="App">
+      <ToastContainer />
        <UserContext.Provider value={[user, setUser]}>
           <Routes />
         </UserContext.Provider>

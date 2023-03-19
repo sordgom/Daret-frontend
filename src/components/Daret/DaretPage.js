@@ -1,11 +1,12 @@
-import React, {useState, useEffect, useContext} from "react";
-import {DARET_CONTRACT_ABI,DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE} from "../constants";
+import React, { useState, useEffect, useContext } from "react";
+import { DARET_CONTRACT_ABI, DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE } from "../constants";
 import Web3 from "web3";
-import {magic} from '../../lib/magicConnect';
+import { magic } from '../../lib/magicConnect';
 import { UserContext } from '../../lib/UserContext';
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { useParams, useNavigate } from 'react-router-dom';
 import 'animate.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 export const DaretPage = () => {
   let { address } = useParams();
@@ -13,227 +14,279 @@ export const DaretPage = () => {
 
   const web3 = new Web3(magic.rpcProvider);
   const [user, setUser] = useContext(UserContext);
-  // Round list variable
   const [round, setRound] = useState(null);
   const [owner, setOwner] = useState(null);
-  // Contract
-  const contract = new web3.eth.Contract(  DARET_CONTRACT_ABI, address, { from: user });
+  const contract = new web3.eth.Contract(DARET_CONTRACT_ABI, address, { from: user });
 
   useEffect(() => {
-        getProperties();    
-        getOwner();   
-        removeFromDb(); 
-    }, [user]); 
+    getProperties();
+    getOwner();
+    removeFromDb();
+  }, [user]);
 
-    const getProperties = async () => {
-        try {
-            let a = await contract.methods.rounds(1).call();
-            setRound(a);
-            console.log(a)
-        } catch (error) {
-            console.error(error);
-        }
-    };
+  const getProperties = async () => {
+    try {
+      const a = await contract.methods.rounds(1).call();
+      setRound(a);
+      console.log(a)
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
-    const getOwner = async () => {
-      try {
-          let a = await contract.methods.owner().call();
-          setOwner(a);
-      } catch (error) {
-          console.error(error);
-      }
-    };
+  const getOwner = async () => {
+    const a = await contract.methods.owner().call();
+    setOwner(a);
+  };
 
-    const removeFromDb = async () => {
-      try {
-          let a = await contract.methods.state().call();
-          if(a==3)
-          {
-            fetch('http://localhost:8080/daret/'+address, {
-              method: 'DELETE',
-            })
-            .then(response => response.json())
-            .then(data => {
-              console.log('Success:', data);
-              navigate('/daret');
-            })
-            .catch((error) => {
-              console.error('Error:', error);
-            });
-          }
-        } catch (error) {
-          console.error(error);
-      }
-    };
+  const removeFromDb = async () => {
+    const a = await contract.methods.state().call();
+    if (a == 3) {
+      fetch(`http://localhost:8080/daret/${address}`, {
+        method: 'DELETE',
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          navigate('/daret');
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+  };
 
-    const start = async () => {
-      try {
-        await contract.methods.startRound()
+  const start = async () => {
+    try {
+      await contract.methods.startRound()
         .send({
           from: user
         })
-        .on('receipt', function(receipt){
-            // receipt example
-            console.log(receipt);
+        .on('receipt', function (receipt) {
+          console.log(receipt);
         })
-      } catch (error) {
-        console.log(error);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const join  = async () => {
+    try {
+      await contract.methods.joinRound()
+      .send({
+        from: user,
+        value: 1000000
+      })
+      .on('receipt', function(receipt){
+          // receipt example
+          console.log(receipt);
+      })
+      toast.success('Successfully joined the daret!', {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch ({error}) {
+      toast.error(error?.reason, {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
+
+  //Must meet the min contribution of 1000000 wei && already joined
+  const contribute  = async () => {
+    try {
+      await contract.methods.addContribution()
+      .send({
+        from: user,
+        value: 1000000
+      })
+      .on('receipt', function(receipt){
+          // receipt example
+          console.log(receipt);
+      })
+      toast.success('Successfully contributed to the daret!', {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
+
+  //Check requirements:
+  //1. Round must be closed
+  //2. total contributions must be greater than payout...
+  
+  const complete  = async () => {
+    try {
+      await contract.methods.completeRound(user)
+      .send({
+        from: user
+      })
+      .on('receipt', function(receipt){
+          // receipt example
+          console.log(receipt);
+      })
+      toast.success('Successfully completed the daret!', {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch (error) {
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+  };
+
+  const close  = async () => {
+    try {
+      await contract.methods.closeContract()
+      .send({
+        from: user
+      })
+      .on('receipt', function(receipt){
+          // receipt example
+          console.log(receipt);
+      })
+      toast.success('Successfully closed the daret!', {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    } catch (error) {
+      toast.error(error.message);
       }
     };
 
-    //Must meet the min contribution of 1000000 wei
-    const join  = async () => {
-      try {
-        await contract.methods.joinRound()
-        .send({
-          from: user,
-          value: 1000000
-        })
-        .on('receipt', function(receipt){
-            // receipt example
-            console.log(receipt);
-        })
-      } catch ({error}) {
-        console.log(error?.reason);
-      }
-    };
-
-    //Must meet the min contribution of 1000000 wei && already joined
-    const contribute  = async () => {
-      try {
-        await contract.methods.addContribution()
-        .send({
-          from: user,
-          value: 1000000
-        })
-        .on('receipt', function(receipt){
-            // receipt example
-            console.log(receipt);
-        })
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    //Check requirements:
-    //1. Round must be closed
-    //2. total contributions must be greater than payout...
-    
-    const complete  = async () => {
-      try {
-        await contract.methods.completeRound(user)
-        .send({
-          from: user
-        })
-        .on('receipt', function(receipt){
-            // receipt example
-            console.log(receipt);
-        })
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    const close  = async () => {
-      try {
-        await contract.methods.closeContract()
-        .send({
-          from: user
-        })
-        .on('receipt', function(receipt){
-            // receipt example
-            console.log(receipt);
-        })
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-  return (
-    <div className="main--daret">
-      <section className="daret" id="daret">
-        <Container>
-        <Row>
-            <Col size={12}>
+    return (
+      <div className="main--daret">
+        <section className="daret" id="daret">
+          <Container>
+            <Row>
+              <Col size={12}>
                 <div className="">
-                    <h3>Daret</h3>
-                      {owner == user && 
-                      <Row>
-                        <button onClick={start}>
-                            Start Round
-                        </button>
-                        <button onClick={complete}>
-                            Complete Round
-                        </button>
-                        <button onClick={close}>
-                            Close Round
-                        </button>
-                      </Row>
-                        }
+                  {owner == user && 
                     <Row>
-                      <button onClick={join}>
-                          Join Round
+                      <button onClick={start}>
+                        Start Round
                       </button>
-                      <button onClick={contribute}>
-                          Contribute
+                      <button onClick={complete}>
+                        Complete Round
+                      </button>
+                      <button onClick={close}>
+                        Close Round
                       </button>
                     </Row>
-                    <table>
-                      <thead>
-                        <tr>
-                          <th>Property</th>
-                          <th>Value</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td>Admin Fee</td>
-                          <td>{round?.adminFee}</td>
-                        </tr>
-                        <tr>
-                          <td>Contribution</td>
-                          <td>{round?.contribution}</td>
-                        </tr>
-                        <tr>
-                          <td>End Time</td>
-                          <td>{round?.endTime}</td>
-                        </tr>
-                        <tr>
-                          <td>Grace Period End Time</td>
-                          <td>{round?.gracePeriodEndTime}</td>
-                        </tr>
-                        <tr>
-                          <td>Paid Out</td>
-                          <td>{round?.paidOut ? 'Yes' : 'No'}</td>
-                        </tr>
-                        <tr>
-                          <td>Payout</td>
-                          <td>{round?.payout}</td>
-                        </tr>
-                        <tr>
-                          <td>Round Number</td>
-                          <td>{round?.roundNumber}</td>
-                        </tr>
-                        <tr>
-                          <td>Start Time</td>
-                          <td>{round?.startTime}</td>
-                        </tr>
-                        <tr>
-                          <td>Winner</td>
-                          <td>{round?.winner}</td>
-                        </tr>
-                        <tr>
-                          <td>Winner Fee</td>
-                          <td>{round?.winnerFee}</td>
-                        </tr>
-                      </tbody>
-                    </table>
-
+                  }
+                  <Row>
+                    <button onClick={join}>
+                      Join Round
+                    </button>
+                    <button onClick={contribute}>
+                      Contribute
+                    </button>
+                  </Row>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Property</th>
+                        <th>Value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Admin Fee</td>
+                        <td>{round?.adminFee}</td>
+                      </tr>
+                      <tr>
+                        <td>Contribution</td>
+                        <td>{round?.contribution}</td>
+                      </tr>
+                      <tr>
+                        <td>End Time</td>
+                        <td>{round?.endTime}</td>
+                      </tr>
+                      <tr>
+                        <td>Grace Period End Time</td>
+                        <td>{round?.gracePeriodEndTime}</td>
+                      </tr>
+                      <tr>
+                        <td>Paid Out</td>
+                        <td>{round?.paidOut ? 'Yes' : 'No'}</td>
+                      </tr>
+                      <tr>
+                        <td>Payout</td>
+                        <td>{round?.payout}</td>
+                      </tr>
+                      <tr>
+                        <td>Round Number</td>
+                        <td>{round?.roundNumber}</td>
+                      </tr>
+                      <tr>
+                        <td>Start Time</td>
+                        <td>{round?.startTime}</td>
+                      </tr>
+                      <tr>
+                        <td>Winner</td>
+                        <td>{round?.winner}</td>
+                      </tr>
+                      <tr>
+                        <td>Winner Fee</td>
+                        <td>{round?.winnerFee}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
-            </Col>
-          </Row>
-        </Container>
-      </section>
-    </div>
-  )
-}
+              </Col>
+            </Row>
+          </Container>
+        </section>
+      </div>
+    );
+                }    

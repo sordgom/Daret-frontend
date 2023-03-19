@@ -381,7 +381,7 @@ border-color: transparent;
 }
 
 
-/************ campaigns Css ************/
+/************ Campaigns Css ************/
 .campaign {
   padding: 80px 0;
   position: relative;
@@ -390,10 +390,10 @@ border-color: transparent;
 }
 
 .campaign h2 {
-  font-size: 65px;
+  font-size: 45px;
   font-weight: 700;
   text-align: center;
-  padding: 100px 0;
+  padding: 40px 0;
 }
 
 .campaign h3 {
@@ -404,7 +404,7 @@ border-color: transparent;
 }
 
 .campaign p {
-  color: #B8B8B8;
+  color: #423f3f;
   font-size: 18px;
   letter-spacing: 0.8px;
   line-height: 1.5em;
@@ -479,6 +479,76 @@ border-color: transparent;
   border-radius: 0 55px 55px 0;
 }
 
+/************ daret Css ************/
+.daret {
+  padding: 80px 0;
+  position: relative;
+  background-color: #fff;
+  height: 100vh;
+}
+.daret h2 {
+  font-size: 45px;
+  font-weight: 700;
+  text-align: center;
+  padding: 40px 0;
+}
+.daret p {
+  color: #423f3f;
+  font-size: 18px;
+  letter-spacing: 0.8px;
+  line-height: 1.5em;
+  margin: 14px auto 30px auto;
+  text-align: center;
+  width: 56%;
+}
+.daret button {
+  color: #fff;
+  font-weight: 700;
+  font-size: 20px;
+  margin-top: 60px;
+  letter-spacing: 0.8px;
+  display: block;
+  width: 20%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 16px 32px;
+  background-color: #4A2FBD;
+  border: none;
+  border-radius: 50px;
+  transition: 0.3s ease-in-out;
+}
+.daret button:hover {
+  background-color: #AA367C;
+}
+.daret .form-group {
+  width: 40%;
+  border-radius: 5px;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+.daret .form-control {
+  border-radius: 5px;
+}
+.daret .form-control:focus {
+  box-shadow: none;
+}
+.daret .btn {
+  width: 100%;
+  border-radius: 50px;
+  background-color: #4A2FBD;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  transition: 0.3s ease-in-out;
+}
+.daret .btn:hover {
+  background-color: #AA367C;
+}
+
+
+/************ Project Card Css ************/
+
+
 .proj-imgbx {
   position: relative;
   width: 300px;
@@ -541,73 +611,6 @@ border-color: transparent;
   font-size: 15px;
   letter-spacing: 0.8px;
 }
-/************ daret Css ************/
-.daret {
-  padding: 80px 0;
-  position: relative;
-  background-color: #fff;
-  height: 100vh;
-}
-.daret h2 {
-  font-size: 65px;
-  font-weight: 700;
-  text-align: center;
-  padding: 100px 0;
-}
-.daret p {
-  color: #B8B8B8;
-  font-size: 18px;
-  letter-spacing: 0.8px;
-  line-height: 1.5em;
-  margin: 14px auto 30px auto;
-  text-align: center;
-  width: 56%;
-}
-.daret button {
-  color: #fff;
-  font-weight: 700;
-  font-size: 20px;
-  margin-top: 60px;
-  letter-spacing: 0.8px;
-  display: block;
-  width: 30%;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 16px 32px;
-  background-color: #4A2FBD;
-  border: none;
-  border-radius: 50px;
-  transition: 0.3s ease-in-out;
-}
-.daret button:hover {
-  background-color: #AA367C;
-}
-.daret .form-group {
-  width: 40%;
-  border-radius: 5px;
-  margin: 0 auto;
-  margin-top: 50px;
-}
-.daret .form-control {
-  border-radius: 5px;
-}
-.daret .form-control:focus {
-  box-shadow: none;
-}
-.daret .btn {
-  width: 100%;
-  border-radius: 50px;
-  background-color: #4A2FBD;
-  border: none;
-  font-weight: 700;
-  letter-spacing: 0.8px;
-  transition: 0.3s ease-in-out;
-}
-.daret .btn:hover {
-  background-color: #AA367C;
-}
-
-
 
 /************ login Css ************/
 .login {

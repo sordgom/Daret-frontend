@@ -51,8 +51,8 @@ export const Campaign = () => {
   }, []);
 
   return (
-    <div className="main--daret">
-        <section className="daret" id="daret">
+    <div className="main--campaign">
+        <section className="campaign" id="campaign">
         <Container>
             <Row>
             <Col size={12}>

@@ -62,7 +62,8 @@ export const Daret = () => {
                 {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
                                  
-                    <center><h2>Daret</h2>
+                    <center>
+                    <h2>Daret</h2>
                     <p>Welcome to the Money Circle fair!</p>
                     <Tab.Container id="projects-tabs" defaultActiveKey="first">
                     <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
@@ -85,7 +86,8 @@ export const Daret = () => {
                         </Row>
                         </Tab.Pane>
                     </Tab.Content>
-                    </Tab.Container></center>
+                    </Tab.Container>
+                    </center>
                 </div>}
                 </TrackVisibility>
             </Col>
