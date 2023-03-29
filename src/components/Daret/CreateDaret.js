@@ -15,10 +15,13 @@ export const CreateDaret = () => {
     const web3 = new Web3(magic.rpcProvider);
 
     const [user, setUser] = useContext(UserContext);
-    const [maxRounds, setMaxRounds] = useState(10);
     const [maxMembers, setMaxMembers] = useState(10);
+    const [cycle, setCycle] = useState(1);
     const [feePercentage, setFeePercentage] = useState(1);
-    const [admin, setAdmin] = useState('0xC6A3dd9e9D73Eb3e66669534Ed21ee169aEd7f14');
+    const [admin, setAdmin] = useState('0xa485A768CB6DE1DE1e0Fc5AB2b93703a11615c1A');
+    const [contribution, setContribution] = useState(100);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
 
     // Contract
     const contract = new web3.eth.Contract(  DARET_CONTRACT_ABI, { from: user });
@@ -28,15 +31,22 @@ export const CreateDaret = () => {
         try {  
             await contract.deploy({
                 data: DARET_CONTRACT_BYTECODE,
-                arguments: [maxRounds, maxMembers, feePercentage,  admin]
-            })
+                arguments: [cycle * maxMembers, maxMembers, feePercentage,  admin, contribution]
+            })  
             .send({
-                from: user
+                from: user,
+                value: contribution
             })
             .then(function(newContractInstance){
                 console.log(newContractInstance.options.address) // instance with the new contract address
                 postData('http://localhost:8080/daret', 
-                {address: newContractInstance.options.address})
+                {
+                    title: title,
+                    description:description,
+                    creator: user,
+                    completed: 0,
+                    address: newContractInstance.options.address                   
+                })
                 //I can add later owner: walletAddress, amount: amount, maxRounds: maxRounds, list: list
                 .then((data) => {
                     console.log(data); // JSON data parsed by `data.json()` call
@@ -78,17 +88,32 @@ export const CreateDaret = () => {
                     <center>
                         <Form className="login-form" onSubmit={handleSubmit}>
                             <h2>Create Daret</h2>
+
                             <Form.Group className="form-group" >
-                                <Form.Label>Number of rounds</Form.Label>
+                                <Form.Label>Title</Form.Label>
                                 <Form.Control 
-                                    type="maxRounds"
-                                    id="maxRounds"
-                                    name="maxRounds"
-                                    value={maxRounds} 
-                                    onChange={(e) => setMaxRounds(e.target.value)}
-                                    />
+                                    type="title"
+                                    id="title"
+                                    name="title"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
                                 <Form.Text className="text-muted">
-                                    Please enter the number of rounds.
+                                    Please enter the title  of the Daret.
+                                </Form.Text>
+                            </Form.Group>
+
+                            <Form.Group className="form-group" >
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control 
+                                    type="description"
+                                    id="description"
+                                    name="description"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                                <Form.Text className="text-muted">
+                                    Enter a description of the daret.
                                 </Form.Text>
                             </Form.Group>
 
@@ -106,31 +131,31 @@ export const CreateDaret = () => {
                                 </Form.Text>
                             </Form.Group>
 
-                            <Form.Group className="form-group">
-                                <Form.Label>Fee Percentage</Form.Label>
+                            <Form.Group className="form-group" >
+                                <Form.Label>Number of cycles</Form.Label>
                                 <Form.Control 
-                                    type="feePercentage"
-                                    id="feePercentage"
-                                    name="feePercentage"
-                                    value={feePercentage}    
-                                    onChange={(e) => setFeePercentage(e.target.value)}
+                                    type="maxMembers"
+                                    id="maxMembers"
+                                    name="maxMembers"
+                                    value={cycle}
+                                    onChange={(e) => setCycle(e.target.value)}
                                 />
                                 <Form.Text className="text-muted">
-                                    Please enter the fee percentage.
+                                    The number of cycles is how many rounds you want the Daret to go
                                 </Form.Text>
                             </Form.Group>
 
                             <Form.Group className="form-group">
-                                <Form.Label>Fee Percentage</Form.Label>
-                                <Form.Control 
-                                     type="admin"
-                                     id="admin"
-                                     name="admin"
-                                     value={admin}    
-                                     onChange={(e) => setAdmin(e.target.value)}
+                                <Form.Label>Contribution amount</Form.Label>
+                                <Form.  Control 
+                                    type="feePercentage"
+                                    id="feePercentage"
+                                    name="feePercentage"
+                                    value={contribution}    
+                                    onChange={(e) => setContribution(e.target.value)}
                                 />
                                 <Form.Text className="text-muted">
-                                    Please enter the Admin account.
+                                    Please enter the contribution amount .
                                 </Form.Text>
                             </Form.Group>
 

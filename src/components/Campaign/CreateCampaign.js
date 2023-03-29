@@ -16,27 +16,37 @@ export const CreateCampaign = () => {
     const [user, setUser] = useContext(UserContext);
     const [goal, setGoal] = useState(1000);
     const [duration, setDuration] = useState(1);
-    
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [admin, setAdmin] = useState('0xa485A768CB6DE1DE1e0Fc5AB2b93703a11615c1A');
+
     //contract
     const contract = new web3.eth.Contract(  CAMPAIGN_CONTRACT_ABI,  CAMPAIGN_CONTRACT_ADDRESS, { from: user });
 
      // Deploy the contract to the Ethereum network
-     async function deploy() {
-        try {
-            await contract.methods.launch(goal,  duration)
+    async function deploy() {
+        try {  
+            await contract.deploy({
+                data: CAMPAIGN_CONTRACT_BYTECODE,
+                arguments: [goal, duration, admin]
+            })  
             .send({
-              from: user
+                from: user,
             })
-            .on('receipt', function(receipt){
-                // receipt example
-                let id = receipt?.events?.Launch?.returnValues?.id;
-                console.log(id);
+            .then(function(newContractInstance){
+                console.log(newContractInstance.options.address) // instance with the new contract address
                 postData('http://localhost:8080/campaign', 
-                    {campaignId: id})
-                    .then((data) => {
-                        console.log(data); // JSON data parsed by `data.json()` call
-                        navigate('/');
-                    });
+                {
+                    title: title,
+                    description:description,
+                    creator: user,
+                    completed: 0,
+                    address: newContractInstance.options.address                   
+                })
+                .then((data) => {
+                    console.log(data); // JSON data parsed by `data.json()` call
+                    navigate('/campaign');
+                  });
             });
         } catch (err) {
             console.log(err)
@@ -73,8 +83,37 @@ export const CreateCampaign = () => {
                     <center>
                     <Form className="login-form" onSubmit={handleSubmit}>
                             <h2>Create Campaign</h2>
+
                             <Form.Group className="form-group" >
-                                <Form.Label>Duration</Form.Label>
+                                <Form.Label>Title</Form.Label>
+                                <Form.Control 
+                                    type="title"
+                                    id="title"
+                                    name="title"
+                                    value={title}
+                                    onChange={(e) => setTitle(e.target.value)}
+                                />
+                                <Form.Text className="text-muted">
+                                    Please enter the title  of the crowdfund.
+                                </Form.Text>
+                            </Form.Group>
+
+                            <Form.Group className="form-group" >
+                                <Form.Label>Description</Form.Label>
+                                <Form.Control 
+                                    type="description"
+                                    id="description"
+                                    name="description"
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                                <Form.Text className="text-muted">
+                                    Enter a description of the crowdfund.
+                                </Form.Text>
+                            </Form.Group>
+                            
+                            <Form.Group className="form-group" >
+                                <Form.Label>Goal</Form.Label>
                                 <Form.Control 
                                      type="goal"
                                      id="goal"
@@ -83,12 +122,12 @@ export const CreateCampaign = () => {
                                      onChange={(e) => setGoal(e.target.value)}
                                     />
                                 <Form.Text className="text-muted">
-                                    Please enter the duration of the campaign.
+                                    Please enter the goal of the crowdfund.
                                 </Form.Text>
                             </Form.Group>
 
                             <Form.Group className="form-group" >
-                                <Form.Label>Goal</Form.Label>
+                                <Form.Label>Duration</Form.Label>
                                 <Form.Control 
                                   type="duration"
                                   id="duration"
@@ -97,7 +136,7 @@ export const CreateCampaign = () => {
                                   onChange={(e) => setDuration(e.target.value)}
                                 />
                                 <Form.Text className="text-muted">
-                                    Please enter the goal.
+                                    Please enter the duration of the crowdfund.
                                 </Form.Text>
                             </Form.Group>
 

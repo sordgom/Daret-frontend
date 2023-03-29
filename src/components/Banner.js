@@ -2,9 +2,9 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import headerImg from "../assets/img/money.png";
-import { ArrowRightCircle, Quote } from 'react-bootstrap-icons';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import { useNavigate } from 'react-router-dom';
 
 
 export const Banner = () => {
@@ -17,7 +17,7 @@ export const Banner = () => {
   const period = 2000;
   const current = new Date();
   const date = `${current.getDate()}-${current.getMonth()+1}-${current.getFullYear()}`;
-
+  let navigate = useNavigate();
   useEffect(() => {
     let ticker = setInterval(() => {
       tick();
@@ -71,6 +71,7 @@ export const Banner = () => {
               {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__zoomIn" : ""}>
                   <img src={headerImg} alt="Header Img"/>
+                  <button className="btn btn-primary" style={{ marginLeft: '23.5%' }} onClick={(e) => navigate("/create-daret")}>Get Started</button>
                 </div>}
             </TrackVisibility>
           </Col>

@@ -38,7 +38,7 @@ const team = [
   },  
 ];
 
-export const Daret = () => {
+export const CompletedDaret = () => {
 
   const [data, setData] = useState([]);
 
@@ -76,7 +76,7 @@ export const Daret = () => {
                                
                                 data.map((val, key) => {
                                       
-                                      return val?.completed === 0 ? (
+                                      return val?.completed === 1 ? (
                                         <DaretCard 
                                           key={key}
                                           {...val}

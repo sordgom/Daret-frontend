@@ -1,12 +1,73 @@
-import React, { useState, useEffect, useContext } from "react";
-import { DARET_CONTRACT_ABI, DARET_CONTRACT_ADDRESS, DARET_CONTRACT_BYTECODE } from "../constants";
+import React, { useState, useEffect, useCallback, useContext, useMemo } from "react";
+import { DARET_CONTRACT_ABI } from "../constants";
 import Web3 from "web3";
 import { magic } from '../../lib/magicConnect';
 import { UserContext } from '../../lib/UserContext';
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { useParams, useNavigate } from 'react-router-dom';
 import 'animate.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { Table, Card } from "react-bootstrap";
+
+const DaretTable = ({ round, maxMembers, members, contribution, data }) => {
+  return (
+    <Card className="info-table-card">
+      <Card.Header>
+        <h5>Daret Information</h5>
+      </Card.Header>
+      <Card.Body>
+        <Table responsive="sm" bordered hover className="info-table">
+          <tbody>
+            <tr>
+              <th>Property</th>
+              <th>Value</th>
+            </tr>
+            
+            <tr>
+              <td>Title:</td>
+              <td>{data[0]?.title}</td>
+            </tr>
+
+            <tr>
+              <td>Description:</td>
+              <td>{data[0]?.description}</td>
+            </tr>
+
+            <tr>
+              <td>Members #:</td>
+              <td>{maxMembers}</td>
+            </tr>
+
+            
+            <tr>
+              <td>Contribution:</td>
+              <td>{contribution}</td>
+            </tr>
+
+            <tr>
+              <td>Members:</td>
+              <td>
+                <ul>
+                  {members.map((member, index) => (
+                    <li key={index}>{member}</li>
+                  ))}
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <td>Payout:</td>
+              <td>{round?.payout}</td>
+            </tr>
+            <tr>
+              <td>Round Number:</td>
+              <td>{round?.roundNumber}</td>
+            </tr>
+          </tbody>
+        </Table>
+      </Card.Body>
+    </Card>
+  );
+};
 
 export const DaretPage = () => {
   let { address } = useParams();
@@ -16,66 +77,95 @@ export const DaretPage = () => {
   const [user, setUser] = useContext(UserContext);
   const [round, setRound] = useState(null);
   const [owner, setOwner] = useState(null);
-  const contract = new web3.eth.Contract(DARET_CONTRACT_ABI, address, { from: user });
+  const [members, setMembers] = useState([]);
+  const [contribution, setContribution] = useState(1);
+  const [maxMembers, setMaxMembers] = useState(1);
+  const [data, setData] = useState();
+  const contract = useMemo(
+    () => new web3.eth.Contract(DARET_CONTRACT_ABI, address, {
+    from: user}), 
+    [web3.eth.Contract, address, user]
+  );
 
-  useEffect(() => {
-    getProperties();
-    getOwner();
-    removeFromDb();
-  }, [user]);
-
-  const getProperties = async () => {
+  const fetchData = async () => {
     try {
-      const a = await contract.methods.rounds(1).call();
-      setRound(a);
-      console.log(a)
+      const response = await fetch('http://localhost:8080/daret/'+address);
+      const data = await response.json();
+      setData(data);
     } catch (error) {
       console.error(error);
     }
   };
 
-  const getOwner = async () => {
-    const a = await contract.methods.owner().call();
-    setOwner(a);
-  };
-
-  const removeFromDb = async () => {
-    const a = await contract.methods.state().call();
-    if (a == 3) {
-      fetch(`http://localhost:8080/daret/${address}`, {
-        method: 'DELETE',
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('Success:', data);
-          navigate('/daret');
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-        });
-    }
-  };
-
-  const start = async () => {
+  const fetchProperties = async () => {
     try {
-      await contract.methods.startRound()
-        .send({
-          from: user
-        })
-        .on('receipt', function (receipt) {
-          console.log(receipt);
-        })
+      const roundData = await contract.methods.rounds(1).call();
+      setRound(roundData);
+      setContribution(roundData.contribution);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
-  const join  = async () => {
+  const fetchOwner = async () => {
+    try {
+      const contractOwner = await contract.methods.owner().call();
+      setOwner(contractOwner);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchMembersList = async () => {
+    try {
+      const memberList = await contract.methods.getMembers().call();
+      setMembers(memberList);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchNumberMembers = async () => {
+    try {
+      const memberCount = await contract.methods.maxMembers().call();
+      setMaxMembers(memberCount);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const fetchContribution = async () => {
+    try {
+      const contribution = await contract.methods.contribution().call();
+      setContribution(contribution);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!user) return;
+    (async () => {
+      try {
+        console.log(address)
+        await fetchProperties();
+        await fetchOwner();
+        await fetchMembersList();
+        await fetchNumberMembers();
+        await fetchData();
+        await fetchContribution();
+      } catch (error) {
+        console.error(error);
+      }
+    })();
+  }, [user]);
+
+  const join = async () => {
     try {
       await contract.methods.joinRound()
       .send({
         from: user,
-        value: 1000000
+        value: contribution,  
       })
       .on('receipt', function(receipt){
           // receipt example
@@ -105,47 +195,7 @@ export const DaretPage = () => {
     }
   };
 
-  //Must meet the min contribution of 1000000 wei && already joined
-  const contribute  = async () => {
-    try {
-      await contract.methods.addContribution()
-      .send({
-        from: user,
-        value: 1000000
-      })
-      .on('receipt', function(receipt){
-          // receipt example
-          console.log(receipt);
-      })
-      toast.success('Successfully contributed to the daret!', {
-        position: "top-center",
-        autoClose: 4000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    } catch (error) {
-      toast.error(error.message, {
-        position: "top-center",
-        autoClose: 4000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    }
-  };
-
-  //Check requirements:
-  //1. Round must be closed
-  //2. total contributions must be greater than payout...
-  
-  const complete  = async () => {
+  const complete = async () => {
     try {
       await contract.methods.completeRound(user)
       .send({
@@ -179,114 +229,27 @@ export const DaretPage = () => {
     }
   };
 
-  const close  = async () => {
-    try {
-      await contract.methods.closeContract()
-      .send({
-        from: user
-      })
-      .on('receipt', function(receipt){
-          // receipt example
-          console.log(receipt);
-      })
-      toast.success('Successfully closed the daret!', {
-        position: "top-center",
-        autoClose: 4000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    } catch (error) {
-      toast.error(error.message);
-      }
-    };
-
-    return (
-      <div className="main--daret">
-        <section className="daret" id="daret">
-          <Container>
-            <Row>
-              <Col size={12}>
-                <div className="">
-                  {owner == user && 
-                    <Row>
-                      <button onClick={start}>
-                        Start Round
-                      </button>
-                      <button onClick={complete}>
-                        Complete Round
-                      </button>
-                      <button onClick={close}>
-                        Close Round
-                      </button>
-                    </Row>
-                  }
+  return (
+    <div className="main--daret">
+      <section className="daret" id="daret">
+        <Container>
+          <Row>
+            <Col size={12}>
+              <div className="">
+                {owner === user && (
                   <Row>
-                    <button onClick={join}>
-                      Join Round
-                    </button>
-                    <button onClick={contribute}>
-                      Contribute
-                    </button>
+                    <button onClick={complete}>Complete Round</button>
                   </Row>
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Property</th>
-                        <th>Value</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>Admin Fee</td>
-                        <td>{round?.adminFee}</td>
-                      </tr>
-                      <tr>
-                        <td>Contribution</td>
-                        <td>{round?.contribution}</td>
-                      </tr>
-                      <tr>
-                        <td>End Time</td>
-                        <td>{round?.endTime}</td>
-                      </tr>
-                      <tr>
-                        <td>Grace Period End Time</td>
-                        <td>{round?.gracePeriodEndTime}</td>
-                      </tr>
-                      <tr>
-                        <td>Paid Out</td>
-                        <td>{round?.paidOut ? 'Yes' : 'No'}</td>
-                      </tr>
-                      <tr>
-                        <td>Payout</td>
-                        <td>{round?.payout}</td>
-                      </tr>
-                      <tr>
-                        <td>Round Number</td>
-                        <td>{round?.roundNumber}</td>
-                      </tr>
-                      <tr>
-                        <td>Start Time</td>
-                        <td>{round?.startTime}</td>
-                      </tr>
-                      <tr>
-                        <td>Winner</td>
-                        <td>{round?.winner}</td>
-                      </tr>
-                      <tr>
-                        <td>Winner Fee</td>
-                        <td>{round?.winnerFee}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </Col>
-            </Row>
-          </Container>
-        </section>
-      </div>
-    );
-                }    
+                )}
+                <Row>
+                  <button onClick={join}>Contribute</button>
+                </Row>
+                {data && round && maxMembers && members && <DaretTable round={round} maxMembers={maxMembers} members={members} contribution={contribution} data={data} />}
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+    </div>
+  );
+};

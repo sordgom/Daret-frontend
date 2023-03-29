@@ -50,7 +50,11 @@ export const NavBar = () => {
 
   const login = async () => {
     let user;
+    let acc = await web3.eth.requestAccounts();
+    console.log(acc);
     web3.eth.getAccounts().then((accounts) => {
+      
+      
         user = accounts ?. [0];
         setUser(user);
     }).then(() => {
@@ -72,7 +76,10 @@ export const NavBar = () => {
   };
 
   const showWallet = async () => {
-    await magic.connect.showWallet().catch((e) => {
+    await magic.connect.showWallet()
+      .then(() => {
+        console.log("showWallet function worked successfully!");
+      }).catch((e) => {
       console.log(e);
       toast.error("Not Logged in or your wallet isn't magic wallet", {
         position: "top-center",

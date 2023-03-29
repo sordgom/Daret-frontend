@@ -94,7 +94,6 @@ nav.navbar {
 
 nav.navbar.scrolled {
   padding: 0px 0;
-  background-color: #fff;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
 }
 
@@ -745,4 +744,29 @@ border-color: transparent;
   color: #B8B8B8;
   letter-spacing: 0.5px;
   margin-top: 20px;
+}
+
+/* InfoTable.css */
+.info-table-card {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border: 1px solid black; /* Add black border */
+  border-radius: 8px; /* Add rounded corners */
+}
+
+.info-table {
+  width: 100%;
+}
+
+.info-table th,
+.info-table td {
+  text-align: left;
+  padding: 8px;
+}
+
+.info-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.info-table tr:hover {
+  background-color: #ddd;
 }
