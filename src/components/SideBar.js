@@ -1,14 +1,24 @@
-import React from "react";
 import {Nav} from "react-bootstrap";
-import loginIcon from '../assets/img/login.svg';
+import React, {useState} from "react";
 
 export const Sidebar = props => {
+    const [showSidebar, setShowSidebar] = useState(false);
+
+    const handleMouseEnter = () => {
+        setShowSidebar(true);
+    };
+
+    const handleMouseLeave = () => {
+        setShowSidebar(false);
+    };
     return (
         <>
-            <Nav className="d-none d-md-block sidebar" activeKey="/home"
-            //     onSelect={
-            //         selectedKey => alert(`selected ${selectedKey}`)
-            // }
+            <Nav    
+                className="d-none d-md-block sidebar"
+                style={{ left: showSidebar ? '0' : '-200px' }}
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                activeKey="/home"
             >
                 <div className="sidebar-sticky"></div>
                 <Nav.Item>
