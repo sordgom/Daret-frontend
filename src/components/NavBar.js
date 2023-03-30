@@ -137,8 +137,8 @@ export const NavBar = () => {
                 <NavDropdown.Item as={Link} to="/create-campaign">Create Crowdfund</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Link} to="/campaign">Active Crowdfunds</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/completed-campaign">Completed Crowdfund</NavDropdown.Item>
+                {/* <NavDropdown.Divider />
+                <NavDropdown.Item as={Link} to="/completed-campaign">Completed Crowdfund</NavDropdown.Item> */}
               </NavDropdown> 
               <NavDropdown title="Login" id="login-dropdown">
                 <NavDropdown.Item onClick={login}>Sign in</NavDropdown.Item>

@@ -90,6 +90,8 @@ nav.navbar {
   z-index: 9999;
   transition:  0.32s ease-in-out;
   height: 150px;
+  background: linear-gradient(180deg, #4A2FBD -5%,#fff 60%);
+
 }
 
 nav.navbar.scrolled {
