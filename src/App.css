@@ -95,6 +95,7 @@ nav.navbar {
 nav.navbar.scrolled {
   padding: 0px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  background-color: #fff;
 }
 
 nav.navbar a.navbar-brand {
@@ -731,6 +732,10 @@ border-color: transparent;
 
 /************ Footer Css ************/
 .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   padding: 10px 0 0px 0;
 }
 

@@ -116,7 +116,7 @@ export const CampaignPage = () => {
         try {
             const end = await contract.methods.endAt().call();
             const start = await contract.methods.startAt().call();
-            setDuration((end - start)/86400 + ' day');
+            setDuration((end - start) / 86400 + ' day');
         } catch (error) {
             console.error(error);
         }
@@ -125,6 +125,7 @@ export const CampaignPage = () => {
     useEffect(() => {
         if (!user) 
             return;
+        
         (async () => {
             try {
                 await fetchData();
@@ -140,10 +141,7 @@ export const CampaignPage = () => {
 
     const pledge = async () => {
         try {
-            await contract.methods.pledge().send({
-                from: user, 
-                value: amount
-            }).on('receipt', function (receipt) { // receipt example
+            await contract.methods.pledge().send({from: user, value: amount}).on('receipt', function (receipt) { // receipt example
                 console.log(receipt);
             })
             toast.success('Successfully joined the crowdfund!', {
@@ -205,7 +203,21 @@ export const CampaignPage = () => {
                 <Container>
                     <Row>
                         <Col size={12}>
-                            <div className="">
+                            <div className=""
+                                style={
+                                    {'margin-top': '60px'}
+                            }>
+                                {
+                                data && goal && duration && pledgedAmount && <CampaignTable data={data}
+                                    goal={goal}
+                                    duration={duration}
+                                    pledgedAmount={pledgedAmount}/>
+                            } </div>
+                            <div className=""
+                                style={
+                                    {'margin-bottom': '60px'}
+                            }>
+
                                 {
                                 owner === user && (
                                     <Row>
@@ -218,28 +230,19 @@ export const CampaignPage = () => {
                                 </Row>
 
                                 <Row>
-                                    <Form.Group className="form-group" >
+                                    <Form.Group className="form-group">
                                         <Form.Label>Pledged amount</Form.Label>
-                                        <Form.Control 
-                                            type="pledgedAmount"
-                                            id="pledgedAmount"
-                                            name="pledgedAmount"
+                                        <Form.Control type="pledgedAmount" id="pledgedAmount" name="pledgedAmount"
                                             value={amount}
-                                            onChange={(e) => setAmount(e.target.value)}
-                                        />
+                                            onChange={
+                                                (e) => setAmount(e.target.value)
+                                            }/>
                                         <Form.Text className="text-muted">
                                             Please enter the amount pledged.
                                         </Form.Text>
                                     </Form.Group>
                                 </Row>
-
-                                {
-                                data && goal && duration && pledgedAmount && 
-                                <CampaignTable data={data}
-                                    goal={goal}
-                                    duration={duration}
-                                    pledgedAmount={pledgedAmount}/>
-                            } </div>
+                            </div>
                         </Col>
                     </Row>
                 </Container>

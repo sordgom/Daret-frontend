@@ -22,42 +22,44 @@ export const CreateDaret = () => {
     const [contribution, setContribution] = useState(100);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
+    const [isPrivate, setIsPrivate] = useState(false);
+    const [invitees, setInvitees] = useState('');
 
     // Contract
     const contract = new web3.eth.Contract(  DARET_CONTRACT_ABI, { from: user });
 
     // Deploy the contract to the Ethereum network
     async function deploy() {
-        try {  
-            await contract.deploy({
-                data: DARET_CONTRACT_BYTECODE,
-                arguments: [cycle * maxMembers, maxMembers, feePercentage,  admin, contribution]
-            })  
-            .send({
-                from: user,
-                value: contribution
+        try {
+          const newContractInstance = await contract
+            .deploy({
+              data: DARET_CONTRACT_BYTECODE,
+              arguments: [cycle * maxMembers, maxMembers, feePercentage, admin, contribution],
             })
-            .then(function(newContractInstance){
-                console.log(newContractInstance.options.address) // instance with the new contract address
-                postData('http://localhost:8080/daret', 
-                {
-                    title: title,
-                    description:description,
-                    creator: user,
-                    completed: 0,
-                    address: newContractInstance.options.address                   
-                })
-                //I can add later owner: walletAddress, amount: amount, maxRounds: maxRounds, list: list
-                .then((data) => {
-                    console.log(data); // JSON data parsed by `data.json()` call
-                    navigate('/');
-                  });
+            .send({
+              from: user,
+              value: contribution,
             });
+      
+          console.log(newContractInstance.options.address); // instance with the new contract address
+      
+          const response = await postData("http://localhost:8080/daret", {
+            title: title,
+            description: description,
+            creator: user,
+            completed: 0,
+            address: newContractInstance.options.address,
+            invitation_required: isPrivate ? 0 : 1,
+          });
+      
+          console.log(response); // JSON data parsed by `data.json()` call
+          navigate("/");
+      
+          return response;
         } catch (err) {
-            console.log(err)
+          console.log(err);
         }
-    };
-
+      }
     async function postData(url = '', data = {}) {
         // Default options are marked with *
         const response = await fetch(url, {
@@ -71,9 +73,29 @@ export const CreateDaret = () => {
         return response.json(); // parses JSON response into native JavaScript objects
     }
 
-    function handleSubmit(e) {
+    // New function to handle invite creation
+    async function createInvite(daretId) {
+        console.log(daretId,invitees)
+        await fetch('http://localhost:8080/daret/invite', {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            daret_id: daretId,
+            invitees: invitees.split(',').map((address) => address.trim()),
+        }),
+        });
+    }
+
+     async function handleSubmit(e) {
         e.preventDefault();
-        deploy();
+        const daretData = await deploy();
+        console.log(daretData)
+        if (isPrivate) {
+            await createInvite(daretData.id);
+        }
     }
 
     return (
@@ -158,6 +180,30 @@ export const CreateDaret = () => {
                                     Please enter the contribution amount .
                                 </Form.Text>
                             </Form.Group>
+
+                            <Form.Group className="form-group">
+                                <Form.Check
+                                    type="checkbox"
+                                    label="Private Daret"
+                                    checked={isPrivate}
+                                    onChange={(e) => setIsPrivate(e.target.checked)}
+                                />
+                                {isPrivate && (
+                                    <div>
+                                    <Form.Label>Invitee Addresses (separated by comma)</Form.Label>
+                                    <Form.Control
+                                        type="text"
+                                        id="invitees"
+                                        name="invitees"
+                                        value={invitees}
+                                        onChange={(e) => setInvitees(e.target.value)}
+                                    />
+                                    <Form.Text className="text-muted">
+                                        Enter the Ethereum addresses of the invitees, separated by commas.
+                                    </Form.Text>
+                                    </div>
+                                )}
+                                </Form.Group>
 
                             <button  type="submit">
                                 Submit

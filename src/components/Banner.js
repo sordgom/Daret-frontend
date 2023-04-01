@@ -15,8 +15,6 @@ export const Banner = () => {
   const [index, setIndex] = useState(1);
   const toRotate = [ "Node Runner", "Crypto Enthusiast" ];
   const period = 2000;
-  const current = new Date();
-  const date = `${current.getDate()}-${current.getMonth()+1}-${current.getFullYear()}`;
   let navigate = useNavigate();
   useEffect(() => {
     let ticker = setInterval(() => {
