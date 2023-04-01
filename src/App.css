@@ -90,8 +90,6 @@ nav.navbar {
   z-index: 9999;
   transition:  0.32s ease-in-out;
   height: 150px;
-  background: linear-gradient(180deg, #4A2FBD -5%,#fff 60%);
-
 }
 
 nav.navbar.scrolled {
@@ -734,6 +732,10 @@ border-color: transparent;
 
 /************ Footer Css ************/
 .footer {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
   padding: 10px 0 0px 0;
 }
 
