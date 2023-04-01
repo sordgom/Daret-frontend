@@ -247,13 +247,14 @@ export const DaretPage = () => {
                                 style={
                                     {'margin-top': '60px'}
                             }>
-                                {
-                                data && round && maxMembers && members && <DaretTable round={round}
-                                    maxMembers={maxMembers}
-                                    members={members}
-                                    contribution={contribution}
-                                    data={data}/>
-                            } </div>
+                            {data && round && maxMembers && members && 
+                            <DaretTable round={round}
+                                maxMembers={maxMembers}
+                                members={members}
+                                contribution={contribution}
+                                data={data}/>
+                            } 
+                            </div>
                             <div className="">
                                 {
                                 owner === user && (

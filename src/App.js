@@ -16,10 +16,6 @@ function App() {
    
   }, []);
 
-  //  useEffect(() => {
-  //   localStorage.setItem('user', JSON.stringify(user));
-  // }, [user]);
-
   return (
     <div className="App">
       <ToastContainer />
