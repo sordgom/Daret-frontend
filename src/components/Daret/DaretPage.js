@@ -255,18 +255,18 @@ export const DaretPage = () => {
                                 data={data}/>
                             } 
                             </div>
-                            <div className="">
+                            <Row>
                                 {
                                 owner === user && (
-                                    <Row>
-                                        <button onClick={complete}>Complete Round</button>
-                                    </Row>
+                                    <Col >
+                                        <button style={{'width': '60%'}}  onClick={complete}>Complete Round</button>
+                                    </Col>
                                 )
                             }
-                                <Row>
-                                    <button onClick={join}>Contribute</button>
-                                </Row>
-                            </div>
+                                <Col>
+                                    <button style={{'width': '60%'}}  onClick={join}>Contribute</button>
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                 </Container>

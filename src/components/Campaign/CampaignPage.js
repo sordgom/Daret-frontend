@@ -226,21 +226,22 @@ export const CampaignPage = () => {
                                 )
                             }
                                 <Row>
-                                    <button onClick={pledge}>Pledge</button>
-                                </Row>
-
-                                <Row>
-                                    <Form.Group className="form-group">
-                                        <Form.Label>Pledged amount</Form.Label>
-                                        <Form.Control type="pledgedAmount" id="pledgedAmount" name="pledgedAmount"
-                                            value={amount}
-                                            onChange={
-                                                (e) => setAmount(e.target.value)
-                                            }/>
-                                        <Form.Text className="text-muted">
-                                            Please enter the amount pledged.
-                                        </Form.Text>
-                                    </Form.Group>
+                                    <Col>
+                                        <button  style={{'width': '60%'}} onClick={pledge}>Pledge</button>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group className="form-group" style={{'width': '60%'}}>
+                                            <Form.Label>Pledged amount</Form.Label>
+                                            <Form.Control type="pledgedAmount" id="pledgedAmount" name="pledgedAmount"
+                                                value={amount}
+                                                onChange={
+                                                    (e) => setAmount(e.target.value)
+                                                }/>
+                                            <Form.Text className="text-muted">
+                                                Please enter the amount pledged.
+                                            </Form.Text>
+                                        </Form.Group>
+                                    </Col>
                                 </Row>
                             </div>
                         </Col>

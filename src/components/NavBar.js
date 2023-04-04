@@ -130,19 +130,21 @@ export const NavBar = () => {
                 {/* <NavDropdown.Divider />
                 <NavDropdown.Item as={Link} to="/completed-campaign">Completed Crowdfund</NavDropdown.Item> */}
               </NavDropdown> 
-              <NavDropdown title="Login" id="login-dropdown">
-                <NavDropdown.Item onClick={login}>Sign in</NavDropdown.Item>
-                {user && 
-                  <div>
-                    <NavDropdown.Divider />
+              
+              <Nav.Link as={Link} to="/help" className={activeLink === 'help' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('help')}>How it works</Nav.Link>
+              <div>
+                {!user && 
+                <button title="sign in" id="login-dropdown" onClick={login}>Sign in</button>
+                }{user && 
+                  <NavDropdown title="Account" id="login-dropdown">
                     <NavDropdown.Item as={Link} to="/profile">View profile</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={showWallet}>Show wallet</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item onClick={disconnect}>Sign out</NavDropdown.Item>
-                  </div>
+                  </NavDropdown>
                 }
-              </NavDropdown>  
+              </div>
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -92,10 +92,30 @@ nav.navbar {
   height: 150px;
 }
 
+
 nav.navbar.scrolled {
   padding: 0px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   background-color: #fff;
+}
+
+nav.navbar button {
+  color: #000;
+  font-weight: 100;
+  font-size: 20px;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #000;
+  background-color: transparent;
+  padding: 4px 14px;
+  transition: 0.3s ease-in-out;
+  margin-top: -7.5%;
+  border-radius: 5px;
+}
+nav.navbar button:hover {
+  color: #fff;
+  background-color: #000;
 }
 
 nav.navbar a.navbar-brand {
@@ -244,6 +264,8 @@ nav.navbar .navbar-toggler:focus {
   outline: none;
   box-shadow: none;
 }
+
+
 
 nav.navbar .navbar-toggler-icon {
   width: 24px;
@@ -774,4 +796,61 @@ border-color: transparent;
 
 .info-table tr:hover {
   background-color: #ddd;
+}
+
+
+/************ help Css ************/
+.help {
+  padding: 80px 0;
+  position: relative;
+  background-color: #fff;
+  height: 100vh;
+}
+
+.help h2 {
+  font-size: 35px;
+  font-weight: 700;
+  text-align: center;
+  padding: 50px 0;
+  color: #333;
+}
+
+.help h3 {
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+  padding: 50px 0;
+  color: #333;
+}
+
+.help p {
+  color: #555;
+  font-size: 18px;
+  letter-spacing: 0.8px;
+  line-height: 1.5em;
+  margin: 14px auto 30px auto;
+  text-align: left;
+  width: 80%;
+}
+
+.help img {
+  position: relative;
+  margin-top: 100px;
+  margin-bottom: 27px;
+  margin-left: 200px;
+  object-fit: cover;
+  overflow: hidden;
+  width: 80%;
+  height: 80%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.help ol{
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 18px;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 80%;
 }

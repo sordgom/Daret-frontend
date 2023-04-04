@@ -53,7 +53,7 @@ export const CreateDaret = () => {
           });
       
           console.log(response); // JSON data parsed by `data.json()` call
-          navigate("/");
+          navigate("/daret");
       
           return response;
         } catch (err) {
