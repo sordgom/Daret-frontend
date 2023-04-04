@@ -6,7 +6,7 @@ import { UserContext } from './lib/UserContext';
 import { ToastContainer } from 'react-toastify';
 
 function App() {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState(null);
  
   useEffect(() => {
     const storedData = localStorage.getItem('user');
