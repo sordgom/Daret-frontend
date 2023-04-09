@@ -45,8 +45,8 @@ const CampaignTable = ({data, goal, duration, pledgedAmount}) => {
 
 
                         <tr>
-                            <td>Duration:</td>
-                            <td>{duration}</td>
+                            <td>Time left:</td>
+                            <td>{duration} days</td>
                         </tr>
 
                         <tr>
@@ -87,7 +87,6 @@ export const CampaignPage = () => {
     const fetchPledgedAmount = async () => {
         try {
             const pledged = await contract.methods.pledged().call();
-            console.log(pledged);
             setPledgedAmount(pledged);
         } catch (error) {
             console.error(error);
@@ -116,11 +115,26 @@ export const CampaignPage = () => {
         try {
             const end = await contract.methods.endAt().call();
             const start = await contract.methods.startAt().call();
-            setDuration((end - start) / 86400 + ' day');
+            const currentTime = Math.floor(Date.now() / 1000);
+            const remainingDuration = Math.floor((end - currentTime) / 86400);
+            
+            console.log(remainingDuration)
+            // Check if the remaining duration is negative and the campaign is not marked as completed
+            if (remainingDuration < 0 && data[0]?.completed === 0) {
+                // Update the completed variable in the database
+                console.log(1)
+                await putData("http://localhost:8080/campaign/" + address, {
+                    completed: 1,
+                });
+            }
+    
+            setDuration(remainingDuration);
         } catch (error) {
             console.error(error);
         }
     };
+
+
 
     useEffect(() => {
         if (!user) 
@@ -196,6 +210,19 @@ export const CampaignPage = () => {
             });
         }
     };
+
+    async function putData(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+          method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          headers: {
+            'Content-Type': 'application/json',            
+          },
+          body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
 
     return (
         <div className="main--daret">

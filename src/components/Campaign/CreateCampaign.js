@@ -136,7 +136,7 @@ export const CreateCampaign = () => {
                                   onChange={(e) => setDuration(e.target.value)}
                                 />
                                 <Form.Text className="text-muted">
-                                    Please enter the duration of the crowdfund.
+                                    Please enter the duration of the crowdfund in days.
                                 </Form.Text>
                             </Form.Group>
 

@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
-import { CampaignCard } from "./CampaignCard";
+import { DaretCard } from "./DaretCard";
 import projImg1 from "../../assets/img/nodex.png";
 import projImg2 from "../../assets/img/faz.png";
 import projImg3 from "../../assets/img/team9.png";
@@ -8,7 +8,7 @@ import projImg4 from "../../assets/img/team7.png";
 import projImg5 from "../../assets/img/team6.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
-import { UserContext } from "lib/UserContext";
+import {UserContext} from '../../lib/UserContext';
 
 const team = [
   {
@@ -39,21 +39,27 @@ const team = [
   },  
 ];
 
-export const Campaign = () => {
+export const PersonalDaret = () => {
+
   const [data, setData] = useState([]);
   const [user, setUser] = useContext(UserContext);
+
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:8080/campaign');
-      const data = await response.json();
-      setData(data.data);
+      if(user){
+          const response = await fetch(`http://localhost:8080/daret?userAddress=${user}`);
+          const data = await response.json();
+          setData(data.data);
+          console.log(data.data)
+      }
     }
     fetchData();
   }, []);
 
+
   return (
-    <div className="main--campaign">
-        <section className="campaign" id="campaign">
+    <div className="main--daret">
+        <section className="daret" id="daret">
         <Container>
             <Row>
             <Col size={12}>
@@ -61,8 +67,8 @@ export const Campaign = () => {
                 {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
                                  
-                    <center><h2>Campaigns</h2>
-                    <p>Welcome to the Campaign gallery!</p>
+                    <center>
+                    <h3>Created Darets</h3>
                     <Tab.Container id="projects-tabs" defaultActiveKey="first">
                     <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
                     </Nav>
@@ -70,21 +76,26 @@ export const Campaign = () => {
                     className={isVisible ? "animate__animated animate__slideInUp" : ""}>
                         <Tab.Pane eventKey="first">
                         <Row>
-                        { user &&
-                            data.map((val, key) => {
-                                return val?.completed === 0 ?(
-                                  <CampaignCard 
-                                    key={key}
-                                    {...val}
-                                    imgUrl = {team[key%5].imgUrl}
-                                  />
-                                ) : null;
-                            })
+                            {
+                               
+                                data.map((val, key) => {
+                                      
+                                      return val?.creator === user ? (
+                                        <DaretCard 
+                                          key={key}
+                                          {...val}
+                                          imgUrl = {team[key%5].imgUrl}
+                                        />
+                                      ) : null ;
+                                                             
+                                })
+                              
                             }
                         </Row>
                         </Tab.Pane>
                     </Tab.Content>
-                    </Tab.Container></center>
+                    </Tab.Container>
+                    </center>
                 </div>}
                 </TrackVisibility>
             </Col>

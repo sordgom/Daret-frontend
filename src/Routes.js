@@ -15,26 +15,31 @@ import { CampaignPage } from "./components/Campaign/CampaignPage";
 import { CompletedDaret } from "./components/Daret/CompletedDaret";
 import { CompletedCampaign } from "./components/Campaign/CompletedCampaign";  
 import { Help } from "./components/Help";
+import { PersonalDaret } from "./components/Daret/PersonalDaret";
 
 const ProjectRoutes = () => {
   return (
     <Router>
       <NavBar />
-      <Routes>
-        <Route path="*" element={<NotFound />} />
-        <Route path="/" element={<Home />} />
-        <Route exact path="/daret" element={<Daret />} />
-        <Route exact path="/campaign" element={<Campaign />} />
-        <Route exact path="/profile" element={<Profile />} />
-        <Route exact path="/login" element={<Login />} />
-        <Route exact path="/create-daret" element={<CreateDaret />} />      
-        <Route exact path="/create-campaign" element={<CreateCampaign />} />      
-        <Route exact path="/daretpage/:address" element={<DaretPage />} />     
-        <Route exact path="/campaignpage/:address" element={<CampaignPage />} />      
-        <Route exact path="/completed-darets" element={<CompletedDaret />} />      
-        <Route exact path="/completed-campaign" element={<CompletedCampaign />} /> 
-        <Route exact path="/help" element={<Help />} /> 
-      </Routes>
+      <div className="main-content">
+        <Routes>
+          <Route path="*" element={<NotFound />} />
+          <Route path="/" element={<Home />} />
+          <Route exact path="/daret" element={<Daret />} />
+          <Route exact path="/campaign" element={<Campaign />} />
+          <Route exact path="/profile" element={<Profile />} />
+          <Route exact path="/login" element={<Login />} />
+          <Route exact path="/create-daret" element={<CreateDaret />} />      
+          <Route exact path="/daretpage/:address" element={<DaretPage />} />  
+          <Route exact path="/completed-darets" element={<CompletedDaret />} />         
+          <Route exact path="/personal-darets" element={<PersonalDaret />} /> 
+          <Route exact path="/create-campaign" element={<CreateCampaign />} />      
+          <Route exact path="/campaignpage/:address" element={<CampaignPage />} />      
+          <Route exact path="/completed-campaign" element={<CompletedCampaign />} /> 
+          <Route exact path="/help" element={<Help />} /> 
+
+        </Routes>
+      </div>
       <Footer />
     </Router>
   );

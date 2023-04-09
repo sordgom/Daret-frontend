@@ -22,6 +22,10 @@
   box-sizing: border-box;
 }
 
+.main-content {
+  margin-top: 5%;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 75px;
@@ -538,6 +542,8 @@ border-color: transparent;
   border: none;
   border-radius: 50px;
   transition: 0.3s ease-in-out;
+  z-index: 1000;
+  position: relative;
 }
 .daret button:hover {
   background-color: #AA367C;

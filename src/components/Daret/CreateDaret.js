@@ -9,6 +9,7 @@ import TrackVisibility from 'react-on-screen';
 import {magic} from '../../lib/magicConnect';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import {toast} from 'react-toastify';
 
 export const CreateDaret = () => {
     let navigate = useNavigate();
@@ -19,7 +20,7 @@ export const CreateDaret = () => {
     const [cycle, setCycle] = useState(1);
     const [feePercentage, setFeePercentage] = useState(1);
     const [admin, setAdmin] = useState('0xa485A768CB6DE1DE1e0Fc5AB2b93703a11615c1A');
-    const [contribution, setContribution] = useState(100);
+    const [contribution, setContribution] = useState(10);
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [isPrivate, setIsPrivate] = useState(false);
@@ -31,14 +32,62 @@ export const CreateDaret = () => {
     // Deploy the contract to the Ethereum network
     async function deploy() {
         try {
+            //Add edit and checks to prevent the deployment from failing
+            // members between 1-1000
+            // cycle between 1/members and 10000/members
+            // contribution between 1 and 1000000000000000000
+
+            if (maxMembers < 2 || maxMembers > 1000) {
+                toast.error("Members must be between 1 and 1000.", {
+                    position: "top-center",
+                    autoClose: 8000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+                return;
+              }
+          
+              if (cycle < 1 / maxMembers || cycle > 10000 / maxMembers) {
+                toast.error(`Cycle must be between ${1 / maxMembers} and ${10000 / maxMembers}.`, {
+                    position: "top-center",
+                    autoClose: 8000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+                return;
+              }
+              
+              let cont  = await usdToWei(contribution);
+              if (cont < 1 || cont > 1000000000000000000) {
+                toast.error("Contribution must be between 1wei and 1ether.", {
+                    position: "top-center",
+                    autoClose: 8000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+                return;
+              }
+             
           const newContractInstance = await contract
             .deploy({
               data: DARET_CONTRACT_BYTECODE,
-              arguments: [cycle * maxMembers, maxMembers, feePercentage, admin, contribution],
+              arguments: [cycle * maxMembers, maxMembers, feePercentage, admin, cont],
             })
             .send({
               from: user,
-              value: contribution,
+              value: cont,
             });
       
           console.log(newContractInstance.options.address); // instance with the new contract address
@@ -73,6 +122,26 @@ export const CreateDaret = () => {
         return response.json(); // parses JSON response into native JavaScript objects
     }
 
+    async function usdToWei(usdAmount) {
+        try {
+            // Fetch the Ether (ETH) to USD exchange rate
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+            const data = await response.json();
+            const ethToUsdRate = data.ethereum.usd;
+
+            // Convert USD to Ether
+            const etherAmount = usdAmount / ethToUsdRate;
+
+            // Calculate the Wei equivalent of the USD amount
+            const weiAmount = Web3.utils.toWei(etherAmount.toFixed(18), 'ether');
+            return weiAmount;
+        } catch (error) {
+          console.error('Error fetching ETH to USD rate:', error);
+          return null;
+        }
+      }
+      
+
     // New function to handle invite creation
     async function createInvite(daretId) {
         console.log(daretId,invitees)
@@ -92,11 +161,10 @@ export const CreateDaret = () => {
      async function handleSubmit(e) {
         e.preventDefault();
         const daretData = await deploy();
-        console.log(daretData)
         if (isPrivate) {
             await createInvite(daretData.id);
         }
-    }
+    }   
 
     return (
         <div className="main--daret">
@@ -168,7 +236,7 @@ export const CreateDaret = () => {
                             </Form.Group>
 
                             <Form.Group className="form-group">
-                                <Form.Label>Contribution amount</Form.Label>
+                                <Form.Label>Contribution amount in USD</Form.Label>
                                 <Form.  Control 
                                     type="feePercentage"
                                     id="feePercentage"
@@ -177,7 +245,7 @@ export const CreateDaret = () => {
                                     onChange={(e) => setContribution(e.target.value)}
                                 />
                                 <Form.Text className="text-muted">
-                                    Please enter the contribution amount .
+                                    Please enter the contribution amount in USD.
                                 </Form.Text>
                             </Form.Group>
 

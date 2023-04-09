@@ -71,13 +71,13 @@ export const CompletedCampaign = () => {
                         <Row>
                         {
                             data.map((val, key) => {
-                                return (
+                                return val?.completed === 1 ? (
                                   <CampaignCard 
                                     key={key}
                                     {...val}
                                     imgUrl = {team[key%5].imgUrl}
                                   />
-                                )
+                                ) : null;
                             })
                             }
                         </Row>
