@@ -50,7 +50,7 @@ const DaretTable = ({
                                 data[0] ?. description
                             }</td>
                         </tr>
-                            
+
                         <tr>
                             <td>Members #:</td>
                             <td>{maxMembers}</td>
@@ -59,7 +59,8 @@ const DaretTable = ({
 
                         <tr>
                             <td>Contribution:</td>
-                            <td>{contribution} USD</td>
+                            <td>{contribution}
+                                USD</td>
                         </tr>
 
                         <tr>
@@ -75,12 +76,13 @@ const DaretTable = ({
                         </tr>
                         <tr>
                             <td>Payout:</td>
-                            <td>{payout} USD</td>
+                            <td>{payout}
+                                USD</td>
                         </tr>
                         <tr>
                             <td>Round Number:</td>
                             <td>{
-                                round?.roundNumber
+                                round ?. roundNumber
                             }</td>
                         </tr>
                     </tbody>
@@ -125,7 +127,7 @@ export const DaretPage = () => {
             setCurrentRound(currentRound)
             const roundData = await contract.methods.rounds(currentRound).call();
             setRound(roundData);
-            let pay  = await weiToUsd(roundData.payout);
+            let pay = await weiToUsd(roundData.payout);
             setPayout(pay)
         } catch (error) {
             console.error(error);
@@ -162,7 +164,7 @@ export const DaretPage = () => {
     const fetchContribution = async () => {
         try {
             const contribution = await contract.methods.contribution().call();
-            let cont  = await weiToUsd(contribution);
+            let cont = await weiToUsd(contribution);
 
             setContribution(contribution);
             setUsdContribution(cont)
@@ -176,6 +178,9 @@ export const DaretPage = () => {
             const state = await contract.methods.state().call();
             setState(state);
             console.log(state)
+            if (state === '3') {
+                await putData("http://localhost:8080/daret/" + address, {completed: 1});
+            }
         } catch (error) {
             console.error(error);
         }
@@ -197,9 +202,22 @@ export const DaretPage = () => {
         }
     }
 
+    async function putData(url = '', data = {}) { // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
     useEffect(() => {
         if (!user) 
             return;
+        
         (async () => {
             try {
                 await fetchProperties();
@@ -217,35 +235,35 @@ export const DaretPage = () => {
 
     const join = async () => {
         try {
-          const response = await contract.methods.joinRound().send({ from: user, value: contribution });
-      
-          if (response.error && response.error.reason) {
-            throw response.error;
-          }
-      
-          toast.success('Successfully joined the daret!', {
-            position: "top-center",
-            autoClose: 4000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "dark"
-          });
+            const response = await contract.methods.joinRound().send({from: user, value: contribution});
+
+            if (response.error && response.error.reason) {
+                throw response.error;
+            }
+
+            toast.success('Successfully joined the daret!', {
+                position: "top-center",
+                autoClose: 4000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
         } catch (error) {
-          toast.error(error?.reason || 'An error occurred while joining the daret.', {
-            position: "top-center",
-            autoClose: 4000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: false,
-            draggable: true,
-            progress: undefined,
-            theme: "dark"
-          });
+            toast.error(error ?. reason || 'An error occurred while joining the daret.', {
+                position: "top-center",
+                autoClose: 4000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "dark"
+            });
         }
-      };    
+    };
 
     const complete = async () => {
         try {
@@ -261,9 +279,9 @@ export const DaretPage = () => {
                     theme: "dark"
                 });
                 return;
-              }
+            }
             let winnerCheck = await hasAddressWonPreviousRounds(addressInput);
-            
+
             if (winnerCheck) {
                 toast.error("This address already won a round.", {
                     position: "top-center",
@@ -276,8 +294,8 @@ export const DaretPage = () => {
                     theme: "dark"
                 });
                 return;
-              }
-              if (!members.includes(addressInput)) {
+            }
+            if (!members.includes(addressInput)) {
                 toast.error("Winner is not a member of the current round.", {
                     position: "top-center",
                     autoClose: 8000,
@@ -289,8 +307,8 @@ export const DaretPage = () => {
                     theme: "dark"
                 });
                 return;
-              }
-              
+            }
+
             await contract.methods.completeRound(addressInput).send({from: user}).on('receipt', function (receipt) { // receipt example
                 console.log(receipt);
             })
@@ -319,15 +337,14 @@ export const DaretPage = () => {
     };
 
     async function weiToUsd(weiAmount) {
-        try {
-            // Fetch the Ether (ETH) to USD exchange rate
+        try { // Fetch the Ether (ETH) to USD exchange rate
             const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
             const data = await response.json();
             const ethToUsdRate = data.ethereum.usd;
-    
+
             // Convert Wei to Ether
             const etherAmount = Web3.utils.fromWei(weiAmount, 'ether');
-    
+
             // Calculate the USD equivalent of the Wei amount
             const usdAmount = parseFloat(etherAmount) * ethToUsdRate;
             return usdAmount.toFixed(2);
@@ -347,35 +364,38 @@ export const DaretPage = () => {
                                 style={
                                     {'margin-top': '60px'}
                             }>
-                            {data && round && maxMembers && members && 
-                            <DaretTable round={round}
-                                maxMembers={maxMembers}
-                                members={members}
-                                contribution={usdContribution}
-                                data={data}
-                                payout={payout}/>
-                            } 
-                            </div>
-                            <Row>
                                 {
+                                data && round && maxMembers && members && <DaretTable round={round}
+                                    maxMembers={maxMembers}
+                                    members={members}
+                                    contribution={usdContribution}
+                                    data={data}
+                                    payout={payout}/>
+                            } </div>
+                            <Row> {
                                 owner === user && (
-                                    <Col >
-                                     
-                                        <button style={{'width': '60%'}}  onClick={complete}>Complete Round</button>
+                                    <Col>
+
+                                        <button style={
+                                                {'width': '60%'}
+                                            }
+                                            onClick={complete}>Complete Round</button>
                                         <Form.Group>
                                             <Form.Label>Enter Address</Form.Label>
-                                            <Form.Control
-                                                type="text"
-                                                placeholder="Enter address"
+                                            <Form.Control type="text" placeholder="Enter address"
                                                 value={addressInput}
-                                                onChange={(e) => setAddressInput(e.target.value)}
-                                            />
+                                                onChange={
+                                                    (e) => setAddressInput(e.target.value)
+                                                }/>
                                         </Form.Group>
                                     </Col>
                                 )
                             }
                                 <Col>
-                                    <button style={{'width': '60%'}}  onClick={join}>Contribute</button>
+                                    <button style={
+                                            {'width': '60%'}
+                                        }
+                                        onClick={join}>Contribute</button>
                                 </Col>
                             </Row>
                         </Col>
