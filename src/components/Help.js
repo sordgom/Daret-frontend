@@ -15,6 +15,7 @@ import Web3 from "web3";
 import {magic} from "../lib/magicConnect";
 
 
+
 export const Help = () => {
     return (
         <div className="main--help">

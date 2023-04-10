@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useEffect, useContext, useMemo} from "react";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import { DaretCard } from "./DaretCard";
 import projImg1 from "../../assets/img/nodex.png";
@@ -9,6 +9,9 @@ import projImg5 from "../../assets/img/team6.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import {UserContext} from '../../lib/UserContext';
+import {DARET_CONTRACT_ABI} from "../constants";
+import Web3 from "web3";
+import {magic} from '../../lib/magicConnect';
 
 const team = [
   {
@@ -43,19 +46,28 @@ export const PersonalDaret = () => {
 
   const [data, setData] = useState([]);
   const [user, setUser] = useContext(UserContext);
+  const web3 = new Web3(magic.rpcProvider);
 
   useEffect(() => {
     async function fetchData() {
       if(user){
           const response = await fetch(`http://localhost:8080/daret?userAddress=${user}`);
           const data = await response.json();
+          let allDarets = data.data;
           setData(data.data);
-          console.log(data.data)
+          let involvedDarets = []
+          for (const daret of allDarets) {
+            let contract = new web3.eth.Contract(DARET_CONTRACT_ABI, daret.address, {from: user});
+            const membersList = await contract.methods.getMembers().call();
+            if (!involvedDarets.includes(user) && membersList.includes(user)) {
+              involvedDarets.push(daret);
+            }
+          }
+          setData(involvedDarets)
       }
     }
     fetchData();
   }, []);
-
 
   return (
     <div className="main--daret">
@@ -68,7 +80,7 @@ export const PersonalDaret = () => {
                 <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
                                  
                     <center>
-                    <h3>Created Darets</h3>
+                    <h3>My Darets</h3>
                     <Tab.Container id="projects-tabs" defaultActiveKey="first">
                     <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
                     </Nav>

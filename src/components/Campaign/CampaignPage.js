@@ -46,7 +46,7 @@ const CampaignTable = ({data, goal, duration, pledgedAmount}) => {
 
                         <tr>
                             <td>Time left:</td>
-                            <td>{duration} days</td>
+                            <td>{duration < 0 ? 0 : duration } days</td>
                         </tr>
 
                         <tr>

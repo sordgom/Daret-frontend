@@ -399,7 +399,7 @@ border-color: transparent;
   width: 50%;
   height: 50%;
   margin-left: 90px;
-  filter: invert(100%);
+  /* filter: invert(100%); */
 }
 
 .txt-rotate > .wrap {
