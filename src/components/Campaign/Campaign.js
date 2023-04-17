@@ -8,6 +8,7 @@ import projImg4 from "../../assets/img/team7.png";
 import projImg5 from "../../assets/img/team6.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import { UserContext } from "lib/UserContext";
 
 const team = [
   {
@@ -40,10 +41,10 @@ const team = [
 
 export const Campaign = () => {
   const [data, setData] = useState([]);
-
+  const [user, setUser] = useContext(UserContext);
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:8080/campaign');
+      const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign');
       const data = await response.json();
       setData(data.data);
     }
@@ -69,15 +70,15 @@ export const Campaign = () => {
                     className={isVisible ? "animate__animated animate__slideInUp" : ""}>
                         <Tab.Pane eventKey="first">
                         <Row>
-                        {
+                        { user &&
                             data.map((val, key) => {
-                                return (
+                                return val?.completed === 0 ?(
                                   <CampaignCard 
                                     key={key}
                                     {...val}
                                     imgUrl = {team[key%5].imgUrl}
                                   />
-                                )
+                                ) : null;
                             })
                             }
                         </Row>

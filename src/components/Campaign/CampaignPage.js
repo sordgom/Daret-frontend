@@ -45,8 +45,8 @@ const CampaignTable = ({data, goal, duration, pledgedAmount}) => {
 
 
                         <tr>
-                            <td>Duration:</td>
-                            <td>{duration}</td>
+                            <td>Time left:</td>
+                            <td>{duration < 0 ? 0 : duration } days</td>
                         </tr>
 
                         <tr>
@@ -76,7 +76,7 @@ export const CampaignPage = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/campaign/' + address);
+            const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign/' + address);
             const data = await response.json();
             setData(data);
         } catch (error) {
@@ -87,7 +87,6 @@ export const CampaignPage = () => {
     const fetchPledgedAmount = async () => {
         try {
             const pledged = await contract.methods.pledged().call();
-            console.log(pledged);
             setPledgedAmount(pledged);
         } catch (error) {
             console.error(error);
@@ -116,11 +115,25 @@ export const CampaignPage = () => {
         try {
             const end = await contract.methods.endAt().call();
             const start = await contract.methods.startAt().call();
-            setDuration((end - start) / 86400 + ' day');
+            const currentTime = Math.floor(Date.now() / 1000);
+            const remainingDuration = Math.ceil((end - currentTime) / 86400); //ceil or floor
+            
+            // Check if the remaining duration is negative and the campaign is not marked as completed
+            if (remainingDuration < 0 && data[0]?.completed === 0) {
+                // Update the completed variable in the database
+                console.log(1)
+                await putData(process.env.REACT_APP_SERVER_URL+"campaign/" + address, {
+                    completed: 1,
+                });
+            }
+    
+            setDuration(remainingDuration);
         } catch (error) {
             console.error(error);
         }
     };
+
+
 
     useEffect(() => {
         if (!user) 
@@ -197,6 +210,19 @@ export const CampaignPage = () => {
         }
     };
 
+    async function putData(url = '', data = {}) {
+        // Default options are marked with *
+        const response = await fetch(url, {
+          method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          headers: {
+            'Content-Type': 'application/json',            
+          },
+          body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
+
     return (
         <div className="main--daret">
             <section className="daret" id="daret">
@@ -208,7 +234,7 @@ export const CampaignPage = () => {
                                     {'margin-top': '60px'}
                             }>
                                 {
-                                data && goal && duration && pledgedAmount && <CampaignTable data={data}
+                                data && goal && pledgedAmount && duration && <CampaignTable data={data}
                                     goal={goal}
                                     duration={duration}
                                     pledgedAmount={pledgedAmount}/>
@@ -226,21 +252,22 @@ export const CampaignPage = () => {
                                 )
                             }
                                 <Row>
-                                    <button onClick={pledge}>Pledge</button>
-                                </Row>
-
-                                <Row>
-                                    <Form.Group className="form-group">
-                                        <Form.Label>Pledged amount</Form.Label>
-                                        <Form.Control type="pledgedAmount" id="pledgedAmount" name="pledgedAmount"
-                                            value={amount}
-                                            onChange={
-                                                (e) => setAmount(e.target.value)
-                                            }/>
-                                        <Form.Text className="text-muted">
-                                            Please enter the amount pledged.
-                                        </Form.Text>
-                                    </Form.Group>
+                                    <Col>
+                                        <button  style={{'width': '60%'}} onClick={pledge}>Pledge</button>
+                                    </Col>
+                                    <Col>
+                                        <Form.Group className="form-group" style={{'width': '60%'}}>
+                                            <Form.Label>Pledged amount</Form.Label>
+                                            <Form.Control type="pledgedAmount" id="pledgedAmount" name="pledgedAmount"
+                                                value={amount}
+                                                onChange={
+                                                    (e) => setAmount(e.target.value)
+                                                }/>
+                                            <Form.Text className="text-muted">
+                                                Please enter the amount pledged.
+                                            </Form.Text>
+                                        </Form.Group>
+                                    </Col>
                                 </Row>
                             </div>
                         </Col>

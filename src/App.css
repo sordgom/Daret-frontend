@@ -22,6 +22,10 @@
   box-sizing: border-box;
 }
 
+.main-content {
+  margin-top: 5%;
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 75px;
@@ -92,10 +96,30 @@ nav.navbar {
   height: 150px;
 }
 
+
 nav.navbar.scrolled {
   padding: 0px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
   background-color: #fff;
+}
+
+nav.navbar button {
+  color: #000;
+  font-weight: 100;
+  font-size: 20px;
+  letter-spacing: 0.8px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #000;
+  background-color: transparent;
+  padding: 4px 14px;
+  transition: 0.3s ease-in-out;
+  margin-top: -7.5%;
+  border-radius: 5px;
+}
+nav.navbar button:hover {
+  color: #fff;
+  background-color: #000;
 }
 
 nav.navbar a.navbar-brand {
@@ -245,6 +269,8 @@ nav.navbar .navbar-toggler:focus {
   box-shadow: none;
 }
 
+
+
 nav.navbar .navbar-toggler-icon {
   width: 24px;
   height: 17px;
@@ -294,7 +320,7 @@ border-color: transparent;
 
 /************ Banner Css ************/
 .banner {
-  margin-top: 0;
+  margin-top: -75px;
   padding: 260px 0 100px 0;
   background-position: top center;
   background-size: cover;
@@ -373,7 +399,7 @@ border-color: transparent;
   width: 50%;
   height: 50%;
   margin-left: 90px;
-  filter: invert(100%);
+  /* filter: invert(100%); */
 }
 
 .txt-rotate > .wrap {
@@ -516,6 +542,8 @@ border-color: transparent;
   border: none;
   border-radius: 50px;
   transition: 0.3s ease-in-out;
+  z-index: 1000;
+  position: relative;
 }
 .daret button:hover {
   background-color: #AA367C;
@@ -774,4 +802,58 @@ border-color: transparent;
 
 .info-table tr:hover {
   background-color: #ddd;
+}
+
+
+/************ help Css ************/
+.help {
+  padding: 80px 0;
+  position: relative;
+  background-color: #fff;
+  height: 100vh;
+}
+
+.help h2 {
+  font-size: 35px;
+  font-weight: 700;
+  text-align: center;
+  padding: 50px 0;
+  color: #333;
+}
+
+.help h3 {
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+  padding: 50px 0;
+  color: #333;
+}
+
+.help p {
+  color: #555;
+  font-size: 18px;
+  letter-spacing: 0.8px;
+  line-height: 1.5em;
+  margin: 14px auto 30px auto;
+  text-align: left;
+  width: 80%;
+}
+
+.help img {
+  position: relative;
+  object-fit: cover;
+  overflow: hidden;
+  width: 40%;
+  height: 40%;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+}
+
+.help ol{
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 18px;
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 80%;
 }

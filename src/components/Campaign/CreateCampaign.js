@@ -35,7 +35,7 @@ export const CreateCampaign = () => {
             })
             .then(function(newContractInstance){
                 console.log(newContractInstance.options.address) // instance with the new contract address
-                postData('http://localhost:8080/campaign', 
+                postData(process.env.REACT_APP_SERVER_URL+'campaign', 
                 {
                     title: title,
                     description:description,
@@ -136,7 +136,7 @@ export const CreateCampaign = () => {
                                   onChange={(e) => setDuration(e.target.value)}
                                 />
                                 <Form.Text className="text-muted">
-                                    Please enter the duration of the crowdfund.
+                                    Please enter the duration of the crowdfund in days.
                                 </Form.Text>
                             </Form.Group>
 

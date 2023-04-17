@@ -43,7 +43,7 @@ export const CompletedCampaign = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:8080/campaign');
+      const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign');
       const data = await response.json();
       setData(data.data);
     }
@@ -71,13 +71,13 @@ export const CompletedCampaign = () => {
                         <Row>
                         {
                             data.map((val, key) => {
-                                return (
+                                return val?.completed === 1 ? (
                                   <CampaignCard 
                                     key={key}
                                     {...val}
                                     imgUrl = {team[key%5].imgUrl}
                                   />
-                                )
+                                ) : null;
                             })
                             }
                         </Row>

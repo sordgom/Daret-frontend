@@ -14,13 +14,15 @@ import {useParams, useNavigate} from 'react-router-dom';
 import 'animate.css';
 import {toast} from 'react-toastify';
 import {Table, Card} from "react-bootstrap";
+import Form from 'react-bootstrap/Form';
 
 const DaretTable = ({
     round,
     maxMembers,
     members,
     contribution,
-    data
+    data,
+    payout
 }) => {
     return (
         <Card className="info-table-card">
@@ -57,7 +59,8 @@ const DaretTable = ({
 
                         <tr>
                             <td>Contribution:</td>
-                            <td>{contribution}</td>
+                            <td>{contribution}
+                                USD</td>
                         </tr>
 
                         <tr>
@@ -73,9 +76,8 @@ const DaretTable = ({
                         </tr>
                         <tr>
                             <td>Payout:</td>
-                            <td>{
-                                round ?. payout
-                            }</td>
+                            <td>{payout}
+                                USD</td>
                         </tr>
                         <tr>
                             <td>Round Number:</td>
@@ -102,11 +104,16 @@ export const DaretPage = () => {
     const [contribution, setContribution] = useState(1);
     const [maxMembers, setMaxMembers] = useState(1);
     const [data, setData] = useState();
+    const [state, setState] = useState(0);
+    const [payout, setPayout] = useState(0);
+    const [addressInput, setAddressInput] = useState('');
+    const [usdContribution, setUsdContribution] = useState(0);
+    const [currentRound, setCurrentRound] = useState(0);
     const contract = useMemo(() => new web3.eth.Contract(DARET_CONTRACT_ABI, address, {from: user}), [web3.eth.Contract, address, user]);
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/daret/' + address);
+            const response = await fetch(process.env.REACT_APP_SERVER_URL+'daret/' + address);
             const data = await response.json();
             setData(data);
         } catch (error) {
@@ -116,9 +123,12 @@ export const DaretPage = () => {
 
     const fetchProperties = async () => {
         try {
-            const roundData = await contract.methods.rounds(1).call();
+            const currentRound = await contract.methods.currentRound().call();
+            setCurrentRound(currentRound)
+            const roundData = await contract.methods.rounds(currentRound).call();
             setRound(roundData);
-            setContribution(roundData.contribution);
+            let pay = await weiToUsd(roundData.payout);
+            setPayout(pay)
         } catch (error) {
             console.error(error);
         }
@@ -154,11 +164,55 @@ export const DaretPage = () => {
     const fetchContribution = async () => {
         try {
             const contribution = await contract.methods.contribution().call();
+            let cont = await weiToUsd(contribution);
+
             setContribution(contribution);
+            setUsdContribution(cont)
         } catch (error) {
             console.error(error);
         }
     };
+
+    const fetchState = async () => {
+        try {
+            const state = await contract.methods.state().call();
+            setState(state);
+            console.log(state)
+            if (state === '3') {
+                await putData(process.env.REACT_APP_SERVER_URL+"daret/" + address, {completed: 1});
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    async function hasAddressWonPreviousRounds(address) {
+        try {
+            for (let i = 1; i < currentRound; i++) {
+                const roundWinner = await contract.methods.getRoundWinner(i).call();
+                if (roundWinner.toLowerCase() === address.toLowerCase()) {
+                    console.log(true)
+                    return true;
+                }
+            }
+            return false;
+        } catch (error) {
+            console.error('Error checking if address has won previous rounds:', error);
+            return false;
+        }
+    }
+
+    async function putData(url = '', data = {}) { // Default options are marked with *
+        const response = await fetch(url, {
+            method: 'PUT', // *GET, POST, PUT, DELETE, etc.
+            mode: 'cors', // no-cors, *cors, same-origin
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
 
     useEffect(() => {
         if (!user) 
@@ -166,13 +220,13 @@ export const DaretPage = () => {
         
         (async () => {
             try {
-                console.log(address)
                 await fetchProperties();
                 await fetchOwner();
                 await fetchMembersList();
                 await fetchNumberMembers();
                 await fetchData();
                 await fetchContribution();
+                await fetchState();
             } catch (error) {
                 console.error(error);
             }
@@ -181,9 +235,12 @@ export const DaretPage = () => {
 
     const join = async () => {
         try {
-            await contract.methods.joinRound().send({from: user, value: contribution}).on('receipt', function (receipt) { // receipt example
-                console.log(receipt);
-            })
+            const response = await contract.methods.joinRound().send({from: user, value: contribution});
+
+            if (response.error && response.error.reason) {
+                throw response.error;
+            }
+
             toast.success('Successfully joined the daret!', {
                 position: "top-center",
                 autoClose: 4000,
@@ -194,8 +251,8 @@ export const DaretPage = () => {
                 progress: undefined,
                 theme: "dark"
             });
-        } catch ({error}) {
-            toast.error(error ?. reason, {
+        } catch (error) {
+            toast.error(error ?. reason || 'An error occurred while joining the daret.', {
                 position: "top-center",
                 autoClose: 4000,
                 hideProgressBar: true,
@@ -210,7 +267,49 @@ export const DaretPage = () => {
 
     const complete = async () => {
         try {
-            await contract.methods.completeRound(user).send({from: user}).on('receipt', function (receipt) { // receipt example
+            if (state !== '2') {
+                toast.error("Invalid state.", {
+                    position: "top-center",
+                    autoClose: 8000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+                return;
+            }
+            let winnerCheck = await hasAddressWonPreviousRounds(addressInput);
+
+            if (winnerCheck) {
+                toast.error("This address already won a round.", {
+                    position: "top-center",
+                    autoClose: 8000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+                return;
+            }
+            if (!members.includes(addressInput)) {
+                toast.error("Winner is not a member of the current round.", {
+                    position: "top-center",
+                    autoClose: 8000,
+                    hideProgressBar: true,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "dark"
+                });
+                return;
+            }
+
+            await contract.methods.completeRound(addressInput).send({from: user}).on('receipt', function (receipt) { // receipt example
                 console.log(receipt);
             })
             toast.success('Successfully completed the daret!', {
@@ -237,6 +336,24 @@ export const DaretPage = () => {
         }
     };
 
+    async function weiToUsd(weiAmount) {
+        try { // Fetch the Ether (ETH) to USD exchange rate
+            const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies=usd');
+            const data = await response.json();
+            const ethToUsdRate = data.ethereum.usd;
+
+            // Convert Wei to Ether
+            const etherAmount = Web3.utils.fromWei(weiAmount, 'ether');
+
+            // Calculate the USD equivalent of the Wei amount
+            const usdAmount = parseFloat(etherAmount) * ethToUsdRate;
+            return usdAmount.toFixed(2);
+        } catch (error) {
+            console.error('Error fetching ETH to USD rate:', error);
+            return null;
+        }
+    }
+
     return (
         <div className="main--daret">
             <section className="daret" id="daret">
@@ -247,26 +364,40 @@ export const DaretPage = () => {
                                 style={
                                     {'margin-top': '60px'}
                             }>
-                            {data && round && maxMembers && members && 
-                            <DaretTable round={round}
-                                maxMembers={maxMembers}
-                                members={members}
-                                contribution={contribution}
-                                data={data}/>
-                            } 
-                            </div>
-                            <div className="">
                                 {
+                                data && round && maxMembers && members && <DaretTable round={round}
+                                    maxMembers={maxMembers}
+                                    members={members}
+                                    contribution={usdContribution}
+                                    data={data}
+                                    payout={payout}/>
+                            } </div>
+                            <Row> {
                                 owner === user && (
-                                    <Row>
-                                        <button onClick={complete}>Complete Round</button>
-                                    </Row>
+                                    <Col>
+
+                                        <button style={
+                                                {'width': '60%'}
+                                            }
+                                            onClick={complete}>Complete Round</button>
+                                        <Form.Group>
+                                            <Form.Label>Enter Address</Form.Label>
+                                            <Form.Control type="text" placeholder="Enter address"
+                                                value={addressInput}
+                                                onChange={
+                                                    (e) => setAddressInput(e.target.value)
+                                                }/>
+                                        </Form.Group>
+                                    </Col>
                                 )
                             }
-                                <Row>
-                                    <button onClick={join}>Contribute</button>
-                                </Row>
-                            </div>
+                                <Col>
+                                    <button style={
+                                            {'width': '60%'}
+                                        }
+                                        onClick={join}>Contribute</button>
+                                </Col>
+                            </Row>
                         </Col>
                     </Row>
                 </Container>
