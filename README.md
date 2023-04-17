@@ -1,22 +1,53 @@
-### `npm start`
+# Daret
+Daret is a platform that combines the excitement of Daret challenges with the power of crowdfunding. Users can participate in Daret challenges to win rewards, or support crowdfunding campaigns to help bring creative projects to life.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
+Magic Link authentication for easy and secure login
+Create or join exciting Daret challenges
+Contribute to Daret challenges and compete for rewards
+Create or back crowdfunding campaigns
+Manage your contributions and refunds easily
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+## Getting Started
+These instructions will help you set up the project for local development.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Prerequisites
+Ensure you have the following installed on your local development machine:
+Node.js (version 14.0 or later)
+npm (version 6.0 or later)
+Git
 
-### `npm run build`
+## Installation
+Clone the repository:
+<br>`git clone https://github.com/yourusername/your-web-app-name.git`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Change to the project directory:
+<br>`cd your-web-app-name`
 
-### Branch guide
-develop: The main branch for development.\
-stage: The main branch for staging.\
-master: The main branch for production.
+Install the required dependencies:
+<br>`npm install`
+
+Start the development server:
+<br>`npm start`
+
+Your web app should now be accessible at http://localhost:3000/.
+
+## Running Tests
+To run the test suite, execute the following command:
+`npm test`
+
+## Deployment
+The deployment steps will be added once the app is ready for production deployment.
+
+## Contributing
+We welcome contributions! If you're interested in contributing to this project, please follow these steps:
+
+Fork the repository
+Create your feature branch (git checkout -b feature/your-feature)
+Commit your changes (git commit -am 'Add your feature')
+Push to your branch (git push origin feature/your-feature)
+Open a pull request
+
+## License
+This project is licensed under the MIT License - see the LICENSE.md file for details.
