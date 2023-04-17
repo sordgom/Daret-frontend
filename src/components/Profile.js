@@ -1,8 +1,6 @@
 import React from 'react';
 import { useState, useEffect, useContext } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import headerImg from "../assets/img/2.png";
-import { ArrowRightCircle, Quote } from 'react-bootstrap-icons';
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import {NavBar} from "./NavBar";
@@ -16,18 +14,9 @@ import {UserContext} from '../lib/UserContext';
 import Web3 from "web3";
 import {magic} from "../lib/magicConnect";
 
-const web3 = new Web3(magic.rpcProvider);
 
 export const Profile = () => {
-  const [loopNum, setLoopNum] = useState(0);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [text, setText] = useState('');
-  const [delta, setDelta] = useState(300 - Math.random() * 100);
-  const [index, setIndex] = useState(1);
-  const toRotate = [ "Node Runner", "Crypto Enthusiast" ];
-  const period = 2000;
-  const current = new Date();
-  const date = `${current.getDate()}-${current.getMonth()+1}-${current.getFullYear()}`;
+  const web3 = new Web3(magic.rpcProvider);
   const [balance, setBalance] = useState(0);
   const [walletInfo, setWalletInfo] = useState('-');
   const [user, setUser] = useContext(UserContext);
