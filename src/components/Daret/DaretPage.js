@@ -113,7 +113,7 @@ export const DaretPage = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/daret/' + address);
+            const response = await fetch(process.env.REACT_APP_SERVER_URL+'daret/' + address);
             const data = await response.json();
             setData(data);
         } catch (error) {
@@ -179,7 +179,7 @@ export const DaretPage = () => {
             setState(state);
             console.log(state)
             if (state === '3') {
-                await putData("http://localhost:8080/daret/" + address, {completed: 1});
+                await putData(process.env.REACT_APP_SERVER_URL+"daret/" + address, {completed: 1});
             }
         } catch (error) {
             console.error(error);

@@ -92,7 +92,7 @@ export const CreateDaret = () => {
       
           console.log(newContractInstance.options.address); // instance with the new contract address
       
-          const response = await postData("http://localhost:8080/daret", {
+          const response = await postData(process.env.REACT_APP_SERVER_URL+"daret", {
             title: title,
             description: description,
             creator: user,
@@ -145,7 +145,7 @@ export const CreateDaret = () => {
     // New function to handle invite creation
     async function createInvite(daretId) {
         console.log(daretId,invitees)
-        await fetch('http://localhost:8080/daret/invite', {
+        await fetch(process.env.REACT_APP_SERVER_URL+'daret/invite', {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -231,7 +231,7 @@ export const CreateDaret = () => {
                                     onChange={(e) => setCycle(e.target.value)}
                                 />
                                 <Form.Text className="text-muted">
-                                    The number of cycles is how many rounds you want the Daret to go
+                                    How many times would you like the system to run? 
                                 </Form.Text>
                             </Form.Group>
 

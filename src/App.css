@@ -320,7 +320,7 @@ border-color: transparent;
 
 /************ Banner Css ************/
 .banner {
-  margin-top: 0;
+  margin-top: -75px;
   padding: 260px 0 100px 0;
   background-position: top center;
   background-size: cover;
@@ -841,13 +841,10 @@ border-color: transparent;
 
 .help img {
   position: relative;
-  margin-top: 100px;
-  margin-bottom: 27px;
-  margin-left: 200px;
   object-fit: cover;
   overflow: hidden;
-  width: 80%;
-  height: 80%;
+  width: 40%;
+  height: 40%;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
 }

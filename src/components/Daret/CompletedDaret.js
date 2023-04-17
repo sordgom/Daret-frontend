@@ -44,7 +44,7 @@ export const CompletedDaret = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch('http://localhost:8080/daret');
+      const response = await fetch(process.env.REACT_APP_SERVER_URL+'daret');
       const data = await response.json();
       setData(data.data);
     }

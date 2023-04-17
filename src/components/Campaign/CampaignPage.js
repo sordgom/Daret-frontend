@@ -76,7 +76,7 @@ export const CampaignPage = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch('http://localhost:8080/campaign/' + address);
+            const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign/' + address);
             const data = await response.json();
             setData(data);
         } catch (error) {
@@ -116,14 +116,13 @@ export const CampaignPage = () => {
             const end = await contract.methods.endAt().call();
             const start = await contract.methods.startAt().call();
             const currentTime = Math.floor(Date.now() / 1000);
-            const remainingDuration = Math.floor((end - currentTime) / 86400);
+            const remainingDuration = Math.ceil((end - currentTime) / 86400); //ceil or floor
             
-            console.log(remainingDuration)
             // Check if the remaining duration is negative and the campaign is not marked as completed
             if (remainingDuration < 0 && data[0]?.completed === 0) {
                 // Update the completed variable in the database
                 console.log(1)
-                await putData("http://localhost:8080/campaign/" + address, {
+                await putData(process.env.REACT_APP_SERVER_URL+"campaign/" + address, {
                     completed: 1,
                 });
             }
@@ -235,7 +234,7 @@ export const CampaignPage = () => {
                                     {'margin-top': '60px'}
                             }>
                                 {
-                                data && goal && duration && pledgedAmount && <CampaignTable data={data}
+                                data && goal && pledgedAmount && duration && <CampaignTable data={data}
                                     goal={goal}
                                     duration={duration}
                                     pledgedAmount={pledgedAmount}/>
