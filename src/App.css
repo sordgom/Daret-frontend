@@ -320,7 +320,7 @@ border-color: transparent;
 
 /************ Banner Css ************/
 .banner {
-  margin-top: -75px;
+  margin-top: -100px;
   padding: 260px 0 100px 0;
   background-position: top center;
   background-size: cover;
@@ -337,73 +337,66 @@ border-color: transparent;
   padding: 8px 10px;
   background: linear-gradient(90.21deg, #4A2FBD +1%,#fff 50%);
   border: 1px solid rgba(0, 0, 0, 0.5);
-  font-size: 50px;
-  margin-bottom: 16px;
+  font-size: 48px;
+  margin-bottom: 24px;
   display: inline-block;
   color: #000;
 }
 
-.banner h1 {
-  font-size: 65px;
-  font-weight: 700;
+.banner h4 {
+  font-size: 28px;
+  font-weight: 600;
   letter-spacing: 0.8px;
-  line-height: 1;
-  margin-bottom: 20px;
+  line-height: 1.4;
+  margin-bottom: 24px;
   display: block;
   color: #000;
 }
 
-.banner p {
-  color: #B8B8B8;
-  font-size: 18px;
-  letter-spacing: 0.8px;
-  line-height: 1.5em;
-  width: 96%;
+.banner .section-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 16px;
   color: #000;
+}
+
+.banner .section-description {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.banner .section-features {
+  list-style: none;
+  padding-left: 0;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 24px;
 }
 
 .banner button {
   color: #000;
   font-weight: 700;
   font-size: 20px;
-  margin-top: 60px;
+  margin-top: 40px;
   letter-spacing: 0.8px;
   display: flex;
   align-items: center;
+  justify-content: center;
   border: 1px solid #000;
   background-color: transparent;
   padding: 18px 34px;
   transition: 0.3s ease-in-out;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
 }
 
 .banner button:hover {
   color: #fff;
   background-color: #000;
-}
-
-.banner button svg {
-  font-size: 25px;
-  margin-left: 10px;
-  transition: 0.3s ease-in-out;
-  line-height: 1;
-  color: #000;
-}
-
-.banner button:hover svg {
-  margin-left: 25px;
-  color: #fff;
-}
-
-.banner img {
-  animation: updown 3s linear infinite;
-  width: 50%;
-  height: 50%;
-  margin-left: 90px;
-  /* filter: invert(100%); */
-}
-
-.txt-rotate > .wrap {
-  border-right: 0.08em solid #666;
 }
 
 
