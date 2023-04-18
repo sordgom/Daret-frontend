@@ -497,7 +497,6 @@ border-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 0 55px 55px 0;
 }
-
 /************ daret Css ************/
 .daret {
   padding: 80px 0;
@@ -566,6 +565,27 @@ border-color: transparent;
   background-color: #AA367C;
 }
 
+.daret .card {
+  margin-bottom: 20px;
+}
+
+.daret .card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.daret .card-title {
+  text-align: center;
+}
+
+.daret .card-footer {
+  background-color: #4A2FBD;
+  text-align: center;
+}
+
+.daret .card-footer .nav-link {
+  margin: 0 auto;
+}
 
 /************ Project Card Css ************/
 

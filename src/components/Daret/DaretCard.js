@@ -9,8 +9,8 @@ export const DaretCard = ({  address, title, imgUrl }) => {
         <Card.Body>
           <Card.Title>{title}</Card.Title>
         </Card.Body>
-        <Card.Footer className="text-muted">
-          <Nav.Link href={`/daretpage/${address}`} className="text-primary">
+        <Card.Footer>
+          <Nav.Link href={`/daretpage/${address}`} className="text-white ">
             View Details
           </Nav.Link>
         </Card.Footer>
