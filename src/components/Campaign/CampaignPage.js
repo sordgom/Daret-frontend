@@ -9,8 +9,9 @@ import {magic} from '../../lib/magicConnect';
 import {toast} from 'react-toastify';
 import {Table, Card} from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
+import { useTranslation } from 'react-i18next';
 
-const CampaignTable = ({data, goal, duration, pledgedAmount}) => {
+const CampaignTable = ({t,data, goal, duration, pledgedAmount}) => {
     return (
         <Card className="info-table-card">
             <Card.Header>
@@ -25,32 +26,32 @@ const CampaignTable = ({data, goal, duration, pledgedAmount}) => {
                         </tr>
 
                         <tr>
-                            <td>Title:</td>
+                            <td>{t('Title')}:</td>
                             <td>{
                                 data[0] ?. title
                             }</td>
                         </tr>
 
                         <tr>
-                            <td>Description:</td>
+                            <td>{t('Description')}:</td>
                             <td>{
                                 data[0] ?. description
                             }</td>
                         </tr>
 
                         <tr>
-                            <td>Goal:</td>
+                            <td>{t("Goal")}:</td>
                             <td>{goal}</td>
                         </tr>
 
 
                         <tr>
-                            <td>Time left:</td>
+                            <td>{t("Time left:")}</td>
                             <td>{duration < 0 ? 0 : duration } days</td>
                         </tr>
 
                         <tr>
-                            <td>Pledged amount:</td>
+                            <td>{t("Pledged amount")}:</td>
                             <td>{pledgedAmount}</td>
                         </tr>
 
@@ -62,6 +63,7 @@ const CampaignTable = ({data, goal, duration, pledgedAmount}) => {
 };
 
 export const CampaignPage = () => {
+    const { t } = useTranslation();
     let {address} = useParams();
     const web3 = new Web3(magic.rpcProvider);
     const [user, setUser] = useContext(UserContext);
@@ -237,7 +239,8 @@ export const CampaignPage = () => {
                                 data && goal && pledgedAmount && duration && <CampaignTable data={data}
                                     goal={goal}
                                     duration={duration}
-                                    pledgedAmount={pledgedAmount}/>
+                                    pledgedAmount={pledgedAmount}
+                                    t={t}/>
                             } </div>
                             <div className=""
                                 style={
@@ -247,17 +250,17 @@ export const CampaignPage = () => {
                                 {
                                 owner === user && (
                                     <Row>
-                                        <button onClick={claim}>Claim</button>
+                                        <button onClick={claim}>{t("Claim")}</button>
                                     </Row>
                                 )
                             }
                                 <Row>
                                     <Col>
-                                        <button  style={{'width': '60%'}} onClick={pledge}>Pledge</button>
+                                        <button  style={{'width': '60%'}} onClick={pledge}>{t("Pledge")}</button>
                                     </Col>
                                     <Col>
                                         <Form.Group className="form-group" style={{'width': '60%'}}>
-                                            <Form.Label>Pledged amount</Form.Label>
+                                            <Form.Label>{t("Pledged amount")}</Form.Label>
                                             <Form.Control type="pledgedAmount" id="pledgedAmount" name="pledgedAmount"
                                                 value={amount}
                                                 onChange={

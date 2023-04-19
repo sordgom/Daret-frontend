@@ -524,6 +524,7 @@ border-color: transparent;
 
 .campaign .card-title {
   text-align: center;
+  color: black;
 }
 
 .campaign .card-footer {
@@ -613,6 +614,7 @@ border-color: transparent;
 
 .daret .card-title {
   text-align: center;
+  color: black;
 }
 
 .daret .card-footer {
