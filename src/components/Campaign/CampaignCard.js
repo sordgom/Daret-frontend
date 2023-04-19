@@ -1,6 +1,5 @@
 import React from 'react';
-import { Col, Nav } from "react-bootstrap";
-import { Card } from "react-bootstrap";
+import { Col, Card, Nav } from "react-bootstrap";
 
 export const CampaignCard = ({  address, title, imgUrl }) => {
   return (
@@ -10,8 +9,8 @@ export const CampaignCard = ({  address, title, imgUrl }) => {
         <Card.Body>
           <Card.Title>{title}</Card.Title>
         </Card.Body>
-        <Card.Footer className="text-muted">
-          <Nav.Link href={`/campaignpage/${address}`} className="text-primary">
+        <Card.Footer>
+          <Nav.Link href={`/campaignpage/${address}`} className="text-white ">
             View Details
           </Nav.Link>
         </Card.Footer>
@@ -19,3 +18,6 @@ export const CampaignCard = ({  address, title, imgUrl }) => {
     </Col>
   )
 }
+
+
+

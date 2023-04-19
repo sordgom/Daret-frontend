@@ -11,8 +11,11 @@ import {UserContext} from '../lib/UserContext';
 import {magic} from "../lib/magicConnect";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from "react-i18next";
 
 export const NavBar = () => {
+  const { t, i18n } = useTranslation();
+
   const [activeLink, setActiveLink] = useState('home');
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useContext(UserContext);
@@ -103,7 +106,9 @@ export const NavBar = () => {
     navigate("/");
 };
 
-
+const handleLanguageChange = (lang) => {
+  i18n.changeLanguage(lang);
+};
   return (
       <Navbar expand="md" className={scrolled ? "scrolled" : ""}>
         <Container>
@@ -147,6 +152,13 @@ export const NavBar = () => {
                   </NavDropdown>
                 }
               </div>
+                
+              <NavDropdown title="Language" id="dropdownMenuButton" className="dropdown-toggle text-center" >
+                <NavDropdown.Item onClick={() => handleLanguageChange('en')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>English</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={() => handleLanguageChange('fr')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>French</NavDropdown.Item>
+              </NavDropdown>
+
             </Nav>
           </Navbar.Collapse>
         </Container>
