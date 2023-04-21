@@ -69,6 +69,13 @@
   "Time left:": "Temps restant:",
   "Pledged amount": "Montant promis",
   "Claim": "Réclamer",
-  "Pledge": "Promesse"
+  "Pledge": "Promesse",
+
+  "Wallet Address": "Adresse de portefeuille",
+  "Balance": "Solde",
+  "Wallet Info": "Info sur le portefeuille",
+  "eth": "ETH",
+  "loading": "Chargement...",
+  "noWallet": "Aucun portefeuille trouvé. Veuillez vous connecter à un portefeuille pour afficher les informations de profil."
   
 }

@@ -83,7 +83,8 @@ export const Home = () => {
           {({ isVisible }) =>
             <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
               <span className='tagline'>{`${t("Welcome to Daret!")} ⚡`} </span>
-              <h4>{text}</h4>
+              {/* <h4>{text}</h4> */}
+              <h4>{t("Community-powered financing for everyone")}</h4>
             </div>}
         </TrackVisibility>
       </Col>

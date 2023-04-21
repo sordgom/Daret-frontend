@@ -13,13 +13,14 @@ import projImg5 from "../assets/img/team6.png";
 import {UserContext} from '../lib/UserContext';
 import Web3 from "web3";
 import {magic} from "../lib/magicConnect";
-
+import { useTranslation } from 'react-i18next';
 
 export const Profile = () => {
   const web3 = new Web3(magic.rpcProvider);
   const [balance, setBalance] = useState(0);
   const [walletInfo, setWalletInfo] = useState('-');
   const [user, setUser] = useContext(UserContext);
+  const { t } = useTranslation();
 
   useEffect(() => {
     if(user){
@@ -44,37 +45,36 @@ export const Profile = () => {
       console.log(error);
     });
   }
-
   return (
-    <div className="main--portfolio">
-      <section className="portfolio" id="portfolio">
+    <div className={t("main--portfolio")}>
+      <section className={t("portfolio")} id={t("portfolio")}>
         <Container>
-        <Row>
+          <Row>
             <Col size={12}>
               <TrackVisibility>
-                <div className="">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th>Attributes</th>
-                          <th>Values</th>
-                        </tr>
-                      </thead>
-                      {!!user &&
-                        <tbody>
-                          <tr>
-                            <td>Wallet Address</td>
-                            <td>{user}</td>
-                          </tr>
-                          <tr>
-                            <td>Balance</td>
-                            <td>{balance} ETH</td>
-                          </tr>
-                          <tr>
-                            <td>Wallet Info</td>
-                            <td>{walletInfo}</td>
-                          </tr>
-                        </tbody>
+                <div className={t("")}>
+                  <table className={t("table")}>
+                    <thead>
+                      <tr>
+                      <th>{t("Attributes")}</th>
+                      <th>{t("Values")}</th>
+                      </tr>
+                    </thead>
+                  {!!user &&
+                  <tbody>
+                    <tr>
+                    <td>{t("Wallet Address")}</td>
+                    <td>{user}</td>
+                    </tr>
+                    <tr>
+                    <td>{t("Balance")}</td>
+                    <td>{balance} ETH</td>
+                    </tr>
+                    <tr>
+                    <td>{t("Wallet Info")}</td>
+                    <td>{walletInfo}</td>
+                    </tr>
+                  </tbody>
                       }
                     </table>
                   
