@@ -15,8 +15,10 @@ import 'animate.css';
 import {toast} from 'react-toastify';
 import {Table, Card} from "react-bootstrap";
 import Form from 'react-bootstrap/Form';
+import { useTranslation } from 'react-i18next';
 
 const DaretTable = ({
+    t,
     round,
     maxMembers,
     members,
@@ -27,44 +29,44 @@ const DaretTable = ({
     return (
         <Card className="info-table-card">
             <Card.Header>
-                <h5>Daret Information</h5>
+                <h5>{t('Daret Information')}</h5>
             </Card.Header>
             <Card.Body>
                 <Table responsive="sm" bordered hover className="info-table">
                     <tbody>
                         <tr>
-                            <th>Property</th>
-                            <th>Value</th>
+                            <th>{t('Property')}</th>
+                            <th>{t('Value')}</th>
                         </tr>
 
                         <tr>
-                            <td>Title:</td>
+                            <td>{t('Title')}:</td>
                             <td>{
                                 data[0] ?. title
                             }</td>
                         </tr>
 
                         <tr>
-                            <td>Description:</td>
+                            <td>{t('Description')}:</td>
                             <td>{
                                 data[0] ?. description
                             }</td>
                         </tr>
 
                         <tr>
-                            <td>Members #:</td>
+                            <td>{t('Members #')}:</td>
                             <td>{maxMembers}</td>
                         </tr>
 
 
                         <tr>
-                            <td>Contribution:</td>
+                            <td>{t('Contribution')}:</td>
                             <td>{contribution}
                                 USD</td>
                         </tr>
 
                         <tr>
-                            <td>Members:</td>
+                            <td>{t('Members')}:</td>
                             <td>
                                 <ul> {
                                     members.map((member, index) => (
@@ -75,12 +77,12 @@ const DaretTable = ({
                             </td>
                         </tr>
                         <tr>
-                            <td>Payout:</td>
+                            <td>{t('Payout')}:</td>
                             <td>{payout}
                                 USD</td>
                         </tr>
                         <tr>
-                            <td>Round Number:</td>
+                            <td>{t('Round Number')}:</td>
                             <td>{
                                 round ?. roundNumber
                             }</td>
@@ -93,6 +95,7 @@ const DaretTable = ({
 };
 
 export const DaretPage = () => {
+    const { t } = useTranslation();
     let {address} = useParams();
     let navigate = useNavigate();
 
@@ -366,6 +369,7 @@ export const DaretPage = () => {
                             }>
                                 {
                                 data && round && maxMembers && members && <DaretTable round={round}
+                                    t={t}    
                                     maxMembers={maxMembers}
                                     members={members}
                                     contribution={usdContribution}
@@ -379,9 +383,9 @@ export const DaretPage = () => {
                                         <button style={
                                                 {'width': '60%'}
                                             }
-                                            onClick={complete}>Complete Round</button>
+                                            onClick={complete}>{t("Complete Round")}</button>
                                         <Form.Group>
-                                            <Form.Label>Enter Address</Form.Label>
+                                            <Form.Label>{t("Enter Address")}</Form.Label>
                                             <Form.Control type="text" placeholder="Enter address"
                                                 value={addressInput}
                                                 onChange={
@@ -395,7 +399,7 @@ export const DaretPage = () => {
                                     <button style={
                                             {'width': '60%'}
                                         }
-                                        onClick={join}>Contribute</button>
+                                        onClick={join}>{t("Contribute")}</button>
                                 </Col>
                             </Row>
                         </Col>

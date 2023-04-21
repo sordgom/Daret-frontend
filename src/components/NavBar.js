@@ -11,8 +11,11 @@ import {UserContext} from '../lib/UserContext';
 import {magic} from "../lib/magicConnect";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTranslation } from "react-i18next";
 
 export const NavBar = () => {
+  const { t, i18n } = useTranslation();
+
   const [activeLink, setActiveLink] = useState('home');
   const [scrolled, setScrolled] = useState(false);
   const [user, setUser] = useContext(UserContext);
@@ -103,7 +106,9 @@ export const NavBar = () => {
     navigate("/");
 };
 
-
+const handleLanguageChange = (lang) => {
+  i18n.changeLanguage(lang);
+};
   return (
       <Navbar expand="md" className={scrolled ? "scrolled" : ""}>
         <Container>
@@ -115,38 +120,45 @@ export const NavBar = () => {
           </Navbar.Toggle>
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link as={Link} to="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>Home</Nav.Link>
+              <Nav.Link as={Link} to="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>{t("Home")}</Nav.Link>
               <NavDropdown title="Darets" id="daret-dropdown">
-                <NavDropdown.Item as={Link} to="/create-daret">Create Daret</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/create-daret">{t("Create Daret")}</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/daret">Active Darets</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/daret">{t("Active Darets")}</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/completed-darets">Completed Darets</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/completed-darets">{t("Completed Darets")}</NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Crowdfunds" id="campaign-dropdown">
-                <NavDropdown.Item as={Link} to="/create-campaign">Create Crowdfund</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/create-campaign">{t("Create Crowdfund")}</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/campaign">Active Crowdfunds</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/campaign">{t("Active Crowdfunds")}</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/completed-campaign">Completed Crowdfund</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/completed-campaign">{t("Completed Crowdfunds")}</NavDropdown.Item>
               </NavDropdown> 
               
-              <Nav.Link as={Link} to="/help" className={activeLink === 'help' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('help')}>How it works</Nav.Link>
+              <Nav.Link as={Link} to="/help" className={activeLink === 'help' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('help')}>{t("How it works")}</Nav.Link>
               <div>
                 {!user && 
-                <button title="sign in" id="login-dropdown" onClick={login}>Sign in</button>
+                <button title="sign in" id="login-dropdown" onClick={login}>{t("Sign in")}</button>
                 }{user && 
                   <NavDropdown title="Account" id="login-dropdown">
-                    <NavDropdown.Item as={Link} to="/profile">View profile</NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/profile">{t("View profile")}</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to="/personal-darets">Personal Darets</NavDropdown.Item>
+                    <NavDropdown.Item as={Link} to="/personal-darets">{t("Personal Darets")}</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={showWallet}>Show wallet</NavDropdown.Item>
+                    <NavDropdown.Item onClick={showWallet}>{t("Show wallet")}</NavDropdown.Item>
                     <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={disconnect}>Sign out</NavDropdown.Item>
+                    <NavDropdown.Item onClick={disconnect}>{t("Sign out")}</NavDropdown.Item>
                   </NavDropdown>
                 }
               </div>
+                
+              <NavDropdown title="Language" id="dropdownMenuButton" className="dropdown-toggle text-center" >
+                <NavDropdown.Item onClick={() => handleLanguageChange('en')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>English</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={() => handleLanguageChange('fr')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>French</NavDropdown.Item>
+              </NavDropdown>
+
             </Nav>
           </Navbar.Collapse>
         </Container>

@@ -160,9 +160,11 @@ nav.navbar .navbar-nav a.nav-link.navbar-link.active {
   display: none;
 }
 
+
 .dropdown-menu {
   background-color: #fff;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  z-index: 9999;
 }
 
 .dropdown-menu .dropdown-item {
@@ -170,6 +172,8 @@ nav.navbar .navbar-nav a.nav-link.navbar-link.active {
   opacity: 0.75;
   letter-spacing: 0.8px;
   font-size: 18px;
+  z-index: 9999;
+
 }
 
 .dropdown-menu .dropdown-item:hover,
@@ -320,7 +324,7 @@ border-color: transparent;
 
 /************ Banner Css ************/
 .banner {
-  margin-top: -75px;
+  margin-top: -100px;
   padding: 260px 0 100px 0;
   background-position: top center;
   background-size: cover;
@@ -337,73 +341,66 @@ border-color: transparent;
   padding: 8px 10px;
   background: linear-gradient(90.21deg, #4A2FBD +1%,#fff 50%);
   border: 1px solid rgba(0, 0, 0, 0.5);
-  font-size: 50px;
-  margin-bottom: 16px;
+  font-size: 48px;
+  margin-bottom: 24px;
   display: inline-block;
   color: #000;
 }
 
-.banner h1 {
-  font-size: 65px;
-  font-weight: 700;
+.banner h4 {
+  font-size: 28px;
+  font-weight: 600;
   letter-spacing: 0.8px;
-  line-height: 1;
-  margin-bottom: 20px;
+  line-height: 1.4;
+  margin-bottom: 24px;
   display: block;
   color: #000;
 }
 
-.banner p {
-  color: #B8B8B8;
-  font-size: 18px;
-  letter-spacing: 0.8px;
-  line-height: 1.5em;
-  width: 96%;
+.banner .section-title {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 16px;
   color: #000;
+}
+
+.banner .section-description {
+  font-size: 18px;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.banner .section-features {
+  list-style: none;
+  padding-left: 0;
+  font-size: 16px;
+  color: #666;
+  line-height: 1.8;
+  margin-bottom: 24px;
 }
 
 .banner button {
   color: #000;
   font-weight: 700;
   font-size: 20px;
-  margin-top: 60px;
+  margin-top: 40px;
   letter-spacing: 0.8px;
   display: flex;
   align-items: center;
+  justify-content: center;
   border: 1px solid #000;
   background-color: transparent;
   padding: 18px 34px;
   transition: 0.3s ease-in-out;
+  margin-left: auto;
+  margin-right: auto;
+  width: fit-content;
 }
 
 .banner button:hover {
   color: #fff;
   background-color: #000;
-}
-
-.banner button svg {
-  font-size: 25px;
-  margin-left: 10px;
-  transition: 0.3s ease-in-out;
-  line-height: 1;
-  color: #000;
-}
-
-.banner button:hover svg {
-  margin-left: 25px;
-  color: #fff;
-}
-
-.banner img {
-  animation: updown 3s linear infinite;
-  width: 50%;
-  height: 50%;
-  margin-left: 90px;
-  /* filter: invert(100%); */
-}
-
-.txt-rotate > .wrap {
-  border-right: 0.08em solid #666;
 }
 
 
@@ -504,7 +501,40 @@ border-color: transparent;
   border: 1px solid rgba(255, 255, 255, 0.5);
   border-radius: 0 55px 55px 0;
 }
+.campaign .btn {
+  width: 100%;
+  border-radius: 50px;
+  background-color: #4A2FBD;
+  border: none;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  transition: 0.3s ease-in-out;
+}
+.campaign .btn:hover {
+  background-color: #AA367C;
+}
+.campaign .card {
+  margin-bottom: 20px;
+}
 
+.campaign .card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.campaign .card-title {
+  text-align: center;
+  color: black;
+}
+
+.campaign .card-footer {
+  background-color: #4A2FBD;
+  text-align: center;
+}
+
+.campaign .card-footer .nav-link {
+  margin: 0 auto;
+}
 /************ daret Css ************/
 .daret {
   padding: 80px 0;
@@ -573,6 +603,28 @@ border-color: transparent;
   background-color: #AA367C;
 }
 
+.daret .card {
+  margin-bottom: 20px;
+}
+
+.daret .card:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.daret .card-title {
+  text-align: center;
+  color: black;
+}
+
+.daret .card-footer {
+  background-color: #4A2FBD;
+  text-align: center;
+}
+
+.daret .card-footer .nav-link {
+  margin: 0 auto;
+}
 
 /************ Project Card Css ************/
 

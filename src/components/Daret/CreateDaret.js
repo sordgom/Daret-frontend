@@ -10,8 +10,11 @@ import {magic} from '../../lib/magicConnect';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {toast} from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 export const CreateDaret = () => {
+    const { t } = useTranslation();
+
     let navigate = useNavigate();
     const web3 = new Web3(magic.rpcProvider);
 
@@ -176,107 +179,107 @@ export const CreateDaret = () => {
                 {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
                     <center>
-                        <Form className="login-form" onSubmit={handleSubmit}>
-                            <h2>Create Daret</h2>
+                    <Form className="login-form" onSubmit={handleSubmit}>
+    <h2>{t('Create Daret')}</h2>
 
-                            <Form.Group className="form-group" >
-                                <Form.Label>Title</Form.Label>
-                                <Form.Control 
-                                    type="title"
-                                    id="title"
-                                    name="title"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                />
-                                <Form.Text className="text-muted">
-                                    Please enter the title  of the Daret.
-                                </Form.Text>
-                            </Form.Group>
+    <Form.Group className="form-group" >
+        <Form.Label>{t('Title')}</Form.Label>
+        <Form.Control 
+            type="title"
+            id="title"
+            name="title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+        />
+        <Form.Text className="text-muted">
+            {t('Please enter the title of the Daret.')}
+        </Form.Text>
+    </Form.Group>
 
-                            <Form.Group className="form-group" >
-                                <Form.Label>Description</Form.Label>
-                                <Form.Control 
-                                    type="description"
-                                    id="description"
-                                    name="description"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                                <Form.Text className="text-muted">
-                                    Enter a description of the daret.
-                                </Form.Text>
-                            </Form.Group>
+    <Form.Group className="form-group" >
+        <Form.Label>{t('Description')}</Form.Label>
+        <Form.Control 
+            type="description"
+            id="description"
+            name="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+        />
+        <Form.Text className="text-muted">
+            {t('Enter a description of the daret.')}
+        </Form.Text>
+    </Form.Group>
 
-                            <Form.Group className="form-group" >
-                                <Form.Label>Number of Members</Form.Label>
-                                <Form.Control 
-                                    type="maxMembers"
-                                    id="maxMembers"
-                                    name="maxMembers"
-                                    value={maxMembers}
-                                    onChange={(e) => setMaxMembers(e.target.value)}
-                                />
-                                <Form.Text className="text-muted">
-                                    Please enter the number of members involved in the round.
-                                </Form.Text>
-                            </Form.Group>
+    <Form.Group className="form-group" >
+        <Form.Label>{t('Number of Members')}</Form.Label>
+        <Form.Control 
+            type="maxMembers"
+            id="maxMembers"
+            name="maxMembers"
+            value={maxMembers}
+            onChange={(e) => setMaxMembers(e.target.value)}
+        />
+        <Form.Text className="text-muted">
+            {t('Please enter the number of members involved in the round.')}
+        </Form.Text>
+    </Form.Group>
 
-                            <Form.Group className="form-group" >
-                                <Form.Label>Number of cycles</Form.Label>
-                                <Form.Control 
-                                    type="maxMembers"
-                                    id="maxMembers"
-                                    name="maxMembers"
-                                    value={cycle}
-                                    onChange={(e) => setCycle(e.target.value)}
-                                />
-                                <Form.Text className="text-muted">
-                                    How many times would you like the system to run? 
-                                </Form.Text>
-                            </Form.Group>
+    <Form.Group className="form-group" >
+        <Form.Label>{t('Number of cycles')}</Form.Label>
+        <Form.Control 
+            type="maxMembers"
+            id="maxMembers"
+            name="maxMembers"
+            value={cycle}
+            onChange={(e) => setCycle(e.target.value)}
+        />
+        <Form.Text className="text-muted">
+            {t('How many times would you like the system to run?')}
+        </Form.Text>
+    </Form.Group>
 
-                            <Form.Group className="form-group">
-                                <Form.Label>Contribution amount in USD</Form.Label>
-                                <Form.  Control 
-                                    type="feePercentage"
-                                    id="feePercentage"
-                                    name="feePercentage"
-                                    value={contribution}    
-                                    onChange={(e) => setContribution(e.target.value)}
-                                />
-                                <Form.Text className="text-muted">
-                                    Please enter the contribution amount in USD.
-                                </Form.Text>
-                            </Form.Group>
+    <Form.Group className="form-group">
+        <Form.Label>{t('Contribution amount in USD')}</Form.Label>
+        <Form.Control 
+            type="feePercentage"
+            id="feePercentage"
+            name="feePercentage"
+            value={contribution}    
+            onChange={(e) => setContribution(e.target.value)}
+        />
+        <Form.Text className="text-muted">
+            {t('Please enter the contribution amount in USD.')}
+        </Form.Text>
+    </Form.Group>
 
-                            <Form.Group className="form-group">
-                                <Form.Check
-                                    type="checkbox"
-                                    label="Private Daret"
-                                    checked={isPrivate}
-                                    onChange={(e) => setIsPrivate(e.target.checked)}
-                                />
-                                {isPrivate && (
-                                    <div>
-                                    <Form.Label>Invitee Addresses (separated by comma)</Form.Label>
-                                    <Form.Control
-                                        type="text"
-                                        id="invitees"
-                                        name="invitees"
-                                        value={invitees}
-                                        onChange={(e) => setInvitees(e.target.value)}
-                                    />
-                                    <Form.Text className="text-muted">
-                                        Enter the Ethereum addresses of the invitees, separated by commas.
-                                    </Form.Text>
-                                    </div>
-                                )}
-                                </Form.Group>
+    <Form.Group className="form-group">
+        <Form.Check
+            type="checkbox"
+            label={t('Private Daret')}
+            checked={isPrivate}
+            onChange={(e) => setIsPrivate(e.target.checked)}
+        />
+        {isPrivate && (
+            <div>
+            <Form.Label>{t('Invitee Addresses (separated by comma)')}</Form.Label>
+            <Form.Control
+                type="text"
+                id="invitees"
+                name="invitees"
+                value={invitees}
+                onChange={(e) => setInvitees(e.target.value)}
+            />
+            <Form.Text className="text-muted">
+                {t('Enter the Ethereum addresses of the invitees, separated by commas.')}
+            </Form.Text>
+            </div>
+        )}
+    </Form.Group>
 
-                            <button  type="submit">
-                                Submit
-                            </button>
-                        </Form>
+    <button type="submit">
+        {t('Submit')}
+    </button>
+</Form>
                   
                 </center>
                 </div>}

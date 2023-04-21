@@ -7,10 +7,11 @@ import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import {magic} from '../../lib/magicConnect';
-import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import { useTranslation } from 'react-i18next';
 
 export const CreateCampaign = () => {
+    const { t } = useTranslation();
     let navigate = useNavigate();
     const web3 = new Web3(magic.rpcProvider);
     const [user, setUser] = useContext(UserContext);
@@ -82,68 +83,68 @@ export const CreateCampaign = () => {
                 <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
                     <center>
                     <Form className="login-form" onSubmit={handleSubmit}>
-                            <h2>Create Campaign</h2>
+                        <h2>{t('Create Campaign')}</h2>
 
-                            <Form.Group className="form-group" >
-                                <Form.Label>Title</Form.Label>
-                                <Form.Control 
-                                    type="title"
-                                    id="title"
-                                    name="title"
-                                    value={title}
-                                    onChange={(e) => setTitle(e.target.value)}
-                                />
-                                <Form.Text className="text-muted">
-                                    Please enter the title  of the crowdfund.
-                                </Form.Text>
-                            </Form.Group>
+                        <Form.Group className="form-group" >
+                        <Form.Label>{t('Title')}</Form.Label>
+                        <Form.Control 
+                            type="title"
+                            id="title"
+                            name="title"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                        <Form.Text className="text-muted">
+                            {t('Please enter the title  of the crowdfund.')}
+                        </Form.Text>
+                        </Form.Group>
 
-                            <Form.Group className="form-group" >
-                                <Form.Label>Description</Form.Label>
-                                <Form.Control 
-                                    type="description"
-                                    id="description"
-                                    name="description"
-                                    value={description}
-                                    onChange={(e) => setDescription(e.target.value)}
-                                />
-                                <Form.Text className="text-muted">
-                                    Enter a description of the crowdfund.
-                                </Form.Text>
-                            </Form.Group>
-                            
-                            <Form.Group className="form-group" >
-                                <Form.Label>Goal</Form.Label>
-                                <Form.Control 
-                                     type="goal"
-                                     id="goal"
-                                     name="goal"
-                                     value={goal}
-                                     onChange={(e) => setGoal(e.target.value)}
-                                    />
-                                <Form.Text className="text-muted">
-                                    Please enter the goal of the crowdfund.
-                                </Form.Text>
-                            </Form.Group>
+                        <Form.Group className="form-group" >
+                        <Form.Label>{t('Description')}</Form.Label>
+                        <Form.Control 
+                            type="description"
+                            id="description"
+                            name="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                        />
+                        <Form.Text className="text-muted">
+                            {t('Enter a description of the crowdfund.')}
+                        </Form.Text>
+                        </Form.Group>
+                        
+                        <Form.Group className="form-group" >
+                        <Form.Label>{t('Goal')}</Form.Label>
+                        <Form.Control 
+                            type="goal"
+                            id="goal"
+                            name="goal"
+                            value={goal}
+                            onChange={(e) => setGoal(e.target.value)}
+                        />
+                        <Form.Text className="text-muted">
+                            {t('Please enter the goal of the crowdfund.')}
+                        </Form.Text>
+                        </Form.Group>
 
-                            <Form.Group className="form-group" >
-                                <Form.Label>Duration</Form.Label>
-                                <Form.Control 
-                                  type="duration"
-                                  id="duration"
-                                  name="duration"
-                                  value={duration}
-                                  onChange={(e) => setDuration(e.target.value)}
-                                />
-                                <Form.Text className="text-muted">
-                                    Please enter the duration of the crowdfund in days.
-                                </Form.Text>
-                            </Form.Group>
+                        <Form.Group className="form-group" >
+                        <Form.Label>{t('Duration')}</Form.Label>
+                        <Form.Control 
+                            type="duration"
+                            id="duration"
+                            name="duration"
+                            value={duration}
+                            onChange={(e) => setDuration(e.target.value)}
+                        />
+                        <Form.Text className="text-muted">
+                            {t('Please enter the duration of the crowdfund in days.')}
+                        </Form.Text>
+                        </Form.Group>
 
-                            <button variant="light" type="submit">
-                                Submit
-                            </button>
-                        </Form>                     
+                        <button variant="light" type="submit">
+                        {t('Submit')}
+                        </button>
+                    </Form>                   
                 </center>
                 </div>}
                 </TrackVisibility>
