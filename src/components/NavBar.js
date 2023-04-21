@@ -121,14 +121,18 @@ const handleLanguageChange = (lang) => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               <Nav.Link as={Link} to="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>{t("Home")}</Nav.Link>
-              <NavDropdown title="Darets" id="daret-dropdown">
+              
+              <Nav.Link as={Link} to="/help" className={activeLink === 'help' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('help')}>{t("How it works")}</Nav.Link>
+
+              <NavDropdown title="Darets" id="daret-dropdown" className="dropdown-toggle text-center">
                 <NavDropdown.Item as={Link} to="/create-daret">{t("Create Daret")}</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Link} to="/daret">{t("Active Darets")}</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Link} to="/completed-darets">{t("Completed Darets")}</NavDropdown.Item>
               </NavDropdown>
-              <NavDropdown title="Crowdfunds" id="campaign-dropdown">
+              
+              <NavDropdown title="Crowdfunds" id="campaign-dropdown" className="dropdown-toggle text-center">
                 <NavDropdown.Item as={Link} to="/create-campaign">{t("Create Crowdfund")}</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Link} to="/campaign">{t("Active Crowdfunds")}</NavDropdown.Item>
@@ -136,12 +140,11 @@ const handleLanguageChange = (lang) => {
                 <NavDropdown.Item as={Link} to="/completed-campaign">{t("Completed Crowdfunds")}</NavDropdown.Item>
               </NavDropdown> 
               
-              <Nav.Link as={Link} to="/help" className={activeLink === 'help' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('help')}>{t("How it works")}</Nav.Link>
               <div>
                 {!user && 
                 <button title="sign in" id="login-dropdown" onClick={login}>{t("Sign in")}</button>
                 }{user && 
-                  <NavDropdown title="Account" id="login-dropdown">
+                  <NavDropdown title="Account" id="login-dropdown" className="dropdown-toggle text-center">
                     <NavDropdown.Item as={Link} to="/profile">{t("View profile")}</NavDropdown.Item>
                     <NavDropdown.Divider />
                     <NavDropdown.Item as={Link} to="/personal-darets">{t("Personal Darets")}</NavDropdown.Item>
