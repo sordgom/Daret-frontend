@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import { useState, useEffect } from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import headerImg from "../assets/img/money.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import { useNavigate } from 'react-router-dom';
@@ -76,52 +75,52 @@ export const Home = () => {
 
   return (
     <section className="banner" id="home">
-  <Container>
-    <Row className="align-items-center ">
-      <Col xs={12} md={12} className='text-center'>
-        <TrackVisibility >
-          {({ isVisible }) =>
-            <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-              <span className='tagline'>{`${t("Welcome to Daret!")} ⚡`} </span>
-              {/* <h4>{text}</h4> */}
-              <h4>{t("Community-powered financing for everyone")}</h4>
-            </div>}
-        </TrackVisibility>
-      </Col>
-    </Row>
-    <Row className="align-items-center">
-  <Col xs={12} md={12} className='text-center'>
-    <TrackVisibility>
-      {({ isVisible }) =>
-        <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-            <h2 className="section-title">{t(`Introducing Daret`)}</h2>
+      <Container>
+        <Row className="align-items-center ">
+          <Col xs={12} md={12} className='text-center'>
+            <TrackVisibility >
+              {({ isVisible }) =>
+                <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
+                  <span className='tagline'>{`${t("Welcome to Daret!")} ⚡`} </span>
+                  {/* <h4>{text}</h4> */}
+                  <h4>{t("Community-powered financing for everyone")}</h4>
+                </div>}
+            </TrackVisibility>
+          </Col>
+        </Row>
+        <Row className="align-items-center">
+          <Col xs={12} md={12} className='text-center'>
+            <TrackVisibility>
+              {({ isVisible }) =>
+                <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
+                    <h2 className="section-title">{t(`Introducing Daret`)}</h2>
 
-          <p className="section-description">
-            {t(`Daret is a revolutionary platform that combines blockchain technology and traditional ROSCAs (Rotating Savings and Credit Associations) to create a secure, transparent, and efficient way for you to save and invest money within a trusted community.`)}
-          </p>
-          <ul className="section-features">
-            <li>{t(`✓ Secure and transparent transactions`)}</li>
-            <li>{t(`✓ User-friendly interface`)}</li>
-            <li>{t(`✓ Community-driven financial growth`)}</li>
-            <li>{t(`✓ Powered by blockchain technology`)}</li>
-          </ul>
-        </div>}
-    </TrackVisibility>
-  </Col>
-</Row>
-<Row className="align-items-center">
-  <Col xs={12} md={12}>
-    <TrackVisibility>
-      {({ isVisible }) =>
-        <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
-          <button className="btn btn-primary btn-centered" onClick={handleClick}>{t(`Get Started`)}</button>
-        </div>}
-    </TrackVisibility>
-  </Col>
-</Row>
-  </Container>
-</section>
+                  <p className="section-description">
+                    {t(`Daret is a revolutionary platform that combines blockchain technology and traditional ROSCAs (Rotating Savings and Credit Associations) to create a secure, transparent, and efficient way for you to save and invest money within a trusted community.`)}
+                    {t("If you don't have enough funds, please visit the")} <a href="/faucet">{t("faucet")}</a> {t("to claim your test coins.")}
 
-  
+                  </p>
+                  <ul className="section-features">
+                    <li>{t(`✓ Secure and transparent transactions`)}</li>
+                    <li>{t(`✓ User-friendly interface`)}</li>
+                    <li>{t(`✓ Community-driven financial growth`)}</li>
+                    <li>{t(`✓ Powered by blockchain technology`)}</li>
+                  </ul>
+                </div>}
+            </TrackVisibility>
+          </Col>
+        </Row>
+        <Row className="align-items-center">
+          <Col xs={12} md={12}>
+            <TrackVisibility>
+              {({ isVisible }) =>
+                <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
+                  <button className="btn btn-primary btn-centered" onClick={handleClick}>{t(`Get Started`)}</button>
+                </div>}
+            </TrackVisibility>
+          </Col>
+        </Row>
+      </Container>
+    </section>  
   )
 }

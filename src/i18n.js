@@ -15,7 +15,7 @@ i18n.use(Backend)
             fr: { translation: translationFR },
           },
         fallbackLng: "en",
-        debug: true,
+        debug: false,
         interpolation: {
             escapeValue: false // no need for react. it escapes by default
         }

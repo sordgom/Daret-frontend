@@ -23,12 +23,17 @@
   "Sign out": "Se déconnecter",
   "Personal Darets": "Darets personnels",
   "Show wallet": "Afficher le portefeuille",
+  "If you don't have enough funds, please visit the": "Si vous n'avez pas assez de fonds, veuillez visiter le ",
+  "to claim your test coins.":"pour réclamer vos pièces de test.",
 
   "Introduction": "Introduction",
   "intro-message":"Bienvenue sur Daret, une plateforme basée sur la blockchain pour les associations d'épargne et de crédit rotatives (ROSCA) sécurisées et transparentes. Ce tutoriel couvre l'adhésion, la contribution et la réclamation de récompenses dans un Daret.",
   "Creating an Account": "Créer un compte",
   "ca-msg1":"Inscrivez-vous et connectez-vous avec le lien magique qui vous a été envoyé par courriel.",
   "ca-msg2":"Assurez-vous que votre portefeuille dispose de suffisamment de fonds ou achetez des jetons.",
+  "Check if you have funds in your wallet. If you don't, visit the": "Vérifiez si vous avez des fonds dans votre portefeuille. Si ce n'est pas le cas, visitez le ",
+  "faucet": "robinet",
+  " to get test ETH.": " pour obtenir de l'ETH de test.",
   "Joining or Creating a Daret": "Rejoindre ou créer un Daret",
   "jd-msg1":"Sélectionnez Daret dans le menu principal.",
   "jd-msg2":"Parcourez et rejoignez un Daret existant ou créez-en un nouveau avec les détails requis.",
@@ -76,6 +81,12 @@
   "Wallet Info": "Info sur le portefeuille",
   "eth": "ETH",
   "loading": "Chargement...",
-  "noWallet": "Aucun portefeuille trouvé. Veuillez vous connecter à un portefeuille pour afficher les informations de profil."
-  
+  "noWallet": "Aucun portefeuille trouvé. Veuillez vous connecter à un portefeuille pour afficher les informations de profil.",
+
+  "Faucet":"Robinet",
+  "Recipient address": "Adresse du destinataire",
+  "Request tokens": "Demander de l'argent",
+  "0.005 ETH or ~10USD will be sent to your wallet": "0,005 ETH ou ~10 USD seront envoyés à votre portefeuille",
+  "Please wait around 3 mins for the process to be completed": "Veuillez attendre environ 3 minutes pour que le processus soit terminé"
+
 }

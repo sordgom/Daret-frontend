@@ -2,10 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
 import headerImg from "../assets/img/daret-logo-removebg-preview.png";
-import {
-  BrowserRouter as Router,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router,  Link} from "react-router-dom";
 import Web3 from "web3";
 import {UserContext} from '../lib/UserContext';
 import {magic} from "../lib/magicConnect";
@@ -122,6 +119,8 @@ const handleLanguageChange = (lang) => {
             <Nav className="ms-auto">
               <Nav.Link as={Link} to="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>{t("Home")}</Nav.Link>
               
+              <Nav.Link as={Link} to="/faucet" className={activeLink === 'faucet' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('faucet')}>{t("Faucet")}</Nav.Link>
+
               <Nav.Link as={Link} to="/help" className={activeLink === 'help' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('help')}>{t("How it works")}</Nav.Link>
 
               <NavDropdown title="Darets" id="daret-dropdown" className="dropdown-toggle text-center">
@@ -139,7 +138,14 @@ const handleLanguageChange = (lang) => {
                 <NavDropdown.Divider />
                 <NavDropdown.Item as={Link} to="/completed-campaign">{t("Completed Crowdfunds")}</NavDropdown.Item>
               </NavDropdown> 
-              
+                
+              <NavDropdown title="Language" id="dropdownMenuButton" className="dropdown-toggle text-center" >
+                <NavDropdown.Item onClick={() => handleLanguageChange('en')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>English</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item onClick={() => handleLanguageChange('fr')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>French</NavDropdown.Item>
+              </NavDropdown>
+
+
               <div>
                 {!user && 
                 <button title="sign in" id="login-dropdown" onClick={login}>{t("Sign in")}</button>
@@ -155,12 +161,6 @@ const handleLanguageChange = (lang) => {
                   </NavDropdown>
                 }
               </div>
-                
-              <NavDropdown title="Language" id="dropdownMenuButton" className="dropdown-toggle text-center" >
-                <NavDropdown.Item onClick={() => handleLanguageChange('en')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>English</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={() => handleLanguageChange('fr')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>French</NavDropdown.Item>
-              </NavDropdown>
 
             </Nav>
           </Navbar.Collapse>

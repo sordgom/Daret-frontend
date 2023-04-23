@@ -24,12 +24,17 @@
     "Sign out": "Sign out",
     "Personal Darets": "Personal Darets",
     "Show wallet": "Show wallet",
+    "If you don't have enough funds, please visit the": "If you don't have enough funds, please visit the",
+    "to claim your test coins.": "to claim your test coins.",
 
     "Introduction": "Introduction",
     "intro-message":"Welcome to Daret, a blockchain-based platform for secure, transparent ROSCAs (Rotating Savings and Credit Associations). This tutorial covers joining, contributing, and claiming rewards in a Daret.",
     "Creating an Account": "Creating an Account",
     "ca-msg1":"Sign up and log in with the Magic Link emailed to you.",
     "ca-msg2":"Ensure your wallet has enough funds or purchase coins.",
+    "Check if you have funds in your wallet. If you don't, visit the": "Check if you have funds in your wallet. If you don't, visit the ",
+    "faucet": "faucet",
+    " to get test ETH.": " to get test ETH.",
     "Joining or Creating a Daret": "Joining or Creating a Daret",
     "jd-msg1":"Select Daret in the main menu.",
     "jd-msg2":"Browse and join an existing Daret, or create a new one with required details.",
@@ -77,6 +82,11 @@
     "Wallet Info": "Wallet Info",
     "eth": "ETH",
     "loading": "Loading...",
-    "noWallet": "No wallet found. Please connect to a wallet to view profile information."
+    "noWallet": "No wallet found. Please connect to a wallet to view profile information.",
 
+    "Faucet":"Faucet",
+    "Recipient address": "Recipient address",
+    "Request tokens": "Request tokens",
+    "0.005 ETH or ~10USD will be sent to your wallet": "0.005 ETH or ~10USD will be sent to your wallet",
+    "Please wait around 3 mins for the process to be completed": "Please wait around 3 mins for the process to be completed"
 }

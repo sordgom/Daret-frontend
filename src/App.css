@@ -35,7 +35,7 @@ body {
   font-weight: 400;
   overflow-x: hidden;
   position: relative;
-  background-color: #fff !important;
+  background-color: #f8f8f8e1 !important;
   color: #2B2B2B !important;
   font-family: 'Centra', sans-serif !important;
 }
@@ -100,7 +100,7 @@ nav.navbar {
 nav.navbar.scrolled {
   padding: 0px 0;
   box-shadow: 0 0 10px rgba(0,0,0,0.2);
-  background-color: #fff;
+  background-color: #f8f8f8e1;
 }
 
 nav.navbar button {
@@ -909,3 +909,5 @@ border-color: transparent;
   border-spacing: 0;
   width: 80%;
 }
+
+
