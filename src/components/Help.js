@@ -3,6 +3,7 @@ import {useState, useEffect, useContext} from "react";
 import {Container, Row, Col, Form} from "react-bootstrap";
 import 'animate.css';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 
 export const Help = () => {
     const { t } = useTranslation();
@@ -28,6 +29,11 @@ export const Help = () => {
                                 <li>{t("ca-msg2")}</li>
                                 {/* <img src={pic3} alt="pic3" style={{'width':'25%', 'height':'20%'}}/>
                                 <img src={pic4} alt="pic4" style={{'width':'30%', 'height':'20%'}}/> */}
+                                <li>
+                                    {t("Check if you have funds in your wallet. If you don't, visit the")}
+                                    <Link to="/faucet">{t("faucet")}</Link>
+                                    {t(" to get test ETH.")}
+                                </li>
                             </ol>
                         </Col>
                     </Row>
