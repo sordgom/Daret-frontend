@@ -42,11 +42,20 @@ const team = [
 export const Campaign = () => {
   const [data, setData] = useState([]);
   const [user, setUser] = useContext(UserContext);
+  const [loading, setLoading] = useState(true);
+
+
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign');
-      const data = await response.json();
-      setData(data.data);
+      setLoading(true);
+      try {
+        const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign');
+        const data = await response.json();
+        setData(data.data);
+      }catch(err){
+        console.log(err);
+      }
+      setLoading(false);
     }
     fetchData();
   }, []);
@@ -57,36 +66,46 @@ export const Campaign = () => {
         <Container>
             <Row>
             <Col size={12}>
-                <TrackVisibility>
-                {({ isVisible }) =>
-                <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
-                                 
-                    <center><h2>Campaigns</h2>
-                    <p>Welcome to the Campaign gallery!</p>
-                    <Tab.Container id="projects-tabs" defaultActiveKey="first">
-                    <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
-                    </Nav>
-                    <Tab.Content id="slideInUp" 
-                    className={isVisible ? "animate__animated animate__slideInUp" : ""}>
-                        <Tab.Pane eventKey="first">
-                        <Row>
-                        { user &&
-                            data.map((val, key) => {
-                                return val?.completed === 0 ?(
-                                  <CampaignCard 
-                                    key={key}
-                                    {...val}
-                                    imgUrl = {team[key%5].imgUrl}
-                                  />
-                                ) : null;
-                            })
-                            }
-                        </Row>
-                        </Tab.Pane>
-                    </Tab.Content>
-                    </Tab.Container></center>
-                </div>}
-                </TrackVisibility>
+              {loading ? (
+                  <Col xs={12} className="text-center">
+                    <p>Loading...</p>
+                  </Col>
+                ) : data.length === 0 ? (
+                  <Col xs={12} className="text-center">
+                    <p>No  Campaign found</p>
+                  </Col>
+                ) : (
+                  <TrackVisibility>
+                  {({ isVisible }) =>
+                  <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
+                                  
+                      <center><h2>Campaigns</h2>
+                      <p>Welcome to the Campaign gallery!</p>
+                      <Tab.Container id="projects-tabs" defaultActiveKey="first">
+                      <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
+                      </Nav>
+                      <Tab.Content id="slideInUp" 
+                      className={isVisible ? "animate__animated animate__slideInUp" : ""}>
+                          <Tab.Pane eventKey="first">
+                          <Row>
+                          { user && data.length > 0 &&
+                              data.map((val, key) => {
+                                  return !val?.completed  ?(
+                                    <CampaignCard 
+                                      key={key}
+                                      {...val}
+                                      imgUrl = {team[key%5].imgUrl}
+                                    />
+                                  ) :null
+                              })
+                              }
+                          </Row>
+                          </Tab.Pane>
+                      </Tab.Content>
+                      </Tab.Container></center>
+                  </div>}
+                  </TrackVisibility>
+              )}
             </Col>
             </Row>
         </Container>
