@@ -76,7 +76,7 @@ export const CompletedDaret = () => {
                                
                                 data.map((val, key) => {
                                       
-                                      return val?.completed === 1 ? (
+                                      return val?.completed ?  (
                                         <DaretCard 
                                           key={key}
                                           {...val}
