@@ -9,6 +9,7 @@ import projImg5 from "../../assets/img/team6.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import {UserContext} from '../../lib/UserContext';
+import {useTranslation} from 'react-i18next';
 
 const team = [
   {
@@ -40,7 +41,7 @@ const team = [
 ];
 
 export const Daret = () => {
-
+  const {t} = useTranslation();
   const [data, setData] = useState([]);
   const [user, setUser] = useContext(UserContext);
   const [loading, setLoading] = useState(true);
@@ -50,9 +51,10 @@ export const Daret = () => {
       setLoading(true);
       try {
         if(user){
-            const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret?userAddress=${user}`);
+            const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret/user/${user}`);
             const data = await response.json();
-            setData(data.data);
+            console.log(data)
+            setData(data);
             setLoading(false);
         }
       }
@@ -71,16 +73,16 @@ export const Daret = () => {
           <Row>
             <Col size={12}>
               {loading ? (
-                <p>Loading...</p>
+                <p>{t('Loading')}</p>
               ) : data.length === 0 ? (
-                <p>No Daret found.</p>
+                <p>{t('No Daret found')}.</p>
               ) : (
                 <TrackVisibility>
                   {({ isVisible }) => (
                     <div className={isVisible ? "animate__animated animate__fadeIn" : ""}>
                       <center>
                         <h2>Daret</h2>
-                        <p>Welcome to the Money Circle fair!</p>
+                        <p>{t('Welcome to the Money Circle fair')}!</p>
                         <Tab.Container id="projects-tabs" defaultActiveKey="first">
                           <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
                           </Nav>

@@ -49,9 +49,9 @@ export const Campaign = () => {
     async function fetchData() {
       setLoading(true);
       try {
-        const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign');
+        const response = await fetch(process.env.REACT_APP_SERVER_URL+`campaign/user/${user}`);
         const data = await response.json();
-        setData(data.data);
+        setData(data);
       }catch(err){
         console.log(err);
       }

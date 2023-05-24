@@ -87,6 +87,9 @@
   "Recipient address": "Adresse du destinataire",
   "Request tokens": "Demander de l'argent",
   "0.005 ETH or ~10USD will be sent to your wallet": "0,005 ETH ou ~10 USD seront envoyés à votre portefeuille",
-  "Please wait around 3 mins for the process to be completed": "Veuillez attendre environ 3 minutes pour que le processus soit terminé"
+  "Please wait around 3 mins for the process to be completed": "Veuillez attendre environ 3 minutes pour que le processus soit terminé",
 
+  "Loading": "Chargement",
+  "No Daret found": "Aucun Daret trouvé",
+  "Welcome to the Money Circle fair": "Bienvenue au cercle d'argent équitable"
 }

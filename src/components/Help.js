@@ -70,6 +70,10 @@ export const Help = () => {
                             </ol>
                         </Col>
                     </Row>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
                 </Container>
             </section>
         </div>

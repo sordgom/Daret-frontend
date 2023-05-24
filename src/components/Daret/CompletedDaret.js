@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import { DaretCard } from "./DaretCard";
 import projImg1 from "../../assets/img/nodex.png";
@@ -8,6 +8,7 @@ import projImg4 from "../../assets/img/team7.png";
 import projImg5 from "../../assets/img/team6.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import {UserContext} from '../../lib/UserContext';
 
 const team = [
   {
@@ -42,14 +43,16 @@ export const CompletedDaret = () => {
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useContext(UserContext);
 
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
-        const response = await fetch(process.env.REACT_APP_SERVER_URL+'daret');
+        const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret/user/${user}`);
         const data = await response.json();
-        setData(data.data);
+        setData(data);
+        setLoading(false);
       }
       catch(err){ 
           console.log(err);

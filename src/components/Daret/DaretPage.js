@@ -116,7 +116,7 @@ export const DaretPage = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(process.env.REACT_APP_SERVER_URL+'daret/' + address);
+            const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret/address/${address}`);
             const data = await response.json();
             setData(data);
         } catch (error) {
@@ -180,7 +180,6 @@ export const DaretPage = () => {
         try {
             const state = await contract.methods.state().call();
             setState(state);
-            console.log(state)
             if (state === '3') {
                 await putData(process.env.REACT_APP_SERVER_URL+"daret/" + address, {completed: 1});
             }
@@ -385,7 +384,7 @@ export const DaretPage = () => {
                                             }
                                             onClick={complete}>{t("Complete Round")}</button>
                                         <Form.Group>
-                                            <Form.Label>{t("Enter Address")}</Form.Label>
+                                            <Form.Label>{t("Enter Winner's Address")}</Form.Label>
                                             <Form.Control type="text" placeholder="Enter address"
                                                 value={addressInput}
                                                 onChange={

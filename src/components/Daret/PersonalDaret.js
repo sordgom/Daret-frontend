@@ -51,7 +51,7 @@ export const PersonalDaret = () => {
   useEffect(() => {
     async function fetchData() {
       if(user){
-          const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret?userAddress=${user}`);
+          const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret/user/${user}`);
           const data = await response.json();
           let allDarets = data.data;
           setData(data.data);

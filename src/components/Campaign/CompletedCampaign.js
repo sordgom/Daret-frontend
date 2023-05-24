@@ -8,6 +8,7 @@ import projImg4 from "../../assets/img/team7.png";
 import projImg5 from "../../assets/img/team6.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import { UserContext } from "lib/UserContext";
 
 const team = [
   {
@@ -41,12 +42,13 @@ const team = [
 export const CompletedCampaign = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [user, setUser] = useContext(UserContext);
+  
   useEffect(() => {
     async function fetchData() {
       setLoading(true);
       try {
-        const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign');
+        const response = await fetch(process.env.REACT_APP_SERVER_URL+`campaign/user/${user}`);
         const data = await response.json();
         setData(data.data);
       }catch(err){

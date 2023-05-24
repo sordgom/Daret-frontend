@@ -78,8 +78,9 @@ export const CampaignPage = () => {
 
     const fetchData = async () => {
         try {
-            const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign/' + address);
+            const response = await fetch(process.env.REACT_APP_SERVER_URL+`campaign/address/${address}`);
             const data = await response.json();
+            console.log(data);
             setData(data);
         } catch (error) {
             console.error(error);
