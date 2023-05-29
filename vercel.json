@@ -7,10 +7,30 @@
         "config": { "distDir": "build" }
       }
     ],
-    "routes": [
+    "rewrites": [
       {
-        "src": "/.*",
-        "dest": "/index.html"
+        "source": "/static/(.*)",
+        "destination": "/static/$1"
+      },
+      {
+        "source": "/favicon.ico",
+        "destination": "/favicon.ico"
+      },
+      {
+        "source": "/manifest.json",
+        "destination": "/manifest.json"
+      },
+      {
+        "source": "/logo192.png",
+        "destination": "/logo192.png"
+      },
+      {
+        "source": "/logo512.png",
+        "destination": "/logo512.png"
+      },
+      {
+        "source": "/(.*)",
+        "destination": "/index.html"
       }
     ]
   }

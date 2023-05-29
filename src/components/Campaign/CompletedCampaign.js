@@ -40,12 +40,19 @@ const team = [
 
 export const CompletedCampaign = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign');
-      const data = await response.json();
-      setData(data.data);
+      setLoading(true);
+      try {
+        const response = await fetch(process.env.REACT_APP_SERVER_URL+'campaign');
+        const data = await response.json();
+        setData(data.data);
+      }catch(err){
+        console.log(err);
+      } 
+      setLoading(false);
     }
     fetchData();
   }, []);
@@ -56,6 +63,15 @@ export const CompletedCampaign = () => {
         <Container>
             <Row>
             <Col size={12}>
+              {loading ? (
+                      <Col xs={12} className="text-center">
+                        <p>Loading...</p>
+                      </Col>
+                    ) : (data.filter((val) => val.completed === true)).length === 0 ? (
+                      <Col xs={12} className="text-center">
+                        <p>No Campaign found</p>
+                      </Col>
+                    ) : (
                 <TrackVisibility>
                 {({ isVisible }) =>
                 <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
@@ -71,21 +87,22 @@ export const CompletedCampaign = () => {
                         <Row>
                         {
                             data.map((val, key) => {
-                                return val?.completed === 1 ? (
+                                return val?.completed ? (
                                   <CampaignCard 
                                     key={key}
                                     {...val}
                                     imgUrl = {team[key%5].imgUrl}
                                   />
-                                ) : null;
+                                ) : null            
                             })
-                            }
+                          }
                         </Row>
                         </Tab.Pane>
                     </Tab.Content>
                     </Tab.Container></center>
                 </div>}
                 </TrackVisibility>
+              )}
             </Col>
             </Row>
         </Container>
