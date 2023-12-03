@@ -17,7 +17,6 @@ export function Home() {
   const [index, setIndex] = useState(1);
   const toRotate = [
     t('Community-powered financing for everyone'),
-    t('Saving in Web3'),
   ];
   const period = 2000;
   const navigate = useNavigate();

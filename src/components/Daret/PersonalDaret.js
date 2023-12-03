@@ -4,7 +4,6 @@ import {
   Col, Container, Nav, Row, Tab,
 } from 'react-bootstrap';
 import TrackVisibility from 'react-on-screen';
-import Web3 from 'web3';
 import projImg2 from '../../assets/img/faz.png';
 import projImg1 from '../../assets/img/nodex.png';
 import projImg5 from '../../assets/img/team6.png';
@@ -44,7 +43,6 @@ const team = [
 export function PersonalDaret() {
   const [data, setData] = useState([]);
   const [user, setUser] = useState();
-  const web3 = new Web3(magic.rpcProvider);
 
   useEffect(() => {
     async function fetchData() {
