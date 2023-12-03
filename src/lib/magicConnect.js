@@ -6,7 +6,7 @@ const L2_NETWORK = 'optimism';
 
 const networkOptions = {
   optimism: {
-    rpcUrl: 'https://opt-goerli.g.alchemy.com/v2/'+process.env.REACT_APP_ALCHEMY_KEY,
+    rpcUrl: `https://opt-goerli.g.alchemy.com/v2/${process.env.REACT_APP_ALCHEMY_KEY}`,
     chainId: 420,
   },
   arbitrum: {
@@ -24,8 +24,8 @@ const createMagic = (key) => {
   const selectedNetwork = networkOptions[L2_NETWORK];
 
   return (
-    typeof window != 'undefined' &&
-    new Magic(key, {
+    typeof window !== 'undefined'
+    && new Magic(key, {
       // network: 'goerli',
       network: {
         rpcUrl: selectedNetwork.rpcUrl,

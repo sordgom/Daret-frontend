@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 import React, {useState, useEffect, useContext} from "react";
 import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
 import { DaretCard } from "./DaretCard";
@@ -6,41 +7,52 @@ import projImg2 from "../../assets/img/faz.png";
 import projImg3 from "../../assets/img/team9.png";
 import projImg4 from "../../assets/img/team7.png";
 import projImg5 from "../../assets/img/team6.png";
+=======
+import React, { useState, useEffect } from 'react';
+import {
+  Container, Row, Col, Tab, Nav,
+} from 'react-bootstrap';
+import { DaretCard } from './DaretCard';
+import projImg1 from '../../assets/img/nodex.png';
+import projImg2 from '../../assets/img/faz.png';
+import projImg3 from '../../assets/img/team9.png';
+import projImg4 from '../../assets/img/team7.png';
+import projImg5 from '../../assets/img/team6.png';
+>>>>>>> Stashed changes
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
 import {UserContext} from '../../lib/UserContext';
 
 const team = [
   {
-    title: "NodeX",
-    description: "Founder",
+    title: 'NodeX',
+    description: 'Founder',
     imgUrl: projImg1,
 
   },
   {
-    title: "FazNode",
-    description: "Core Team",
+    title: 'FazNode',
+    description: 'Core Team',
     imgUrl: projImg2,
   },
   {
-    title: "Travis",
-    description: "Core Team",
+    title: 'Travis',
+    description: 'Core Team',
     imgUrl: projImg4,
-  },   
+  },
   {
-    title: "FazNode",
-    description: "Core Team",
+    title: 'FazNode',
+    description: 'Core Team',
     imgUrl: projImg3,
   },
   {
-    title: "Travis",
-    description: "Core Team",
-    imgUrl: projImg5
-  },  
+    title: 'Travis',
+    description: 'Core Team',
+    imgUrl: projImg5,
+  },
 ];
 
-export const CompletedDaret = () => {
-
+export function CompletedDaret() {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useContext(UserContext);
@@ -49,6 +61,7 @@ export const CompletedDaret = () => {
     async function fetchData() {
       setLoading(true);
       try {
+<<<<<<< Updated upstream
         const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret/user/${user}`);
         const data = await response.json();
         setData(data);
@@ -56,69 +69,73 @@ export const CompletedDaret = () => {
       }
       catch(err){ 
           console.log(err);
+=======
+        const response = await fetch(`${process.env.REACT_APP_SERVER_URL}daret`);
+        const data = await response.json();
+        setData(data.data);
+      } catch (err) {
+        console.log(err);
+>>>>>>> Stashed changes
       }
       setLoading(false);
-
     }
     fetchData();
   }, []);
 
-
   return (
     <div className="main--daret">
-        <section className="daret" id="daret">
+      <section className="daret" id="daret">
         <Container>
-            <Row>
+          <Row>
             <Col size={12}>
-                {loading ? (
-                    <Col xs={12} className="text-center">
-                      <p>Loading...</p>
-                    </Col>
-                  ) : (data.filter((val) => val.completed === true)).length === 0 ? (
-                    <Col xs={12} className="text-center">
-                      <p>No Daret found</p>
-                    </Col>
-                  ) : (
-                    <TrackVisibility>
-                    {({ isVisible }) =>
-                    <div className={isVisible ? "animate__animated animate__fadeIn": ""}>
-                                    
-                        <center>
+              {loading ? (
+                <Col xs={12} className="text-center">
+                  <p>Loading...</p>
+                </Col>
+              ) : (data.filter((val) => val.completed === true)).length === 0 ? (
+                <Col xs={12} className="text-center">
+                  <p>No Daret found</p>
+                </Col>
+              ) : (
+                <TrackVisibility>
+                  {({ isVisible }) => (
+                    <div className={isVisible ? 'animate__animated animate__fadeIn' : ''}>
+
+                      <center>
                         <h2>Daret</h2>
                         <p>Welcome to the Money Circle fair!</p>
                         <Tab.Container id="projects-tabs" defaultActiveKey="first">
-                        <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
-                        </Nav>
-                        <Tab.Content id="slideInUp" 
-                        className={isVisible ? "animate__animated animate__slideInUp" : ""}>
+                          <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab" />
+                          <Tab.Content
+                            id="slideInUp"
+                            className={isVisible ? 'animate__animated animate__slideInUp' : ''}
+                          >
                             <Tab.Pane eventKey="first">
-                            <Row>
+                              <Row>
                                 {
-                                  
-                                    data.map((val, key) => {
-                                          
-                                          return val?.completed ?  (
-                                            <DaretCard 
-                                              key={key}
-                                              {...val}
-                                              imgUrl = {team[key%5].imgUrl}
-                                            />
-                                          ) : null;           
-                                    })
-                                  
+
+                                    data.map((val, key) => (val?.completed ? (
+                                      <DaretCard
+                                        key={key}
+                                        {...val}
+                                        imgUrl={team[key % 5].imgUrl}
+                                      />
+                                    ) : null))
+
                                 }
-                            </Row>
+                              </Row>
                             </Tab.Pane>
-                        </Tab.Content>
+                          </Tab.Content>
                         </Tab.Container>
-                        </center>
-                    </div>}
-                    </TrackVisibility>
-                )}
+                      </center>
+                    </div>
+                  )}
+                </TrackVisibility>
+              )}
             </Col>
-            </Row>
+          </Row>
         </Container>
-        </section>
+      </section>
     </div>
-    )
+  );
 }

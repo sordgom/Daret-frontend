@@ -1,24 +1,24 @@
-import React, {useState, useEffect, useContext} from "react";
-import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
-import {useNavigate} from "react-router-dom";
-import headerImg from "../assets/img/daret-logo-removebg-preview.png";
-import { BrowserRouter as Router,  Link} from "react-router-dom";
-import Web3 from "web3";
-import {UserContext} from '../lib/UserContext';
-import {magic} from "../lib/magicConnect";
-import { toast } from 'react-toastify';
+import { useEffect, useState } from 'react';
+import {
+  Container, Nav, NavDropdown,
+  Navbar
+} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import { Link, useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
-import { useTranslation } from "react-i18next";
+import headerImg from '../assets/img/daret-logo-removebg-preview.png';
+import useAuth from '../hooks/useAuth';
+import useLogout from '../hooks/useLogout';
 
-export const NavBar = () => {
+export function NavBar() {
   const { t, i18n } = useTranslation();
+  const logout = useLogout();
+  const { auth } = useAuth();
 
   const [activeLink, setActiveLink] = useState('home');
   const [scrolled, setScrolled] = useState(false);
-  const [user, setUser] = useContext(UserContext);
-  const web3 = new Web3(magic.rpcProvider);
 
-  let navigate = useNavigate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => {
@@ -27,144 +27,67 @@ export const NavBar = () => {
       } else {
         setScrolled(false);
       }
-    }
+    };
 
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener('scroll', onScroll);
 
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [])
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   const onUpdateActiveLink = (value) => {
     setActiveLink(value);
-  }
-
-  const login = async () => {
-    let user;
-    let acc = await web3.eth.requestAccounts();
-    console.log(acc);
-    web3.eth.getAccounts().then((accounts) => {
-      
-      
-        user = accounts ?. [0];
-        setUser(user);
-    }).then(() => {
-        localStorage.setItem('user', JSON.stringify(user));
-        toast.success('Login successful', {
-          position: "top-center",
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: false,
-          draggable: true,
-          progress: undefined,
-          theme: "dark",
-          });
-        navigate("/");
-    }).catch((error) => {
-        console.log(error);
-    });
   };
 
-  const showWallet = async () => {
-    await magic.connect.showWallet()
-      .then(() => {
-        console.log("showWallet function worked successfully!");
-      }).catch((e) => {
-      console.log(e);
-      toast.error("Not Logged in or your wallet isn't magic wallet", {
-        position: "top-center",
-        autoClose: 4000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: false,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        });
-    });
+  const signOut = async () => {
+    await logout();
+    navigate('/');
   };
 
-  const disconnect = async () => {
-    await magic.connect.disconnect().catch((e) => {
-        console.log(e);
-    });
-    localStorage.removeItem('user');
-    setUser(null);
-    toast.success('Logout successful', {
-      position: "top-center",
-      autoClose: 4000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: false,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-      });
-    navigate("/");
-};
-
-const handleLanguageChange = (lang) => {
-  i18n.changeLanguage(lang);
-};
+  const handleLanguageChange = (lang) => {
+    i18n.changeLanguage(lang);
+  };
   return (
-      <Navbar expand="md" className={scrolled ? "scrolled" : ""}>
-        <Container>
-          <Navbar.Brand href="/">
-          <img style={{'width':'150%'}}src={headerImg} alt="Header Img"/> 
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav">
-            <span className="navbar-toggler-icon"></span>
-          </Navbar.Toggle>
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto">
-              <Nav.Link as={Link} to="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>{t("Home")}</Nav.Link>
-              
-              <Nav.Link as={Link} to="/faucet" className={activeLink === 'faucet' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('faucet')}>{t("Faucet")}</Nav.Link>
+    <Navbar expand="md" className={scrolled ? 'scrolled' : ''}>
+      <Container>
+        <Navbar.Brand href="/">
+          <img style={{ width: '150%' }} src={headerImg} alt="Header Img" />
+        </Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav">
+          <span className="navbar-toggler-icon" />
+        </Navbar.Toggle>
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="ms-auto">
+            <Nav.Link as={Link} to="/" className={activeLink === 'home' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('home')}>{t('Home')}</Nav.Link>
+            <Nav.Link as={Link} to="/help" className={activeLink === 'help' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('help')}>{t('How it works')}</Nav.Link>
+            <NavDropdown title="Darets" id="daret-dropdown" className="dropdown-toggle text-center">
+              <NavDropdown.Item as={Link} to="/create-daret">{t('Create Daret')}</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item as={Link} to="/daret">{t('Active Darets')}</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item as={Link} to="/completed-darets">{t('Completed Darets')}</NavDropdown.Item>
+            </NavDropdown>
+            <NavDropdown title="Language" id="dropdownMenuButton" className="dropdown-toggle text-center">
+              <NavDropdown.Item onClick={() => handleLanguageChange('en')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>English</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item onClick={() => handleLanguageChange('fr')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>French</NavDropdown.Item>
+            </NavDropdown>
 
-              <Nav.Link as={Link} to="/help" className={activeLink === 'help' ? 'active navbar-link' : 'navbar-link'} onClick={() => onUpdateActiveLink('help')}>{t("How it works")}</Nav.Link>
-
-              <NavDropdown title="Darets" id="daret-dropdown" className="dropdown-toggle text-center">
-                <NavDropdown.Item as={Link} to="/create-daret">{t("Create Daret")}</NavDropdown.Item>
+            { !auth || Object.keys(auth).length == 0 ? (
+              <NavDropdown title="Login" id="login-dropdown" className="dropdown-toggle text-center">
+                <NavDropdown.Item as={Link} to="/login">{t('Sign in')}</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/daret">{t("Active Darets")}</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/completed-darets">{t("Completed Darets")}</NavDropdown.Item>
+                <NavDropdown.Item as={Link} to="/register">{t('Sign up')}</NavDropdown.Item>
               </NavDropdown>
-              
-              <NavDropdown title="Crowdfunds" id="campaign-dropdown" className="dropdown-toggle text-center">
-                <NavDropdown.Item as={Link} to="/create-campaign">{t("Create Crowdfund")}</NavDropdown.Item>
+            ) : (
+              <NavDropdown title="Profile" id="profile-dropdown" className="dropdown-toggle text-center">
+                <NavDropdown.Item as={Link} to="/profile">{t('Profile')}</NavDropdown.Item>
                 <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/campaign">{t("Active Crowdfunds")}</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item as={Link} to="/completed-campaign">{t("Completed Crowdfunds")}</NavDropdown.Item>
-              </NavDropdown> 
-                
-              <NavDropdown title="Language" id="dropdownMenuButton" className="dropdown-toggle text-center" >
-                <NavDropdown.Item onClick={() => handleLanguageChange('en')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>English</NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item onClick={() => handleLanguageChange('fr')} style={{ color: '#000', fontSize: '18px', fontWeight: '400' }}>French</NavDropdown.Item>
+                <NavDropdown.Item onClick={signOut}>{t('Sign out')}</NavDropdown.Item>
               </NavDropdown>
-
-
-              <div>
-                {!user && 
-                <button title="sign in" id="login-dropdown" onClick={login}>{t("Sign in")}</button>
-                }{user && 
-                  <NavDropdown title="Account" id="login-dropdown" className="dropdown-toggle text-center">
-                    <NavDropdown.Item as={Link} to="/profile">{t("View profile")}</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item as={Link} to="/personal-darets">{t("Personal Darets")}</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={showWallet}>{t("Show wallet")}</NavDropdown.Item>
-                    <NavDropdown.Divider />
-                    <NavDropdown.Item onClick={disconnect}>{t("Sign out")}</NavDropdown.Item>
-                  </NavDropdown>
-                }
-              </div>
-
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>    
-  )
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
+  );
 }

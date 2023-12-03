@@ -1,106 +1,171 @@
-import React, {useState, useEffect, useContext} from "react";
 import 'animate.css';
-import {NavBar} from "./NavBar";
-import {UserContext} from '../lib/UserContext';
-import {useNavigate} from "react-router-dom";
-import Web3 from "web3";
-import {magic} from "../lib/magicConnect";
+import { useEffect, useRef, useState } from 'react';
+import {
+  Col, Container, Form, Row,
+} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
+import TrackVisibility from 'react-on-screen';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import axios from '../api/axios';
+import useAuth from '../hooks/useAuth';
 
+export function Login() {
+  const { t } = useTranslation();
+  const { setAuth, persist, setPersist } = useAuth();
 
-export const Login = () => {
-    const [user, setUser] = useContext(UserContext);
-    let navigate = useNavigate();
-    const web3 = new Web3(magic.rpcProvider);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
-    const sendTransaction = async () => {
-        const publicAddress = (await web3.eth.getAccounts())[0];
-        const txnParams = {
-            from: publicAddress,
-            to: publicAddress,
-            value: web3.utils.toWei("0.01", "ether"),
-            gasPrice: web3.utils.toWei("30", "gwei")
-        };
-        web3.eth.sendTransaction(txnParams).on("transactionHash", (hash) => {
-            console.log("the txn hash that was returned to the sdk:", hash);
-        }).then((receipt) => {
-            console.log("the txn receipt that was returned to the sdk:", receipt);
-        }).catch((error) => {
-            console.log(error);
-        });
-    };
+  const userRef = useRef();
+  const errRef = useRef();
 
-    const login = async () => {
-        let user;
-        web3.eth.getAccounts().then((accounts) => {
-            user = accounts ?. [0];
-            setUser(user);
-        }).then(() => {
-            localStorage.setItem('user', JSON.stringify(user));
-            navigate("/");
-        }).catch((error) => {
-            console.log(error);
-        });
-    };
+  const [user, setUser] = useState('test');
+  const [pwd, setPwd] = useState('test123');
+  const [errMsg, setErrMsg] = useState('Login Failed');
 
-    const signMessage = async () => {
-        const publicAddress = (await web3.eth.getAccounts())[0];
-        const signedMessage = await web3.eth.personal.sign("My Message", publicAddress, "").catch((e) => console.log(e));
-        console.log(signedMessage);
-    };
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
 
-    const showWallet = () => {
-        magic.connect.showWallet().catch((e) => {
-            console.log(e);
-        });
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const disconnect = async () => {
-        await magic.connect.disconnect().catch((e) => {
-            console.log(e);
-        });
-        localStorage.removeItem('user');
-        setUser(null);
-    };
+    try {
+      const response = await axios.post(
+        '/users/login',
+        {
+          username: user,
+          password: pwd,
+        },
+        {
+          headers: { 'Content-Type': 'application/json' },
+          withCredentials: true,
+        },
+      );
+      const accessToken = response?.data?.access_token;
+      const refreshToken = response?.data?.refresh_token;
+      const accessTokenExpiresAt = response?.data?.access_token_expired_at;
+      const refreshTokenExpiresAt = response?.data?.refresh_token_expired_at;
+      const sessionId = response?.data?.session_id;
+      const roles = response?.data?.role;
+      setAuth({
+        accessToken, accessTokenExpiresAt, refreshToken, refreshTokenExpiresAt, sessionId, roles
+      });
+      localStorage.setItem('auth', JSON.stringify({
+        accessToken, accessTokenExpiresAt, refreshToken, refreshTokenExpiresAt, sessionId, roles
+      }));
+      setUser('');
+      setPwd('');
+      navigate(from, { replace: true });
+    } catch (err) {
+      console.log(err)
+      if (!err?.response) {
+        setErrMsg('No Server Response');
+      } else if (err.response?.status === 400) {
+        setErrMsg('Missing Username or Password');
+      } else if (err.response?.status === 401) {
+        setErrMsg('Unauthorized');
+      } else {
+        setErrMsg('Login Failed');
+      }
+      toast.warning(errMsg, {
+        position: 'top-center',
+        autoClose: 4000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: true,
+        progress: undefined,
+        theme: 'dark',
+      });
+    }
+  };
 
-    // Redirect to / if the user is logged in
-    useEffect(() => {
-        console.log(user)
-    }, [user]);
+  const togglePersist = () => {
+    setPersist((prev) => !prev);
+  };
 
+  useEffect(() => {
+    localStorage.setItem('persist', persist);
+  }, [persist]);
 
-    return (
-        <div className='main--login'>
-            <NavBar/>
-            <section className="login" id="login">
-                <div>
-                    <h2 className="h2">Magic Connect</h2>
-                    {
-                    !user && (
-                        <button onClick={login}>
-                            Sign In
+  return (
+    <div className="main--daret">
+      <section className="daret" id="daret">
+        <Container>
+          <Row>
+            <Col size={12}>
+              <TrackVisibility>
+                {({ isVisible }) => (
+                  <div className={isVisible ? 'animate__animated animate__fadeIn' : ''}>
+                    <center>
+                      <Form className="login-form">
+                        <h2>{t('Login')}</h2>
+
+                        <Form.Group className="form-group">
+                          <Form.Label>{t('Username')}</Form.Label>
+                          <Form.Control
+                            type="username"
+                            id="username"
+                            name="username"
+                            value={user}
+                            onChange={(e) => setUser(e.target.value)}
+                            ref={userRef}
+                            autoComplete="off"
+                            required
+                          />
+                          <Form.Text className="text-muted">
+                            {t('Please enter the username.')}
+                          </Form.Text>
+                        </Form.Group>
+
+                        <Form.Group className="form-group">
+                          <Form.Label>{t('Password')}</Form.Label>
+                          <Form.Control
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder={t('Password')}
+                            value={pwd}
+                            onChange={(e) => setPwd(e.target.value)}
+                            required
+                          />
+                          <Form.Text className="text-muted">
+                            {t('Please enter the password.')}
+                          </Form.Text>
+                        </Form.Group>
+                        <div className="persistCheck">
+                          <input
+                            type="checkbox"
+                            id="persist"
+                            onChange={togglePersist}
+                            checked={persist}
+                          />
+                          <label htmlFor="persist">Trust This Device</label>
+                        </div>
+                        <button type="submit" onClick={handleSubmit}>
+                          {t('Sign in')}
                         </button>
-                    )
-                }
-                    {
-                    user && (
-                        <>
 
-                            <button onClick={sendTransaction}>
-                                Send Transaction
-                            </button>
-                            <button onClick={signMessage}>
-                                Sign Message
-                            </button>
-                            <button onClick={showWallet}>
-                                Show Wallet
-                            </button>
-                            <button onClick={disconnect}>
-                                Sign Out
-                            </button>
-                        </>
-                    )
-                } </div>
-            </section>
-        </div>
-    )
+                      </Form>
+
+                    </center>
+                    <p>
+                      Need an Account?
+                      <br />
+                      <span className="line">
+                        <Link to="/register">Sign Up</Link>
+                      </span>
+                    </p>
+                  </div>
+                )}
+              </TrackVisibility>
+            </Col>
+          </Row>
+        </Container>
+      </section>
+    </div>
+  );
 }
