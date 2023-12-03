@@ -9,12 +9,7 @@ import {
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import TrackVisibility from 'react-on-screen';
-<<<<<<< Updated upstream
-import {UserContext} from '../../lib/UserContext';
-import {useTranslation} from 'react-i18next';
-=======
 import { useLocation, useNavigate } from 'react-router-dom';
-import axios from '../../api/axios';
 import projImg2 from '../../assets/img/faz.png';
 import projImg1 from '../../assets/img/nodex.png';
 import projImg5 from '../../assets/img/team6.png';
@@ -22,7 +17,6 @@ import projImg4 from '../../assets/img/team7.png';
 import projImg3 from '../../assets/img/team9.png';
 import useAuth from '../../hooks/useAuth';
 import { DaretCard } from './DaretCard';
->>>>>>> Stashed changes
 
 const team = [
   {
@@ -52,38 +46,15 @@ const team = [
   },
 ];
 
-<<<<<<< Updated upstream
-export const Daret = () => {
-  const {t} = useTranslation();
-=======
 export function Daret() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || '/daret';
   const { auth } = useAuth();
->>>>>>> Stashed changes
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
-<<<<<<< Updated upstream
-  useEffect(() => {
-    async function fetchData() {
-      setLoading(true);
-      try {
-        if(user){
-            const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret/user/${user}`);
-            const data = await response.json();
-            console.log(data)
-            setData(data);
-            setLoading(false);
-        }
-      }
-      catch(err){ 
-          console.log(err);
-          setLoading(false);
-      }
-=======
   async function fetchData() {
     setLoading(true);
     try {
@@ -102,7 +73,6 @@ export function Daret() {
     } catch (err) {
       console.log(err);
       setLoading(false);
->>>>>>> Stashed changes
     }
   }
 

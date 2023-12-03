@@ -1,8 +1,8 @@
-import React, { useState, useEffect, useContext } from 'react';
-import {
-  Container, Row, Col, Form,
-} from 'react-bootstrap';
 import 'animate.css';
+import {
+  Col,
+  Container, Row
+} from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
@@ -61,27 +61,6 @@ export function Help() {
             </Col>
           </Row>
 
-<<<<<<< Updated upstream
-                    {/* Daret Rounds and Rewards */}
-                    <Row>
-                        <Col>
-                            <h3>{t("Daret Rounds and Rewards")}</h3>
-                            <ol>
-                                <li>{t("dr-msg1")}</li>
-                                <li>{t("dr-msg2")}</li>
-                            </ol>
-                        </Col>
-                    </Row>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                </Container>
-            </section>
-        </div>
-    );
-};
-=======
           {/* Daret Rounds and Rewards */}
           <Row>
             <Col>
@@ -97,4 +76,3 @@ export function Help() {
     </div>
   );
 }
->>>>>>> Stashed changes

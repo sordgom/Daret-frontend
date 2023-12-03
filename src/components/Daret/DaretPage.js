@@ -123,93 +123,6 @@ export function DaretPage() {
     async function fetchData() {
         setLoading(true);
         try {
-<<<<<<< Updated upstream
-            const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret/address/${address}`);
-            const data = await response.json();
-            setData(data);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const fetchProperties = async () => {
-        try {
-            const currentRound = await contract.methods.currentRound().call();
-            setCurrentRound(currentRound)
-            const roundData = await contract.methods.rounds(currentRound).call();
-            setRound(roundData);
-            let pay = await weiToUsd(roundData.payout);
-            setPayout(pay)
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const fetchOwner = async () => {
-        try {
-            const contractOwner = await contract.methods.owner().call();
-            setOwner(contractOwner);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const fetchMembersList = async () => {
-        try {
-            const memberList = await contract.methods.getMembers().call();
-            setMembers(memberList);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const fetchNumberMembers = async () => {
-        try {
-            const memberCount = await contract.methods.maxMembers().call();
-            setMaxMembers(memberCount);
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const fetchContribution = async () => {
-        try {
-            const contribution = await contract.methods.contribution().call();
-            let cont = await weiToUsd(contribution);
-
-            setContribution(contribution);
-            setUsdContribution(cont)
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    const fetchState = async () => {
-        try {
-            const state = await contract.methods.state().call();
-            setState(state);
-            if (state === '3') {
-                await putData(process.env.REACT_APP_SERVER_URL+"daret/" + address, {completed: 1});
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
-
-    async function hasAddressWonPreviousRounds(address) {
-        try {
-            for (let i = 1; i < currentRound; i++) {
-                const roundWinner = await contract.methods.getRoundWinner(i).call();
-                if (roundWinner.toLowerCase() === address.toLowerCase()) {
-                    console.log(true)
-                    return true;
-                }
-            }
-            return false;
-        } catch (error) {
-            console.error('Error checking if address has won previous rounds:', error);
-            return false;
-=======
             const response = await axios.get(`/darets/${id}`, {
                 headers: {
                     Authorization: `Bearer ${
@@ -223,7 +136,6 @@ export function DaretPage() {
         } catch (err) {
             console.log(err);
             setLoading(false);
->>>>>>> Stashed changes
         }
     }
 
@@ -320,44 +232,6 @@ export function DaretPage() {
                                 style={
                                     {'marginTop': '60px'}
                             }>
-<<<<<<< Updated upstream
-                                {
-                                data && round && maxMembers && members && <DaretTable round={round}
-                                    t={t}    
-                                    maxMembers={maxMembers}
-                                    members={members}
-                                    contribution={usdContribution}
-                                    data={data}
-                                    payout={payout}/>
-                            } </div>
-                            <Row> {
-                                owner === user && (
-                                    <Col>
-
-                                        <button style={
-                                                {'width': '60%'}
-                                            }
-                                            onClick={complete}>{t("Complete Round")}</button>
-                                        <Form.Group>
-                                            <Form.Label>{t("Enter Winner's Address")}</Form.Label>
-                                            <Form.Control type="text" placeholder="Enter address"
-                                                value={addressInput}
-                                                onChange={
-                                                    (e) => setAddressInput(e.target.value)
-                                                }/>
-                                        </Form.Group>
-                                    </Col>
-                                )
-                            }
-                                <Col>
-                                    <button style={
-                                            {'width': '60%'}
-                                        }
-                                        onClick={join}>{t("Contribute")}</button>
-                                </Col>
-                            </Row>
-                        </Col>
-=======
                                 <DaretTable t={t}
                                     data={data}/>
                             </div>
@@ -375,7 +249,6 @@ export function DaretPage() {
                       <button type="submit" onClick={handleCollection}>
                         {t('Collect')}
                       </button>
->>>>>>> Stashed changes
                     </Row>
                 </Container>
             </section>

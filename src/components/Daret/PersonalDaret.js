@@ -48,20 +48,6 @@ export function PersonalDaret() {
 
   useEffect(() => {
     async function fetchData() {
-<<<<<<< Updated upstream
-      if(user){
-          const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret/user/${user}`);
-          const data = await response.json();
-          let allDarets = data.data;
-          setData(data.data);
-          let involvedDarets = []
-          for (const daret of allDarets) {
-            let contract = new web3.eth.Contract(DARET_CONTRACT_ABI, daret.address, {from: user});
-            const membersList = await contract.methods.getMembers().call();
-            if (!involvedDarets.includes(user) && membersList.includes(user)) {
-              involvedDarets.push(daret);
-            }
-=======
       if (user) {
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}daret?userAddress=${user}`);
         const data = await response.json();
@@ -73,7 +59,6 @@ export function PersonalDaret() {
           const membersList = await contract.methods.getMembers().call();
           if (!involvedDarets.includes(user) && membersList.includes(user)) {
             involvedDarets.push(daret);
->>>>>>> Stashed changes
           }
         }
         setData(involvedDarets);

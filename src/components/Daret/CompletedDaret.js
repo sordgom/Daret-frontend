@@ -1,27 +1,20 @@
-<<<<<<< Updated upstream
-import React, {useState, useEffect, useContext} from "react";
-import { Container, Row, Col, Tab, Nav } from "react-bootstrap";
-import { DaretCard } from "./DaretCard";
-import projImg1 from "../../assets/img/nodex.png";
-import projImg2 from "../../assets/img/faz.png";
-import projImg3 from "../../assets/img/team9.png";
-import projImg4 from "../../assets/img/team7.png";
-import projImg5 from "../../assets/img/team6.png";
-=======
-import React, { useState, useEffect } from 'react';
-import {
-  Container, Row, Col, Tab, Nav,
-} from 'react-bootstrap';
-import { DaretCard } from './DaretCard';
-import projImg1 from '../../assets/img/nodex.png';
-import projImg2 from '../../assets/img/faz.png';
-import projImg3 from '../../assets/img/team9.png';
-import projImg4 from '../../assets/img/team7.png';
-import projImg5 from '../../assets/img/team6.png';
->>>>>>> Stashed changes
 import 'animate.css';
+import { useEffect, useState } from 'react';
+import {
+  Col,
+  Container,
+  Nav,
+  Row,
+  Tab,
+} from 'react-bootstrap';
 import TrackVisibility from 'react-on-screen';
-import {UserContext} from '../../lib/UserContext';
+import projImg2 from '../../assets/img/faz.png';
+import projImg1 from '../../assets/img/nodex.png';
+import projImg5 from '../../assets/img/team6.png';
+import projImg4 from '../../assets/img/team7.png';
+import projImg3 from '../../assets/img/team9.png';
+import { UserContext } from '../../lib/UserContext';
+import { DaretCard } from './DaretCard';
 
 const team = [
   {
@@ -61,21 +54,11 @@ export function CompletedDaret() {
     async function fetchData() {
       setLoading(true);
       try {
-<<<<<<< Updated upstream
-        const response = await fetch(process.env.REACT_APP_SERVER_URL+`daret/user/${user}`);
-        const data = await response.json();
-        setData(data);
-        setLoading(false);
-      }
-      catch(err){ 
-          console.log(err);
-=======
         const response = await fetch(`${process.env.REACT_APP_SERVER_URL}daret`);
         const data = await response.json();
         setData(data.data);
       } catch (err) {
         console.log(err);
->>>>>>> Stashed changes
       }
       setLoading(false);
     }
