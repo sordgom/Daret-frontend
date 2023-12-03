@@ -734,6 +734,15 @@ border-color: transparent;
 .login button:hover {
   background-color: #333;
 }
+
+.instructions > svg {
+  margin-right: 0.25rem;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
 /************ portfolio Css ************/
 .portfolio {
   padding: 80px 0;

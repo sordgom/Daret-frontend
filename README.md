@@ -4,7 +4,6 @@ Daret is a platform that combines the excitement of Daret challenges with the po
 
 ## Features
 
-- Magic Link authentication for easy and secure login
 - Create or join exciting Daret challenges
 - Contribute to Daret challenges and compete for rewards
 - Create or back crowdfunding campaigns

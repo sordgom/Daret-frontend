@@ -1,6 +1,5 @@
 {
     "Community-powered financing for everyone": "Community-powered financing for everyone",
-    "Saving in Web3": "Saving in Web3",
     "Welcome to Daret! ⚡": "Welcome to Daret! ⚡",
     "Introducing Daret": "Introducing Daret",
     "Daret is a revolutionary platform that combines blockchain technology and traditional ROSCAs (Rotating Savings and Credit Associations) to create a secure, transparent, and efficient way for you to save and invest money within a trusted community.": "Daret is a revolutionary platform that combines blockchain technology and traditional ROSCAs (Rotating Savings and Credit Associations) to create a secure, transparent, and efficient way for you to save and invest money within a trusted community.",
@@ -88,5 +87,9 @@
     "Recipient address": "Recipient address",
     "Request tokens": "Request tokens",
     "0.005 ETH or ~10USD will be sent to your wallet": "0.005 ETH or ~10USD will be sent to your wallet",
-    "Please wait around 3 mins for the process to be completed": "Please wait around 3 mins for the process to be completed"
+    "Please wait around 3 mins for the process to be completed": "Please wait around 3 mins for the process to be completed",
+    
+    "Loading": "Loading",
+    "No Daret found": "No Daret found",
+    "Welcome to the Money Circle fair": "Welcome to the Money Circle fair"
 }

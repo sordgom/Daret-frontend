@@ -1,11 +1,16 @@
-import React from "react";
+import 'animate.css';
+import { Container } from 'react-bootstrap';
 
-const NotFound = () => {
+function NotFound() {
   return (
-    <div>
-      <h1>Error</h1>
+    <div className="main--help">
+      <section className="help" id="help">
+        <Container>
+          <h1>Page Not Found</h1>
+        </Container>
+      </section>
     </div>
   );
-};
+}
 
 export default NotFound;
